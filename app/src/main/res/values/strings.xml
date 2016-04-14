@@ -1,0 +1,13 @@
+<resources>
+
+    <string name="app_name">BunkerWar</string>
+    <string name="title_activity_game">GameActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="UI_text_angle">Angle</string>
+    <string name="UI_text_power">Power</string>
+    <string name="UI_text_button_fire">Fire</string>
+    <string name="UI_text_angle_initial_value">45</string>
+    <string name="UI_text_power_initial_value">50</string>
+
+</resources>
