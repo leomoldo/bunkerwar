@@ -8,8 +8,8 @@ public class PhysicalModel {
 
 	private final static float MAX_INITIAL_SPEED = 30.0f; // TODO : tweak!
 
-	private final static float TIME_FACTOR = 1; // TODO : tweak!
-	// TODO Regrouper Time Factor et Gravition Factor en un seul parametre?
+	private final static float TIME_FACTOR = 0.001f; // TODO : tweak!
+	// TODO Regrouper Time Factor et Gravitation Factor en un seul parametre?
 	
 	
 	private Double mInitialSpeedX;

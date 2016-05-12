@@ -4,7 +4,6 @@
 
     <!-- TODO
 
-    - Cleaner le code du dessin des BunkerViews.
     - Vérifier quelle taille fait la BunkerView (pour la hitbox).
 
     - Faire de GameSequencer un singleton?

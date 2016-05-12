@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import fr.leomoldo.android.bunkerwar.game.Bunker;
 import fr.leomoldo.android.bunkerwar.game.GameSequencer;
 import fr.leomoldo.android.bunkerwar.game.Landscape;
+import fr.leomoldo.android.bunkerwar.game.PhysicalModel;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -142,7 +143,6 @@ public class GameActivity extends AppCompatActivity implements SeekBar.OnSeekBar
             findViewById(R.id.buttonFirePlayerTwo).setVisibility(View.GONE);
         }
 
-        // TODO Lancer le tir (calcul + affichage).
         BombShellView bombShellView;
         if (didPlayerOneFire) {
             bombShellView = new BombShellView(this, mPlayerOneBunker);
@@ -153,14 +153,39 @@ public class GameActivity extends AppCompatActivity implements SeekBar.OnSeekBar
         RelativeLayout mainRelativeLayout = ( (RelativeLayout) findViewById(R.id.mainRelativeLayout));
         mainRelativeLayout.addView(bombShellView, viewDimension, viewDimension);
 
+        PhysicalModel physicalModel;
         if (didPlayerOneFire) {
             bombShellView.setX(mPlayerOneBunkerView.getX());
             bombShellView.setY(mPlayerOneBunkerView.getY());
+            physicalModel = new PhysicalModel(mPlayerOneBunker.getCanonPower(), mPlayerOneBunker.getCanonAngleRadian(), true);
         } else {
             bombShellView.setX(mPlayerTwoBunkerView.getX());
             bombShellView.setY(mPlayerTwoBunkerView.getY());
+            physicalModel = new PhysicalModel(mPlayerTwoBunker.getCanonPower(), mPlayerTwoBunker.getCanonAngleRadian(), false);
         }
 
+        // TODO Provisory code.
+        /*
+        Boolean shouldHalt = false;
+        Integer timeCounter = 0;
+        while(!shouldHalt) {
+
+            Float currentX = bombShellView.getX();
+            Float currentY = bombShellView.getY();
+
+            Float currentXOffset = physicalModel.getNextXOffset();
+            Float currentYOffset = physicalModel.getNextYOffset(timeCounter);
+
+            bombShellView.setX(bombShellView.getX() + physicalModel.getNextXOffset());
+            bombShellView.setY(bombShellView.getY() + physicalModel.getNextYOffset(timeCounter));
+
+            timeCounter++;
+
+            if(timeCounter > 1000000) {
+                shouldHalt = true;
+            }
+        }
+        */
     }
 
     private void addLandscapeViews() {
