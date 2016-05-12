@@ -25,7 +25,7 @@ public class BombShellView extends View {
 
 	
 	@Override
-	protected void onDraw (Canvas canvas) {
+	protected void onDraw(Canvas canvas) {
 		
 		super.onDraw(canvas); 
         if(canvas == null) return; 
