@@ -11,9 +11,9 @@ public class Landscape {
 	private final static Integer MAX_HEIGHT_VALUE = 100; 
 	
 	public final static Integer BUNKER_POSITION_FROM_SCREEN_BORDER = 2;
-	
-	
-	// Contient des entiers entre 0 et 100.
+
+
+	// Contains Integers between 0 and MAX_HEIGHT_VALUE.
 	private ArrayList<Integer> mLandscapeHeights;
 	
 	
@@ -37,8 +37,8 @@ public class Landscape {
 		}
 			return mLandscapeHeights.get(index);
 	}
-	
-	public Integer getLandscapeWidth() {
+
+	public Integer getNumberOfLandscapeSlices() {
 		return mLandscapeHeights.size();
 	}
 	

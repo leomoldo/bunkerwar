@@ -1,7 +1,7 @@
 package fr.leomoldo.android.bunkerwar;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -171,10 +171,10 @@ public class GameActivity extends AppCompatActivity implements SeekBar.OnSeekBar
         Float percentage = 0f;
         Integer viewHeight = 0;
 
-        mLandscapeFrameLayouts = new ArrayList<FrameLayout>(mLandscape.getLandscapeWidth());
-        mLandscapeFrameLayoutHeights = new ArrayList<Float>(mLandscape.getLandscapeWidth());
+        mLandscapeFrameLayouts = new ArrayList<FrameLayout>(mLandscape.getNumberOfLandscapeSlices());
+        mLandscapeFrameLayoutHeights = new ArrayList<Float>(mLandscape.getNumberOfLandscapeSlices());
 
-        for (int i = 0; i < mLandscape.getLandscapeWidth(); i++) {
+        for (int i = 0; i < mLandscape.getNumberOfLandscapeSlices(); i++) {
 
             landSliceHeight = (float) mLandscape.getLandscapeHeight(i);
             percentage = landSliceHeight / 100f;
@@ -203,13 +203,13 @@ public class GameActivity extends AppCompatActivity implements SeekBar.OnSeekBar
             return;
         }
 
-        float landSliceWidth = ((float) mLandscapeLinearLayout.getWidth()) / ((float) mLandscape.getLandscapeWidth());
+        float landSliceWidth = ((float) mLandscapeLinearLayout.getWidth()) / ((float) mLandscape.getNumberOfLandscapeSlices());
 
         float bunkerOneX = Landscape.BUNKER_POSITION_FROM_SCREEN_BORDER * landSliceWidth ;
         float bunkerOneY = mMainRelativeLayoutHeight - mLandscapeFrameLayoutHeights.get(Landscape.BUNKER_POSITION_FROM_SCREEN_BORDER) - BunkerView.BUNKER_RADIUS;
 
-        float bunkerTwoX = (mLandscape.getLandscapeWidth() - 1  - Landscape.BUNKER_POSITION_FROM_SCREEN_BORDER) * landSliceWidth;
-        float bunkerTwoY = mMainRelativeLayoutHeight - mLandscapeFrameLayoutHeights.get(mLandscape.getLandscapeWidth() - 1  - Landscape.BUNKER_POSITION_FROM_SCREEN_BORDER) - BunkerView.BUNKER_RADIUS;
+        float bunkerTwoX = (mLandscape.getNumberOfLandscapeSlices() - 1 - Landscape.BUNKER_POSITION_FROM_SCREEN_BORDER) * landSliceWidth;
+        float bunkerTwoY = mMainRelativeLayoutHeight - mLandscapeFrameLayoutHeights.get(mLandscape.getNumberOfLandscapeSlices() - 1 - Landscape.BUNKER_POSITION_FROM_SCREEN_BORDER) - BunkerView.BUNKER_RADIUS;
 
         mPlayerOneBunkerView = new BunkerView(this, mPlayerOneBunker);
         mPlayerOneBunkerView.setX(bunkerOneX);

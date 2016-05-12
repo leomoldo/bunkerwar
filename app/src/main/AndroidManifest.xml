@@ -10,7 +10,7 @@
     - Faire de GameSequencer un singleton?
     - Faire de PhysicalModel un singleton? Ou factory pour chaque tir.
 
-    - Codage de Physical Model.
+    - Codage de Physical Model (balistique).
 
     - Méthodes à coder dans GameSequencer.
 
