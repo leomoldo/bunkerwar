@@ -8,9 +8,9 @@ public class Landscape {
 	private final static Integer INITIAL_LANDSCAPE_WIDTH = 6;
 	private final static Integer NUMBER_OF_INTERPOLATION_ITERATIONS = 4;
 	
-	private final static Integer MAX_HEIGHT_VALUE = 100; 
-	
-	public final static Integer BUNKER_POSITION_FROM_SCREEN_BORDER = 2;
+	private final static Integer MAX_HEIGHT_VALUE = 100;
+
+    public final static Integer BUNKER_POSITION_FROM_SCREEN_BORDER = 4;
 
 
 	// Contains Integers between 0 and MAX_HEIGHT_VALUE.

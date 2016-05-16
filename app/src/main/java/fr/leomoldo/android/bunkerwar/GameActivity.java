@@ -3,11 +3,8 @@ package fr.leomoldo.android.bunkerwar;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
-
-import java.util.ArrayList;
 
 import fr.leomoldo.android.bunkerwar.game.Bunker;
 import fr.leomoldo.android.bunkerwar.game.GameSequencer;
@@ -15,26 +12,15 @@ import fr.leomoldo.android.bunkerwar.game.Landscape;
 
 public class GameActivity extends AppCompatActivity implements SeekBar.OnSeekBarChangeListener {
 
-    private final static float HEIGHT_MARGIN_RATIO_FOR_LANDSCAPE = 0.5f;
-
     // Model :
     private GameSequencer mGameSequencer;
     private Bunker mPlayerOneBunker;
     private Bunker mPlayerTwoBunker;
     private Landscape mLandscape;
 
-    // Landscape generation :
-    Integer mMainRelativeLayoutHeight;
-    private ArrayList<FrameLayout> mLandscapeFrameLayouts; // TODO inutile?
-    private ArrayList<Float> mLandscapeFrameLayoutHeights;
-
     // Views :
     private GameView mGameView;
-    /*
-    private LinearLayout mLandscapeLinearLayout;
-    private BunkerView mPlayerOneBunkerView;
-    private BunkerView mPlayerTwoBunkerView;
-    */
+
     private TextView mTextViewIndicatorAnglePlayerOne;
     private TextView mTextViewIndicatorPowerPlayerOne;
     private TextView mTextViewIndicatorAnglePlayerTwo;
@@ -65,48 +51,29 @@ public class GameActivity extends AppCompatActivity implements SeekBar.OnSeekBar
         mGameView = (GameView) findViewById(R.id.gameView);
 
         mGameView.initializeNewGame(mLandscape, mPlayerOneBunker, mPlayerTwoBunker);
-
-        /*
-        // Landscape drawing must be done on pre-draw to retrieve the view size information.
-        mLandscapeLinearLayout.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-
-            @Override
-            public boolean onPreDraw() {
-
-                // Remove the listener, so that the following code runs only once.
-                mLandscapeLinearLayout.getViewTreeObserver().removeOnPreDrawListener(this);
-
-                addLandscapeViews();
-
-                addBunkerViews();
-
-                return false;
-            }
-        });
-        */
     }
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
         Integer value = progress;
 
-        switch(seekBar.getId()) {
+        switch (seekBar.getId()) {
 
-            case R.id.seekBarAnglePlayerOne :
+            case R.id.seekBarAnglePlayerOne:
                 mPlayerOneBunker.setCanonAngle(progress);
                 mGameView.invalidate();
                 mTextViewIndicatorAnglePlayerOne.setText(value.toString());
                 break;
-            case R.id.seekBarPowerPlayerOne :
+            case R.id.seekBarPowerPlayerOne:
                 mPlayerOneBunker.setCanonPower(progress);
                 mTextViewIndicatorPowerPlayerOne.setText(value.toString());
                 break;
-            case R.id.seekBarAnglePlayerTwo :
+            case R.id.seekBarAnglePlayerTwo:
                 mPlayerTwoBunker.setCanonAngle(progress);
                 mGameView.invalidate();
                 mTextViewIndicatorAnglePlayerTwo.setText(value.toString());
                 break;
-            case R.id.seekBarPowerPlayerTwo :
+            case R.id.seekBarPowerPlayerTwo:
                 mPlayerTwoBunker.setCanonPower(progress);
                 mTextViewIndicatorPowerPlayerTwo.setText(value.toString());
                 break;
@@ -189,6 +156,8 @@ public class GameActivity extends AppCompatActivity implements SeekBar.OnSeekBar
         */
     }
 
+    // TODO Clean following :
+
     /*
     private void addLandscapeViews() {
 
@@ -227,16 +196,17 @@ public class GameActivity extends AppCompatActivity implements SeekBar.OnSeekBar
     /**
      * Must be called imperatively after addLandscapeViews.
      */
+
     /*
     private void addBunkerViews() {
 
-        if( mLandscapeFrameLayoutHeights == null ) {
+        if (mLandscapeFrameLayoutHeights == null) {
             return;
         }
 
         float landSliceWidth = ((float) mLandscapeLinearLayout.getWidth()) / ((float) mLandscape.getNumberOfLandscapeSlices());
 
-        float bunkerOneX = Landscape.BUNKER_POSITION_FROM_SCREEN_BORDER * landSliceWidth ;
+        float bunkerOneX = Landscape.BUNKER_POSITION_FROM_SCREEN_BORDER * landSliceWidth;
         float bunkerOneY = mMainRelativeLayoutHeight - mLandscapeFrameLayoutHeights.get(Landscape.BUNKER_POSITION_FROM_SCREEN_BORDER) - BunkerView.BUNKER_RADIUS;
 
         float bunkerTwoX = (mLandscape.getNumberOfLandscapeSlices() - 1 - Landscape.BUNKER_POSITION_FROM_SCREEN_BORDER) * landSliceWidth;

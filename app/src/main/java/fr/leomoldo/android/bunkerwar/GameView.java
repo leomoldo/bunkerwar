@@ -32,6 +32,11 @@ public class GameView extends View {
     private Bunker mPlayerOneBunker;
     private Bunker mPlayerTwoBunker;
 
+    private Float mBunkerPlayerOneX;
+    private Float mBunkerPlayerOneY;
+    private Float mBunkerPlayerTwoX;
+    private Float mBunkerPlayerTwoY;
+
     // Paints.
     private Paint mLandscapePaint;
     private Paint mPlayerOneBunkerPaint;
@@ -82,7 +87,7 @@ public class GameView extends View {
             drawLandscape(canvas);
         }
 
-        // TODO Draw BombShell (after Landscape).
+        // TODO Draw BombShell if necessary (after Landscape).
     }
 
     private void drawLandscape(Canvas canvas) {
@@ -97,11 +102,23 @@ public class GameView extends View {
     }
 
     private void drawPlayerOneBunker(Canvas canvas) {
-        drawBunker(canvas, mPlayerOneBunkerPaint, 50, 400, mPlayerOneBunker.getCanonAngleRadian(), true);
+        if (mBunkerPlayerOneX == null) {
+            setBunkerOneX();
+        }
+        if (mBunkerPlayerOneY == null) {
+            setBunkerOneY();
+        }
+        drawBunker(canvas, mPlayerOneBunkerPaint, mBunkerPlayerOneX, mBunkerPlayerOneY, mPlayerOneBunker.getCanonAngleRadian(), true);
     }
 
     private void drawPlayerTwoBunker(Canvas canvas) {
-        drawBunker(canvas, mPlayerTwoBunkerPaint, getWidth() - 50, 400, mPlayerTwoBunker.getCanonAngleRadian(), false);
+        if (mBunkerPlayerTwoX == null) {
+            setBunkerTwoX();
+        }
+        if (mBunkerPlayerTwoY == null) {
+            setBunkerTwoY();
+        }
+        drawBunker(canvas, mPlayerTwoBunkerPaint, mBunkerPlayerTwoX, mBunkerPlayerTwoY, mPlayerTwoBunker.getCanonAngleRadian(), false);
     }
 
     private void drawBunker(Canvas canvas, Paint paint, float x, float y, double canonAngleRadian, boolean isCanonSetLeftToRight) {
@@ -148,11 +165,34 @@ public class GameView extends View {
         // Bombshell.
         mBombShellPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         /*if (mBunker.isPlayerOne()) {
-			mBombShellPaint.setColor(Color.RED);
+            mBombShellPaint.setColor(Color.RED);
 		} else {
 			mBombShellPaint.setColor(Color.YELLOW);
 		}*/
         mBombShellPaint.setColor(Color.BLACK); // TODO Debug only.
         mBombShellPaint.setStyle(Paint.Style.FILL);
+    }
+
+
+    private void setBunkerOneX() {
+        float landSliceWidth = getWidth() / mLandscape.getNumberOfLandscapeSlices();
+        mBunkerPlayerOneX = Landscape.BUNKER_POSITION_FROM_SCREEN_BORDER * landSliceWidth;
+    }
+
+    private void setBunkerOneY() {
+        mBunkerPlayerOneY = getHeight()
+                - getHeight() * MAX_HEIGHT_RATIO_FOR_LANDSCAPE * mLandscape.getLandscapeHeightPercentage(Landscape.BUNKER_POSITION_FROM_SCREEN_BORDER)
+                - BUNKER_RADIUS;
+    }
+
+    private void setBunkerTwoX() {
+        float landSliceWidth = getWidth() / mLandscape.getNumberOfLandscapeSlices();
+        mBunkerPlayerTwoX = getWidth() - landSliceWidth * Landscape.BUNKER_POSITION_FROM_SCREEN_BORDER;
+    }
+
+    private void setBunkerTwoY() {
+        mBunkerPlayerTwoY = getHeight()
+                - getHeight() * MAX_HEIGHT_RATIO_FOR_LANDSCAPE * mLandscape.getLandscapeHeightPercentage(mLandscape.getNumberOfLandscapeSlices() - 1 - Landscape.BUNKER_POSITION_FROM_SCREEN_BORDER)
+                - BUNKER_RADIUS;
     }
 }
