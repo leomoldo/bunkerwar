@@ -34,9 +34,12 @@ public class GameActivity extends AppCompatActivity implements SeekBar.OnSeekBar
     private ArrayList<Float> mLandscapeFrameLayoutHeights;
 
     // Views :
+    private GameView mGameView;
+    /*
     private LinearLayout mLandscapeLinearLayout;
     private BunkerView mPlayerOneBunkerView;
     private BunkerView mPlayerTwoBunkerView;
+    */
     private TextView mTextViewIndicatorAnglePlayerOne;
     private TextView mTextViewIndicatorPowerPlayerOne;
     private TextView mTextViewIndicatorAnglePlayerTwo;
@@ -60,13 +63,13 @@ public class GameActivity extends AppCompatActivity implements SeekBar.OnSeekBar
         mTextViewIndicatorPowerPlayerOne = (TextView) findViewById(R.id.textViewIndicatorPowerPlayerOne);
         mTextViewIndicatorAnglePlayerTwo = (TextView) findViewById(R.id.textViewIndicatorAnglePlayerTwo);
         mTextViewIndicatorPowerPlayerTwo = (TextView) findViewById(R.id.textViewIndicatorPowerPlayerTwo);
-        mLandscapeLinearLayout = (LinearLayout) findViewById(R.id.linearLayoutLandscape);
         ((SeekBar) findViewById(R.id.seekBarAnglePlayerOne)).setOnSeekBarChangeListener(this);
         ((SeekBar) findViewById(R.id.seekBarPowerPlayerOne)).setOnSeekBarChangeListener(this);
         ((SeekBar) findViewById(R.id.seekBarAnglePlayerTwo)).setOnSeekBarChangeListener(this);
         ((SeekBar) findViewById(R.id.seekBarPowerPlayerTwo)).setOnSeekBarChangeListener(this);
 
 
+        /*
         // Landscape drawing must be done on pre-draw to retrieve the view size information.
         mLandscapeLinearLayout.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
 
@@ -83,6 +86,7 @@ public class GameActivity extends AppCompatActivity implements SeekBar.OnSeekBar
                 return false;
             }
         });
+        */
     }
 
     @Override
@@ -93,7 +97,7 @@ public class GameActivity extends AppCompatActivity implements SeekBar.OnSeekBar
 
             case R.id.seekBarAnglePlayerOne :
                 mPlayerOneBunker.setCanonAngle(progress);
-                mPlayerOneBunkerView.invalidate();
+                // mPlayerOneBunkerView.invalidate();
                 mTextViewIndicatorAnglePlayerOne.setText(value.toString());
                 break;
             case R.id.seekBarPowerPlayerOne :
@@ -102,7 +106,7 @@ public class GameActivity extends AppCompatActivity implements SeekBar.OnSeekBar
                 break;
             case R.id.seekBarAnglePlayerTwo :
                 mPlayerTwoBunker.setCanonAngle(progress);
-                mPlayerTwoBunkerView.invalidate();
+                // mPlayerTwoBunkerView.invalidate();
                 mTextViewIndicatorAnglePlayerTwo.setText(value.toString());
                 break;
             case R.id.seekBarPowerPlayerTwo :
@@ -149,6 +153,7 @@ public class GameActivity extends AppCompatActivity implements SeekBar.OnSeekBar
         RelativeLayout mainRelativeLayout = ( (RelativeLayout) findViewById(R.id.mainRelativeLayout));
         mainRelativeLayout.addView(bombShellView, viewDimension, viewDimension);
 
+        /*
         PhysicalModel physicalModel;
         if (didPlayerOneFire) {
             bombShellView.setX(mPlayerOneBunkerView.getX());
@@ -159,6 +164,7 @@ public class GameActivity extends AppCompatActivity implements SeekBar.OnSeekBar
             bombShellView.setY(mPlayerTwoBunkerView.getY());
             physicalModel = new PhysicalModel(mPlayerTwoBunker.getCanonPower(), mPlayerTwoBunker.getCanonAngleRadian(), false);
         }
+        */
 
         // TODO Provisory code.
         /*
@@ -186,6 +192,7 @@ public class GameActivity extends AppCompatActivity implements SeekBar.OnSeekBar
 
     private void addLandscapeViews() {
 
+        /*
         mMainRelativeLayoutHeight = mLandscapeLinearLayout.getHeight();
 
         Float landSliceHeight = 0f;
@@ -213,6 +220,7 @@ public class GameActivity extends AppCompatActivity implements SeekBar.OnSeekBar
             mLandscapeFrameLayouts.add(i, frame);
             mLandscapeFrameLayoutHeights.add(i, (float) viewHeight);
         }
+        */
     }
 
     /**
@@ -220,6 +228,7 @@ public class GameActivity extends AppCompatActivity implements SeekBar.OnSeekBar
      */
     private void addBunkerViews() {
 
+        /*
         if( mLandscapeFrameLayoutHeights == null ) {
             return;
         }
@@ -243,6 +252,7 @@ public class GameActivity extends AppCompatActivity implements SeekBar.OnSeekBar
         RelativeLayout mainRelativeLayout = (RelativeLayout) findViewById(R.id.mainRelativeLayout);
         mainRelativeLayout.addView(mPlayerOneBunkerView, 0, new RelativeLayout.LayoutParams((int) landSliceWidth, (int) landSliceWidth));
         mainRelativeLayout.addView(mPlayerTwoBunkerView, 0, new RelativeLayout.LayoutParams((int) landSliceWidth, (int) landSliceWidth));
+        */
     }
 
 
