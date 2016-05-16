@@ -175,11 +175,9 @@
 
     <!-- Landscape Linear Layout. -->
 
-    <LinearLayout
-        android:id="@+id/linearLayoutLandscape"
+    <fr.leomoldo.android.bunkerwar.GameView
+        android:id="@+id/gameView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal" >
-    </LinearLayout>
+        android:layout_height="match_parent" />
 
 </RelativeLayout>

@@ -18,10 +18,6 @@ import fr.leomoldo.android.bunkerwar.game.GameSequencer;
 import fr.leomoldo.android.bunkerwar.game.Landscape;
 import fr.leomoldo.android.bunkerwar.game.PhysicalModel;
 
-/**
- * An example full-screen activity that shows and hides the system UI (i.e.
- * status bar and navigation/system bar) with user interaction.
- */
 public class GameActivity extends AppCompatActivity implements SeekBar.OnSeekBarChangeListener {
 
     private final static float HEIGHT_MARGIN_RATIO_FOR_LANDSCAPE = 0.5f;
