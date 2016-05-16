@@ -1,30 +1,27 @@
 package fr.leomoldo.android.bunkerwar;
 
-import fr.leomoldo.android.bunkerwar.game.Bunker;
 import android.content.Context;
-import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.view.View;
 
-public class BombShellView extends View {
+import fr.leomoldo.android.bunkerwar.game.Bunker;
+
+public class BombShellPainter {
 
 	public final static Float BOMBSHELL_RADIUS = 5f;
 
 	private Bunker mBunker; //TODO Useless attribute?
 	private Paint mPaint;
-	
-	
-	public BombShellView(Context context, Bunker bunker) {
 
-		super(context, null, 0);
+
+    public BombShellPainter(Context context, Bunker bunker) {
+
 		mBunker = bunker;
-		this.setWillNotDraw(false);
 		initializePaint();
 	}
 
-	
-	@Override
+	/*
+    @Override
 	protected void onDraw(Canvas canvas) {
 		
 		super.onDraw(canvas); 
@@ -33,8 +30,9 @@ public class BombShellView extends View {
         // Draw a circle and a rectangle for the bunker.
         canvas.drawCircle(getWidth()/2, getHeight()/2, BOMBSHELL_RADIUS, mPaint);
 	}
-	
-	private void initializePaint() {
+	*/
+
+    private void initializePaint() {
 
 		mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 		/*if (mBunker.isPlayerOne()) {

@@ -1,41 +1,35 @@
 package fr.leomoldo.android.bunkerwar;
-import fr.leomoldo.android.bunkerwar.game.Bunker;
-import android.content.Context;
-import android.graphics.Canvas;
+
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Cap;
 import android.graphics.Rect;
-import android.graphics.Region;
-import android.view.View;
+
+import fr.leomoldo.android.bunkerwar.game.Bunker;
 
 
-public class BunkerView extends View {
+public class BunkerPainter {
 
 	
 	private final static Double CANON_LENGTH = 30.0;
 	public final static Float BUNKER_RADIUS = 17f;
 	private final static Float STROKE_WIDTH = 10f;
-	private final static Integer CANVAS_EXPANSION = 30;
-	
-	private Bunker mBunker;
+
+    //private final static Integer CANVAS_EXPANSION = 30;
+
+    private Bunker mBunker;
 	private Paint mPaint;
 	private Rect mClipRect;
-	
-	
-	public BunkerView(Context context, Bunker bunker) {
-		
-		super(context, null, 0);
-		
-		mBunker = bunker;
+
+    public BunkerPainter(Bunker bunker) {
+
+        mBunker = bunker;
 		mClipRect = new Rect();
-		
-		this.setWillNotDraw(false);
 		initializePaint();
 	}
-	
-	
-	@Override
+
+	/*
+    @Override
 	protected void onDraw (Canvas canvas) {
 		
 		super.onDraw(canvas); 
@@ -67,7 +61,7 @@ public class BunkerView extends View {
         
         canvas.drawLine( startX, startY, endX, endY, mPaint );
 	}
-	
+	*/
 	
 	private void initializePaint() {
 		

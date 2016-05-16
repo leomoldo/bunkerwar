@@ -2,12 +2,8 @@ package fr.leomoldo.android.bunkerwar;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Gravity;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -16,7 +12,6 @@ import java.util.ArrayList;
 import fr.leomoldo.android.bunkerwar.game.Bunker;
 import fr.leomoldo.android.bunkerwar.game.GameSequencer;
 import fr.leomoldo.android.bunkerwar.game.Landscape;
-import fr.leomoldo.android.bunkerwar.game.PhysicalModel;
 
 public class GameActivity extends AppCompatActivity implements SeekBar.OnSeekBarChangeListener {
 
@@ -143,6 +138,7 @@ public class GameActivity extends AppCompatActivity implements SeekBar.OnSeekBar
             findViewById(R.id.buttonFirePlayerTwo).setVisibility(View.GONE);
         }
 
+        /*
         BombShellView bombShellView;
         if (didPlayerOneFire) {
             bombShellView = new BombShellView(this, mPlayerOneBunker);
@@ -152,6 +148,7 @@ public class GameActivity extends AppCompatActivity implements SeekBar.OnSeekBar
         int viewDimension = BombShellView.BOMBSHELL_RADIUS.intValue() * 2;
         RelativeLayout mainRelativeLayout = ( (RelativeLayout) findViewById(R.id.mainRelativeLayout));
         mainRelativeLayout.addView(bombShellView, viewDimension, viewDimension);
+        */
 
         /*
         PhysicalModel physicalModel;
