@@ -62,7 +62,9 @@ public class GameActivity extends AppCompatActivity implements SeekBar.OnSeekBar
         ((SeekBar) findViewById(R.id.seekBarPowerPlayerOne)).setOnSeekBarChangeListener(this);
         ((SeekBar) findViewById(R.id.seekBarAnglePlayerTwo)).setOnSeekBarChangeListener(this);
         ((SeekBar) findViewById(R.id.seekBarPowerPlayerTwo)).setOnSeekBarChangeListener(this);
+        mGameView = (GameView) findViewById(R.id.gameView);
 
+        mGameView.setLandscape(mLandscape);
 
         /*
         // Landscape drawing must be done on pre-draw to retrieve the view size information.
@@ -187,9 +189,10 @@ public class GameActivity extends AppCompatActivity implements SeekBar.OnSeekBar
         */
     }
 
+    /*
     private void addLandscapeViews() {
 
-        /*
+
         mMainRelativeLayoutHeight = mLandscapeLinearLayout.getHeight();
 
         Float landSliceHeight = 0f;
@@ -217,8 +220,9 @@ public class GameActivity extends AppCompatActivity implements SeekBar.OnSeekBar
             mLandscapeFrameLayouts.add(i, frame);
             mLandscapeFrameLayoutHeights.add(i, (float) viewHeight);
         }
-        */
+
     }
+    */
 
     /**
      * Must be called imperatively after addLandscapeViews.

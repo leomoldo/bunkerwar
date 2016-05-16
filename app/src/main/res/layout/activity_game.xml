@@ -6,6 +6,13 @@
     android:background="@color/blue_sky"
     tools:context="fr.leomoldo.android.bunkerwar.GameActivity" >
 
+    <!-- GameView. -->
+
+    <fr.leomoldo.android.bunkerwar.GameView
+        android:id="@+id/gameView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
     <!-- Seebars, indicators and labels (in LinearLayouts). -->
     <LinearLayout
         android:id="@+id/linearLayoutAngle"
@@ -172,12 +179,5 @@
         android:layout_margin="@dimen/UI_global_margin"
         android:onClick="onFireButtonClicked"
         android:visibility="gone"></Button>
-
-    <!-- Landscape Linear Layout. -->
-
-    <fr.leomoldo.android.bunkerwar.GameView
-        android:id="@+id/gameView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
 
 </RelativeLayout>

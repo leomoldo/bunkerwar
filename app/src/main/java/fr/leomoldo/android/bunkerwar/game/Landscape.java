@@ -38,6 +38,10 @@ public class Landscape {
 			return mLandscapeHeights.get(index);
 	}
 
+	public Float getLandscapeHeightPercentage(int index) {
+		return getLandscapeHeight(index) / 100f;
+	}
+
 	public Integer getNumberOfLandscapeSlices() {
 		return mLandscapeHeights.size();
 	}
