@@ -2,10 +2,12 @@ package fr.leomoldo.android.bunkerwar;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.View;
 
+import fr.leomoldo.android.bunkerwar.game.Bunker;
 import fr.leomoldo.android.bunkerwar.game.Landscape;
 
 /**
@@ -15,9 +17,27 @@ public class GameView extends View {
 
     private final static float MAX_HEIGHT_RATIO_FOR_LANDSCAPE = 0.5f;
 
+    private final static Double BUNKER_CANON_LENGTH = 30.0;
+    public final static Float BUNKER_RADIUS = 17f;
+    private final static Float BUNKER_STROKE_WIDTH = 10f;
+
+    public final static Float BOMBSHELL_RADIUS = 5f;
+
+
+    // Context.
     private Context mContext;
 
+    // Model.
     private Landscape mLandscape;
+    private Bunker mPlayerOneBunker;
+    private Bunker mPlayerTwoBunker;
+
+    // Paints.
+    private Paint mLandscapePaint;
+    private Paint mPlayerOneBunkerPaint;
+    private Paint mPlayerTwoBunkerPaint;
+    private Paint mBombShellPaint;
+
 
     public GameView(Context context) {
         this(context, null);
@@ -33,10 +53,14 @@ public class GameView extends View {
         mContext = context;
 
         this.setWillNotDraw(false);
+
+        initializePaints();
     }
 
-    public void setLandscape(Landscape landscape) {
+    public void initializeNewGame(Landscape landscape, Bunker playerOneBunker, Bunker playerTwoBunker) {
         mLandscape = landscape;
+        mPlayerOneBunker = playerOneBunker;
+        mPlayerTwoBunker = playerTwoBunker;
     }
 
     @Override
@@ -46,51 +70,89 @@ public class GameView extends View {
 
         if (canvas == null) return;
 
+        if (mPlayerOneBunker != null) {
+            drawPlayerOneBunker(canvas);
+        }
+
+        if (mPlayerTwoBunker != null) {
+            drawPlayerTwoBunker(canvas);
+        }
+
         if (mLandscape != null) {
             drawLandscape(canvas);
         }
 
+        // TODO Draw BombShell (after Landscape).
     }
 
     private void drawLandscape(Canvas canvas) {
 
-        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        paint.setColor(mContext.getResources().getColor(R.color.green_land_slice));
-
-        // TODO Debug only :
-        // canvas.drawRect(10f, 10f, (float) getWidth() - 10f, (float) getHeight() - 10f, paint);
-
-        /*
-        Float landSliceHeight = 0f;
-        Float percentage = 0f;
-        Integer viewHeight = 0;
-        */
-
         for (int i = 0; i < mLandscape.getNumberOfLandscapeSlices(); i++) {
-
             canvas.drawRect(i * getWidth() / mLandscape.getNumberOfLandscapeSlices(),
                     getHeight() - getHeight() * MAX_HEIGHT_RATIO_FOR_LANDSCAPE * mLandscape.getLandscapeHeightPercentage(i),
                     (i + 1) * getWidth() / mLandscape.getNumberOfLandscapeSlices(),
                     getHeight(),
-                    paint);
-
-            /*
-            landSliceHeight = (float) mLandscape.getLandscapeHeight(i);
-            percentage = landSliceHeight / 100f;
-            viewHeight = (int) ( mMainRelativeLayoutHeight * MAX_HEIGHT_RATIO_FOR_LANDSCAPE * percentage );
-
-            FrameLayout frame = new FrameLayout(GameActivity.this);
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, viewHeight);
-            params.weight = 1;
-            params.gravity = Gravity.BOTTOM;
-            frame.setLayoutParams(params);
-            frame.setBackgroundColor(getResources().getColor(R.color.green_land_slice));
-
-            mLandscapeLinearLayout.addView(frame);
-
-            mLandscapeFrameLayouts.add(i, frame);
-            mLandscapeFrameLayoutHeights.add(i, (float) viewHeight);
-            */
+                    mLandscapePaint);
         }
+    }
+
+    private void drawPlayerOneBunker(Canvas canvas) {
+        drawBunker(canvas, mPlayerOneBunkerPaint, 50, 400, mPlayerOneBunker.getCanonAngleRadian(), true);
+    }
+
+    private void drawPlayerTwoBunker(Canvas canvas) {
+        drawBunker(canvas, mPlayerTwoBunkerPaint, getWidth() - 50, 400, mPlayerTwoBunker.getCanonAngleRadian(), false);
+    }
+
+    private void drawBunker(Canvas canvas, Paint paint, float x, float y, double canonAngleRadian, boolean isCanonSetLeftToRight) {
+
+        // Draw a circle and a rectangle for the bunker.
+        canvas.drawCircle(x, y, BUNKER_RADIUS, paint);
+        canvas.drawRect(x - BUNKER_RADIUS, y, x + BUNKER_RADIUS, getHeight(), paint);
+
+        // Draw the canon of the bunker.
+        float lengthX = (float) (BUNKER_CANON_LENGTH * Math.cos(canonAngleRadian));
+        float lengthY = (float) (-BUNKER_CANON_LENGTH * Math.sin(canonAngleRadian));
+
+        if (!isCanonSetLeftToRight) {
+            lengthX = -lengthX;
+        }
+
+        canvas.drawLine(x, y, x + lengthX, y + lengthY, paint);
+    }
+
+    private void drawBombShell(Canvas canvas, float x, float y) {
+        canvas.drawCircle(x, y, BOMBSHELL_RADIUS, mBombShellPaint);
+    }
+
+    private void initializePaints() {
+
+        // Landscape.
+        mLandscapePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        mLandscapePaint.setColor(mContext.getResources().getColor(R.color.green_land_slice));
+
+        // Bunker One.
+        mPlayerOneBunkerPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        mPlayerOneBunkerPaint.setColor(Color.RED);
+        mPlayerOneBunkerPaint.setStyle(Paint.Style.FILL);
+        mPlayerOneBunkerPaint.setStrokeCap(Paint.Cap.BUTT);
+        mPlayerOneBunkerPaint.setStrokeWidth(BUNKER_STROKE_WIDTH);
+
+        // Bunker Two.
+        mPlayerTwoBunkerPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        mPlayerTwoBunkerPaint.setColor(Color.YELLOW);
+        mPlayerTwoBunkerPaint.setStyle(Paint.Style.FILL);
+        mPlayerTwoBunkerPaint.setStrokeCap(Paint.Cap.BUTT);
+        mPlayerTwoBunkerPaint.setStrokeWidth(BUNKER_STROKE_WIDTH);
+
+        // Bombshell.
+        mBombShellPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        /*if (mBunker.isPlayerOne()) {
+			mBombShellPaint.setColor(Color.RED);
+		} else {
+			mBombShellPaint.setColor(Color.YELLOW);
+		}*/
+        mBombShellPaint.setColor(Color.BLACK); // TODO Debug only.
+        mBombShellPaint.setStyle(Paint.Style.FILL);
     }
 }

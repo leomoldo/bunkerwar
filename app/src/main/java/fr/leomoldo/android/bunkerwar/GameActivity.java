@@ -64,7 +64,7 @@ public class GameActivity extends AppCompatActivity implements SeekBar.OnSeekBar
         ((SeekBar) findViewById(R.id.seekBarPowerPlayerTwo)).setOnSeekBarChangeListener(this);
         mGameView = (GameView) findViewById(R.id.gameView);
 
-        mGameView.setLandscape(mLandscape);
+        mGameView.initializeNewGame(mLandscape, mPlayerOneBunker, mPlayerTwoBunker);
 
         /*
         // Landscape drawing must be done on pre-draw to retrieve the view size information.
@@ -94,7 +94,7 @@ public class GameActivity extends AppCompatActivity implements SeekBar.OnSeekBar
 
             case R.id.seekBarAnglePlayerOne :
                 mPlayerOneBunker.setCanonAngle(progress);
-                // mPlayerOneBunkerView.invalidate();
+                mGameView.invalidate();
                 mTextViewIndicatorAnglePlayerOne.setText(value.toString());
                 break;
             case R.id.seekBarPowerPlayerOne :
@@ -103,7 +103,7 @@ public class GameActivity extends AppCompatActivity implements SeekBar.OnSeekBar
                 break;
             case R.id.seekBarAnglePlayerTwo :
                 mPlayerTwoBunker.setCanonAngle(progress);
-                // mPlayerTwoBunkerView.invalidate();
+                mGameView.invalidate();
                 mTextViewIndicatorAnglePlayerTwo.setText(value.toString());
                 break;
             case R.id.seekBarPowerPlayerTwo :
@@ -227,9 +227,9 @@ public class GameActivity extends AppCompatActivity implements SeekBar.OnSeekBar
     /**
      * Must be called imperatively after addLandscapeViews.
      */
+    /*
     private void addBunkerViews() {
 
-        /*
         if( mLandscapeFrameLayoutHeights == null ) {
             return;
         }
@@ -253,8 +253,7 @@ public class GameActivity extends AppCompatActivity implements SeekBar.OnSeekBar
         RelativeLayout mainRelativeLayout = (RelativeLayout) findViewById(R.id.mainRelativeLayout);
         mainRelativeLayout.addView(mPlayerOneBunkerView, 0, new RelativeLayout.LayoutParams((int) landSliceWidth, (int) landSliceWidth));
         mainRelativeLayout.addView(mPlayerTwoBunkerView, 0, new RelativeLayout.LayoutParams((int) landSliceWidth, (int) landSliceWidth));
-        */
     }
-
+    */
 
 }

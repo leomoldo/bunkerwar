@@ -8,9 +8,8 @@ import fr.leomoldo.android.bunkerwar.game.Bunker;
 
 public class BombShellPainter {
 
-	public final static Float BOMBSHELL_RADIUS = 5f;
 
-	private Bunker mBunker; //TODO Useless attribute?
+    private Bunker mBunker; //TODO Useless attribute?
 	private Paint mPaint;
 
 

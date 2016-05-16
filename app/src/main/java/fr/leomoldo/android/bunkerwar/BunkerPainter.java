@@ -28,14 +28,14 @@ public class BunkerPainter {
 		initializePaint();
 	}
 
-	/*
+    /*
     @Override
 	protected void onDraw (Canvas canvas) {
 		
 		super.onDraw(canvas); 
         if(canvas == null) return; 
         
-        // Expand view clipping zone.
+        // Expand view clipping zone.*
         canvas.getClipBounds(mClipRect);
         mClipRect.inset(-CANVAS_EXPANSION, -CANVAS_EXPANSION);
         canvas.clipRect (mClipRect, Region.Op.REPLACE);
@@ -62,8 +62,9 @@ public class BunkerPainter {
         canvas.drawLine( startX, startY, endX, endY, mPaint );
 	}
 	*/
-	
-	private void initializePaint() {
+
+
+    private void initializePaint() {
 		
 		mPaint = new Paint(Paint.ANTI_ALIAS_FLAG); 
 		if(mBunker.isPlayerOne()) {
