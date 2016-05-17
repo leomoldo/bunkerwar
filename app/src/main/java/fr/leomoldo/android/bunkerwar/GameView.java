@@ -69,9 +69,14 @@ public class GameView extends View {
     }
 
     public void initializeNewGame(Landscape landscape, Bunker playerOneBunker, Bunker playerTwoBunker) {
+        mBunkerPlayerOneX = null;
+        mBunkerPlayerOneY = null;
+        mBunkerPlayerTwoX = null;
+        mBunkerPlayerTwoY = null;
         mLandscape = landscape;
         mPlayerOneBunker = playerOneBunker;
         mPlayerTwoBunker = playerTwoBunker;
+        hideBombShell();
     }
 
     public void showBombShell(float x, float y) {

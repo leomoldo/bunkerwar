@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/blue_sky"
-    tools:context="fr.leomoldo.android.bunkerwar.GameActivity" >
+    tools:context="fr.leomoldo.android.bunkerwar.GameActivity">
 
     <!-- GameView. -->
 
@@ -12,6 +12,15 @@
         android:id="@+id/gameView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+    <!-- Reload Button. (Debug only). -->
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:onClick="onReloadButtonClicked"
+        android:text="@string/reload" />
 
     <!-- Seebars, indicators and labels (in LinearLayouts). -->
     <LinearLayout
@@ -21,28 +30,27 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:orientation="horizontal" >
+        android:orientation="horizontal">
 
         <SeekBar
             android:id="@+id/seekBarAnglePlayerOne"
             android:layout_width="0dp"
-            android:layout_weight="@integer/seekBar_UI_weight"
             android:layout_height="match_parent"
             android:layout_margin="@dimen/UI_global_margin"
+            android:layout_weight="@integer/seekBar_UI_weight"
             android:background="#FFFFFF"
             android:max="90"
-            android:progress="45" >
-        </SeekBar>
+            android:progress="45"></SeekBar>
 
         <TextView
             android:id="@+id/textViewIndicatorAnglePlayerOne"
             android:layout_width="0dp"
-            android:layout_weight="@integer/indicator_UI_weight"
             android:layout_height="match_parent"
             android:layout_margin="@dimen/UI_global_margin"
+            android:layout_weight="@integer/indicator_UI_weight"
+            android:height="30dp"
             android:background="#FFFFFF"
             android:gravity="center"
-            android:height="30dp"
             android:text="@string/UI_text_angle_initial_value"
             android:textColor="#000000"
             android:textSize="20sp" />
@@ -50,12 +58,12 @@
         <TextView
             android:id="@+id/textViewAngle"
             android:layout_width="0dp"
-            android:layout_weight="@integer/textView_UI_weight"
             android:layout_height="match_parent"
             android:layout_margin="@dimen/UI_global_margin"
+            android:layout_weight="@integer/textView_UI_weight"
+            android:height="30dp"
             android:background="#FFFFFF"
             android:gravity="center"
-            android:height="30dp"
             android:text="@string/UI_text_angle"
             android:textColor="#000000"
             android:textSize="20sp" />
@@ -63,12 +71,12 @@
         <TextView
             android:id="@+id/textViewIndicatorAnglePlayerTwo"
             android:layout_width="0dp"
-            android:layout_weight="@integer/indicator_UI_weight"
             android:layout_height="match_parent"
             android:layout_margin="@dimen/UI_global_margin"
+            android:layout_weight="@integer/indicator_UI_weight"
+            android:height="30dp"
             android:background="#FFFFFF"
             android:gravity="center"
-            android:height="30dp"
             android:text="@string/UI_text_angle_initial_value"
             android:textColor="#000000"
             android:textSize="20sp" />
@@ -76,13 +84,12 @@
         <SeekBar
             android:id="@+id/seekBarAnglePlayerTwo"
             android:layout_width="0dp"
-            android:layout_weight="@integer/seekBar_UI_weight"
             android:layout_height="match_parent"
             android:layout_margin="@dimen/UI_global_margin"
+            android:layout_weight="@integer/seekBar_UI_weight"
             android:background="#FFFFFF"
             android:max="90"
-            android:progress="45" >
-        </SeekBar>
+            android:progress="45"></SeekBar>
     </LinearLayout>
 
     <LinearLayout
@@ -92,28 +99,27 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_below="@id/linearLayoutAngle"
-        android:orientation="horizontal" >
+        android:orientation="horizontal">
 
         <SeekBar
             android:id="@+id/seekBarPowerPlayerOne"
             android:layout_width="0dp"
-            android:layout_weight="@integer/seekBar_UI_weight"
             android:layout_height="match_parent"
             android:layout_margin="@dimen/UI_global_margin"
+            android:layout_weight="@integer/seekBar_UI_weight"
             android:background="#FFFFFF"
             android:max="100"
-            android:progress="50" >
-        </SeekBar>
+            android:progress="50"></SeekBar>
 
         <TextView
             android:id="@+id/textViewIndicatorPowerPlayerOne"
             android:layout_width="0dp"
-            android:layout_weight="@integer/indicator_UI_weight"
             android:layout_height="match_parent"
             android:layout_margin="@dimen/UI_global_margin"
+            android:layout_weight="@integer/indicator_UI_weight"
+            android:height="30dp"
             android:background="#FFFFFF"
             android:gravity="center"
-            android:height="30dp"
             android:text="@string/UI_text_power_initial_value"
             android:textColor="#000000"
             android:textSize="20sp" />
@@ -121,12 +127,12 @@
         <TextView
             android:id="@+id/textViewPower"
             android:layout_width="0dp"
-            android:layout_weight="@integer/textView_UI_weight"
             android:layout_height="match_parent"
             android:layout_margin="@dimen/UI_global_margin"
+            android:layout_weight="@integer/textView_UI_weight"
+            android:height="30dp"
             android:background="#FFFFFF"
             android:gravity="center"
-            android:height="30dp"
             android:text="@string/UI_text_power"
             android:textColor="#000000"
             android:textSize="20sp" />
@@ -134,12 +140,12 @@
         <TextView
             android:id="@+id/textViewIndicatorPowerPlayerTwo"
             android:layout_width="0dp"
-            android:layout_weight="@integer/indicator_UI_weight"
             android:layout_height="match_parent"
             android:layout_margin="@dimen/UI_global_margin"
+            android:layout_weight="@integer/indicator_UI_weight"
+            android:height="30dp"
             android:background="#FFFFFF"
             android:gravity="center"
-            android:height="30dp"
             android:text="@string/UI_text_power_initial_value"
             android:textColor="#000000"
             android:textSize="20sp" />
@@ -147,13 +153,12 @@
         <SeekBar
             android:id="@+id/seekBarPowerPlayerTwo"
             android:layout_width="0dp"
-            android:layout_weight="@integer/seekBar_UI_weight"
             android:layout_height="match_parent"
             android:layout_margin="@dimen/UI_global_margin"
+            android:layout_weight="@integer/seekBar_UI_weight"
             android:background="#FFFFFF"
             android:max="100"
-            android:progress="50" >
-        </SeekBar>
+            android:progress="50"></SeekBar>
     </LinearLayout>
 
     <!-- Fire buttons. -->
@@ -162,22 +167,22 @@
         android:id="@+id/buttonFirePlayerOne"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/UI_text_button_fire"
-        android:layout_below="@id/linearLayoutPower"
         android:layout_alignParentLeft="true"
+        android:layout_below="@id/linearLayoutPower"
         android:layout_margin="@dimen/UI_global_margin"
         android:onClick="onFireButtonClicked"
+        android:text="@string/UI_text_button_fire"
         android:visibility="visible"></Button>
 
     <Button
         android:id="@+id/buttonFirePlayerTwo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/UI_text_button_fire"
-        android:layout_below="@id/linearLayoutPower"
         android:layout_alignParentRight="true"
+        android:layout_below="@id/linearLayoutPower"
         android:layout_margin="@dimen/UI_global_margin"
         android:onClick="onFireButtonClicked"
+        android:text="@string/UI_text_button_fire"
         android:visibility="gone"></Button>
 
 </RelativeLayout>

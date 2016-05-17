@@ -10,4 +10,6 @@
     <string name="UI_text_angle_initial_value">45</string>
     <string name="UI_text_power_initial_value">50</string>
 
+    <string name="reload">Recharger</string>
+
 </resources>

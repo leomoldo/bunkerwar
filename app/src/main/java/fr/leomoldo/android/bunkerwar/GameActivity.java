@@ -3,6 +3,9 @@ package fr.leomoldo.android.bunkerwar;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -37,12 +40,6 @@ public class GameActivity extends AppCompatActivity implements SeekBar.OnSeekBar
 
         setContentView(R.layout.activity_game);
 
-        // Initialize game model.
-        mGameSequencer = new GameSequencer();
-        mLandscape = new Landscape();
-        mPlayerOneBunker = new Bunker(true);
-        mPlayerTwoBunker = new Bunker(false);
-
         // Retrieve useful views.
         mTextViewIndicatorAnglePlayerOne = (TextView) findViewById(R.id.textViewIndicatorAnglePlayerOne);
         mTextViewIndicatorPowerPlayerOne = (TextView) findViewById(R.id.textViewIndicatorPowerPlayerOne);
@@ -54,7 +51,27 @@ public class GameActivity extends AppCompatActivity implements SeekBar.OnSeekBar
         ((SeekBar) findViewById(R.id.seekBarPowerPlayerTwo)).setOnSeekBarChangeListener(this);
         mGameView = (GameView) findViewById(R.id.gameView);
 
-        mGameView.initializeNewGame(mLandscape, mPlayerOneBunker, mPlayerTwoBunker);
+        initializeGame();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.game_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.menu.game_menu:
+
+                mGameView.initializeNewGame(mLandscape, mPlayerOneBunker, mPlayerTwoBunker);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override
@@ -92,6 +109,25 @@ public class GameActivity extends AppCompatActivity implements SeekBar.OnSeekBar
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
 
+    }
+
+    private void initializeGame() {
+        // Initialize game model.
+        mGameSequencer = new GameSequencer();
+        mLandscape = new Landscape();
+        mPlayerOneBunker = new Bunker(true);
+        mPlayerTwoBunker = new Bunker(false);
+
+        // Initialize GameView.
+        mGameView.initializeNewGame(mLandscape, mPlayerOneBunker, mPlayerTwoBunker);
+        mGameView.invalidate();
+
+        findViewById(R.id.buttonFirePlayerOne).setVisibility(View.VISIBLE);
+
+    }
+
+    public void onReloadButtonClicked(View view) {
+        initializeGame();
     }
 
     public void onFireButtonClicked(View view) {
