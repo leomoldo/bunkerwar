@@ -26,14 +26,14 @@ public class PhysicalModel {
 	
 	public Float getNextXOffset() {
         // TODO Debug only.
-        return 0.001f;
-        // return mInitialSpeedX.floatValue();
+		return 1f;
+		// return mInitialSpeedX.floatValue();
     }
 	
 	public Float getNextYOffset(Integer timeCounter) {
         // TODO Debug only.
-        return 0.001f;
-        // return (float) (mInitialSpeedY + (double) (GRAVITATION_FACTOR*TIME_FACTOR*timeCounter));
+		return -1f;
+		// return (float) (mInitialSpeedY + (double) (GRAVITATION_FACTOR*TIME_FACTOR*timeCounter));
     }
 
 }

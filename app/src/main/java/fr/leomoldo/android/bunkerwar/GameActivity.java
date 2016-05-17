@@ -160,6 +160,9 @@ public class GameActivity extends AppCompatActivity implements SeekBar.OnSeekBar
         }
 
         mGameView.showBombShell(currentBombShellX, currentBombShellY);
+        mGameView.invalidate();
+
+        // TODO Uncomment.
 
         while (!shouldHalt) {
 
@@ -175,9 +178,9 @@ public class GameActivity extends AppCompatActivity implements SeekBar.OnSeekBar
 
             timeCounter++;
 
-            if (timeCounter > 1000) {
+            if (timeCounter > 100) {
                 shouldHalt = true;
-                mGameView.hideBombShell();
+                // mGameView.hideBombShell();
             }
         }
 
