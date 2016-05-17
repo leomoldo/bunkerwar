@@ -37,6 +37,9 @@ public class GameView extends View {
     private Float mBunkerPlayerTwoX;
     private Float mBunkerPlayerTwoY;
 
+    private Float mBombShellX;
+    private Float mBombShellY;
+
     // Paints.
     private Paint mLandscapePaint;
     private Paint mPlayerOneBunkerPaint;
@@ -68,6 +71,16 @@ public class GameView extends View {
         mPlayerTwoBunker = playerTwoBunker;
     }
 
+    public void showBombShell(float x, float y) {
+        mBombShellX = x;
+        mBombShellY = y;
+    }
+
+    public void hideBombShell() {
+        mBombShellY = null;
+        mBombShellY = null;
+    }
+
     @Override
     protected void onDraw(Canvas canvas) {
 
@@ -88,6 +101,10 @@ public class GameView extends View {
         }
 
         // TODO Draw BombShell if necessary (after Landscape).
+
+        if (mBombShellX != null && mBombShellY != null) {
+            drawBombShell(canvas, mBombShellX, mBombShellY);
+        }
     }
 
     private void drawLandscape(Canvas canvas) {
