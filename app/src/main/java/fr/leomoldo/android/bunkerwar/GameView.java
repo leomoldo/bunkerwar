@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 import fr.leomoldo.android.bunkerwar.game.Bunker;
@@ -14,6 +15,8 @@ import fr.leomoldo.android.bunkerwar.game.Landscape;
  * Created by leomoldo on 16/05/2016.
  */
 public class GameView extends View {
+
+    private static final String LOG_TAG = GameView.class.getSimpleName();
 
     private final static float MAX_HEIGHT_RATIO_FOR_LANDSCAPE = 0.5f;
 
@@ -79,6 +82,22 @@ public class GameView extends View {
     public void hideBombShell() {
         mBombShellY = null;
         mBombShellY = null;
+    }
+
+    public float getBunkerPlayerOneX() {
+        return mBunkerPlayerOneX;
+    }
+
+    public float getBunkerPlayerOneY() {
+        return mBunkerPlayerOneY;
+    }
+
+    public float getBunkerPlayerTwoX() {
+        return mBunkerPlayerTwoX;
+    }
+
+    public float getBunkerPlayerTwoY() {
+        return mBunkerPlayerTwoY;
     }
 
     @Override
@@ -156,6 +175,7 @@ public class GameView extends View {
     }
 
     private void drawBombShell(Canvas canvas, float x, float y) {
+        Log.d(LOG_TAG, "Drawing BombShell");
         canvas.drawCircle(x, y, BOMBSHELL_RADIUS, mBombShellPaint);
     }
 
@@ -191,6 +211,7 @@ public class GameView extends View {
     }
 
 
+    // TODO Make the Landscape class fully handle Bunker Position logic.
     private void setBunkerOneX() {
         float landSliceWidth = getWidth() / mLandscape.getNumberOfLandscapeSlices();
         mBunkerPlayerOneX = Landscape.BUNKER_POSITION_FROM_SCREEN_BORDER * landSliceWidth;

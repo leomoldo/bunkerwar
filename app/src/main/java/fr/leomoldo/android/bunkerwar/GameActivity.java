@@ -2,6 +2,7 @@ package fr.leomoldo.android.bunkerwar;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -9,8 +10,11 @@ import android.widget.TextView;
 import fr.leomoldo.android.bunkerwar.game.Bunker;
 import fr.leomoldo.android.bunkerwar.game.GameSequencer;
 import fr.leomoldo.android.bunkerwar.game.Landscape;
+import fr.leomoldo.android.bunkerwar.game.PhysicalModel;
 
 public class GameActivity extends AppCompatActivity implements SeekBar.OnSeekBarChangeListener {
+
+    private final static String LOG_TAG = GameActivity.class.getSimpleName();
 
     // Model :
     private GameSequencer mGameSequencer;
@@ -100,12 +104,49 @@ public class GameActivity extends AppCompatActivity implements SeekBar.OnSeekBar
         // Update GameSequencer.
         mGameSequencer.fireButtonPressed(didPlayerOneFire);
 
+        float currentBombShellX;
+        float currentBombShellY;
+        Boolean shouldHalt = false;
+        PhysicalModel physicalModel;
+        Integer timeCounter = 0;
+
         // Update UI.
         if (didPlayerOneFire) {
             findViewById(R.id.buttonFirePlayerOne).setVisibility(View.GONE);
+            currentBombShellX = mGameView.getBunkerPlayerOneX();
+            currentBombShellY = mGameView.getBunkerPlayerOneY();
+            physicalModel = new PhysicalModel(mPlayerOneBunker.getCanonPower(), mPlayerOneBunker.getCanonAngleRadian(), true);
         } else {
             findViewById(R.id.buttonFirePlayerTwo).setVisibility(View.GONE);
+            currentBombShellX = mGameView.getBunkerPlayerTwoX();
+            currentBombShellY = mGameView.getBunkerPlayerTwoY();
+            physicalModel = new PhysicalModel(mPlayerTwoBunker.getCanonPower(), mPlayerTwoBunker.getCanonAngleRadian(), true);
         }
+
+        mGameView.showBombShell(currentBombShellX, currentBombShellY);
+
+        while (!shouldHalt) {
+
+            Log.d(LOG_TAG, "timeCounter : " + timeCounter);
+            Log.d(LOG_TAG, "currentBombShellX : " + currentBombShellX);
+            Log.d(LOG_TAG, "currentBombShellY : " + currentBombShellY);
+
+            currentBombShellX += physicalModel.getNextXOffset();
+            currentBombShellY += physicalModel.getNextYOffset(timeCounter);
+
+            mGameView.showBombShell(currentBombShellX, currentBombShellY);
+            mGameView.invalidate();
+
+            timeCounter++;
+
+            if (timeCounter > 1000) {
+                shouldHalt = true;
+                mGameView.hideBombShell();
+            }
+        }
+
+
+        // TODO Clean following :
 
         /*
         BombShellView bombShellView;
@@ -132,7 +173,6 @@ public class GameActivity extends AppCompatActivity implements SeekBar.OnSeekBar
         }
         */
 
-        // TODO Provisory code.
         /*
         Boolean shouldHalt = false;
         Integer timeCounter = 0;
