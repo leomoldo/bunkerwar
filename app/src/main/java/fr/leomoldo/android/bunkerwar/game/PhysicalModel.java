@@ -22,22 +22,27 @@ public class PhysicalModel {
 
 
 	public PhysicalModel(Integer initialSpeed, double fireAngleRadian, ViewCoordinates initialCoordinates, Boolean isPlayerOnePlaying) {
-		mCurrentCoordinates = initialCoordinates;
-		mInitialSpeedX = initialSpeed*MAX_INITIAL_SPEED*Math.cos(fireAngleRadian) / 100;
+        mCurrentCoordinates = initialCoordinates.clone();
+        mInitialSpeedX = initialSpeed*MAX_INITIAL_SPEED*Math.cos(fireAngleRadian) / 100;
 		if (!isPlayerOnePlaying) {
 			mInitialSpeedX = - mInitialSpeedX;
 		}
 		mInitialSpeedY = - initialSpeed*MAX_INITIAL_SPEED*Math.sin(fireAngleRadian) / 100;
 	}
 
-
-	public ViewCoordinates getNextCoordinates() {
-
-		mCurrentCoordinates.setX(mCurrentCoordinates.getX() + mInitialSpeedX.floatValue());
+    public void incrementCoordinates() {
+        mCurrentCoordinates.setX(mCurrentCoordinates.getX() + mInitialSpeedX.floatValue());
 		mCurrentCoordinates.setY(mCurrentCoordinates.getY() + (float) (mInitialSpeedY + (double) (GRAVITATION_FACTOR * TIME_FACTOR * mTimeCounter)));
 		mTimeCounter++;
-		return mCurrentCoordinates;
 	}
+
+    public int getTimeCounter() {
+        return mTimeCounter;
+    }
+
+    public ViewCoordinates getCurrentCoordinates() {
+        return mCurrentCoordinates;
+    }
 
 	// TODO Clean :
 

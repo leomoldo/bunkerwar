@@ -29,4 +29,8 @@ public class ViewCoordinates {
         this.mX = mX;
     }
 
+    @Override
+    public ViewCoordinates clone() {
+        return new ViewCoordinates(getX(), getY());
+    }
 }

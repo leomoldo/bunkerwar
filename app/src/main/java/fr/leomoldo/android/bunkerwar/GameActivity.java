@@ -2,7 +2,6 @@ package fr.leomoldo.android.bunkerwar;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -158,6 +157,10 @@ public class GameActivity extends AppCompatActivity implements SeekBar.OnSeekBar
         mGameView.showBombShell(currentBombShellCoordinates);
         mGameView.invalidate();
 
+        BombShellAnimatorAsyncTask task = new BombShellAnimatorAsyncTask(mGameView);
+        task.execute(physicalModel);
+
+        /*
         Boolean shouldHalt = false;
         Integer timeCounter = 0;
 
@@ -169,13 +172,11 @@ public class GameActivity extends AppCompatActivity implements SeekBar.OnSeekBar
             Log.d(LOG_TAG, "currentBombShellX : " + currentBombShellCoordinates.getX());
             Log.d(LOG_TAG, "currentBombShellY : " + currentBombShellCoordinates.getY());
 
-            // TODO Refactor :
-            /*
+
             currentBombShellX += physicalModel.getNextXOffset();
             currentBombShellY += physicalModel.getNextYOffset(timeCounter);
 
             mGameView.showBombShell(currentBombShellX, currentBombShellY);
-            */
             mGameView.invalidate();
 
             timeCounter++;
@@ -185,6 +186,7 @@ public class GameActivity extends AppCompatActivity implements SeekBar.OnSeekBar
                 // mGameView.hideBombShell();
             }
         }
+        */
     }
 
 
