@@ -145,7 +145,8 @@ public class GameActivity extends AppCompatActivity implements SeekBar.OnSeekBar
 
         // Update UI.
         if (didPlayerOneFire) {
-            findViewById(R.id.buttonFirePlayerOne).setVisibility(View.GONE);
+            // TODO Uncomment.
+            // findViewById(R.id.buttonFirePlayerOne).setVisibility(View.GONE);
             currentBombShellCoordinates = mGameView.getBunkerPlayerOneCoordinates();
             bombShellPathComputer = new BombShellPathComputer(mPlayerOneBunker.getCanonPower(), mPlayerOneBunker.getCanonAngleRadian(), currentBombShellCoordinates, true);
         } else {
