@@ -9,10 +9,10 @@ import android.view.View;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import fr.leomoldo.android.bunkerwar.game.BombShellPathComputer;
 import fr.leomoldo.android.bunkerwar.game.Bunker;
 import fr.leomoldo.android.bunkerwar.game.GameSequencer;
 import fr.leomoldo.android.bunkerwar.game.Landscape;
-import fr.leomoldo.android.bunkerwar.game.PhysicalModel;
 
 public class GameActivity extends AppCompatActivity implements SeekBar.OnSeekBarChangeListener {
 
@@ -141,23 +141,23 @@ public class GameActivity extends AppCompatActivity implements SeekBar.OnSeekBar
 
         ViewCoordinates currentBombShellCoordinates;
 
-        PhysicalModel physicalModel;
+        BombShellPathComputer bombShellPathComputer;
 
         // Update UI.
         if (didPlayerOneFire) {
             findViewById(R.id.buttonFirePlayerOne).setVisibility(View.GONE);
             currentBombShellCoordinates = mGameView.getBunkerPlayerOneCoordinates();
-            physicalModel = new PhysicalModel(mPlayerOneBunker.getCanonPower(), mPlayerOneBunker.getCanonAngleRadian(), currentBombShellCoordinates, true);
+            bombShellPathComputer = new BombShellPathComputer(mPlayerOneBunker.getCanonPower(), mPlayerOneBunker.getCanonAngleRadian(), currentBombShellCoordinates, true);
         } else {
             findViewById(R.id.buttonFirePlayerTwo).setVisibility(View.GONE);
             currentBombShellCoordinates = mGameView.getBunkerPlayerTwoCoordinates();
-            physicalModel = new PhysicalModel(mPlayerTwoBunker.getCanonPower(), mPlayerTwoBunker.getCanonAngleRadian(), currentBombShellCoordinates, false);
+            bombShellPathComputer = new BombShellPathComputer(mPlayerTwoBunker.getCanonPower(), mPlayerTwoBunker.getCanonAngleRadian(), currentBombShellCoordinates, false);
         }
 
         mGameView.showBombShell(currentBombShellCoordinates);
         mGameView.invalidate();
 
         BombShellAnimatorAsyncTask task = new BombShellAnimatorAsyncTask(mGameView);
-        task.execute(physicalModel);
+        task.execute(bombShellPathComputer);
     }
 }

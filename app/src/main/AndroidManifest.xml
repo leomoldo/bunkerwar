@@ -2,19 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="fr.leomoldo.android.bunkerwar">
 
-    <!-- TODO
-
-    - Vérifier quelle taille fait la BunkerView (pour la hitbox).
-
-    - Faire de GameSequencer un singleton?
-    - Faire de PhysicalModel un singleton? Ou factory pour chaque tir.
-
-    - Codage de Physical Model (balistique).
-
-    - Méthodes à coder dans GameSequencer.
-
-    -->
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"

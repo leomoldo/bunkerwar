@@ -4,12 +4,12 @@ package fr.leomoldo.android.bunkerwar;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import fr.leomoldo.android.bunkerwar.game.PhysicalModel;
+import fr.leomoldo.android.bunkerwar.game.BombShellPathComputer;
 
 /**
  * Created by leomoldo on 19/05/2016.
  */
-public class BombShellAnimatorAsyncTask extends AsyncTask<PhysicalModel, ViewCoordinates, Boolean> {
+public class BombShellAnimatorAsyncTask extends AsyncTask<BombShellPathComputer, ViewCoordinates, Boolean> {
 
     private static final String LOG_TAG = BombShellAnimatorAsyncTask.class.getSimpleName();
 
@@ -22,22 +22,22 @@ public class BombShellAnimatorAsyncTask extends AsyncTask<PhysicalModel, ViewCoo
     }
 
     @Override
-    protected Boolean doInBackground(PhysicalModel... physicalModels) {
+    protected Boolean doInBackground(BombShellPathComputer... bombShellPathComputers) {
         Boolean shouldHalt = false;
         while (!shouldHalt) {
-            physicalModels[0].incrementCoordinates();
-            publishProgress(physicalModels[0].getCurrentCoordinates());
+            bombShellPathComputers[0].incrementCoordinates();
+            publishProgress(bombShellPathComputers[0].getCurrentCoordinates());
             /*
-            Log.d(LOG_TAG, "timeCounter : " + physicalModels[0].getTimeCounter());
-            Log.d(LOG_TAG, "currentBombShellX : " + physicalModels[0].getCurrentCoordinates().getX());
-            Log.d(LOG_TAG, "currentBombShellY : " + physicalModels[0].getCurrentCoordinates().getY());
+            Log.d(LOG_TAG, "timeCounter : " + bombShellPathComputers[0].getTimeCounter());
+            Log.d(LOG_TAG, "currentBombShellX : " + bombShellPathComputers[0].getCurrentCoordinates().getX());
+            Log.d(LOG_TAG, "currentBombShellY : " + bombShellPathComputers[0].getCurrentCoordinates().getY());
             */
             try {
                 Thread.sleep(ITERATION_WAITING_TIME);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            if (physicalModels[0].getTimeCounter() > 100) {
+            if (bombShellPathComputers[0].getTimeCounter() > 100) {
                 shouldHalt = true;
             }
         }

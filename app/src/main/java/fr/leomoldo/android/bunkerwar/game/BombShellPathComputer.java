@@ -2,8 +2,7 @@ package fr.leomoldo.android.bunkerwar.game;
 
 import fr.leomoldo.android.bunkerwar.ViewCoordinates;
 
-// TODO : Cette classe ne fait que gérer la ballistique pour un tri de BombShell --> à renommer!
-public class PhysicalModel {
+public class BombShellPathComputer {
 
 	// private final static float BOMBSHELL_WEIGHT = 50f;
 	// private final static float GRAVITATIONAL_CONSTANT = 9.81f;
@@ -16,7 +15,7 @@ public class PhysicalModel {
 	private ViewCoordinates mCurrentCoordinates;
 	private Integer mTimeCounter = 0;
 
-	public PhysicalModel(Integer initialSpeed, double fireAngleRadian, ViewCoordinates initialCoordinates, Boolean isPlayerOnePlaying) {
+    public BombShellPathComputer(Integer initialSpeed, double fireAngleRadian, ViewCoordinates initialCoordinates, Boolean isPlayerOnePlaying) {
         mCurrentCoordinates = initialCoordinates.clone();
         mInitialSpeedX = initialSpeed*MAX_INITIAL_SPEED*Math.cos(fireAngleRadian) / 100;
 		if (!isPlayerOnePlaying) {

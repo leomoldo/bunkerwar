@@ -122,14 +122,14 @@ public class GameView extends View {
 
     private void drawPlayerOneBunker(Canvas canvas) {
         if (mBunkerPlayerOneCoordinates == null) {
-            setBunkerOneCoordinates();
+            initializeBunkerOneCoordinates();
         }
         drawBunker(canvas, mPlayerOneBunkerPaint, mBunkerPlayerOneCoordinates, mPlayerOneBunker.getCanonAngleRadian(), true);
     }
 
     private void drawPlayerTwoBunker(Canvas canvas) {
         if (mBunkerPlayerTwoCoordinates == null) {
-            setBunkerTwoCoordinates();
+            initializeBunkerTwoCoordinates();
         }
         drawBunker(canvas, mPlayerTwoBunkerPaint, mBunkerPlayerTwoCoordinates, mPlayerTwoBunker.getCanonAngleRadian(), false);
     }
@@ -187,9 +187,7 @@ public class GameView extends View {
         mBombShellPaint.setStyle(Paint.Style.FILL);
     }
 
-    // TODO Make the Landscape class fully handle Bunker Position logic?
-
-    private void setBunkerOneCoordinates() {
+    private void initializeBunkerOneCoordinates() {
         float landSliceWidth = getWidth() / mLandscape.getNumberOfLandscapeSlices();
         mBunkerPlayerOneCoordinates = new ViewCoordinates(Landscape.BUNKER_POSITION_FROM_SCREEN_BORDER * landSliceWidth,
                 getHeight()
@@ -197,7 +195,7 @@ public class GameView extends View {
                         - BUNKER_RADIUS);
     }
 
-    private void setBunkerTwoCoordinates() {
+    private void initializeBunkerTwoCoordinates() {
         float landSliceWidth = getWidth() / mLandscape.getNumberOfLandscapeSlices();
         mBunkerPlayerTwoCoordinates = new ViewCoordinates(getWidth() - landSliceWidth * Landscape.BUNKER_POSITION_FROM_SCREEN_BORDER,
                 getHeight()

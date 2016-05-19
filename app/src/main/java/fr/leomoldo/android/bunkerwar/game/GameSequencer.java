@@ -35,14 +35,14 @@ public class GameSequencer {
 		
 			case PLAYER_ONE_PLAYING :
 				if (!didPlayerOneFire) {
-					// TODO throw exception.
+					// Throw exception?
 				}
 				mGameState = GameState.PLAYER_ONE_FIRING;
 				break;
 				
 			case PLAYER_TWO_PLAYING :
 				if (didPlayerOneFire) {
-					// TODO throw exception.
+					// Throw exception?
 				}
 				mGameState = GameState.PLAYER_TWO_FIRING;
 				break;
@@ -54,14 +54,14 @@ public class GameSequencer {
 	}
 	
 	public void bombShellTouchedBunker(Boolean bunkerOneTouched) {
-		// TODO
+		// To be implemented.
 	}
 	
 	public void bombShellTouchedLandscape() {
-		// TODO
+		// To be implemented.
 	}
 	
 	public void exportGameResult() {
-		// TODO
+		// To be implemented.
 	}
 }
