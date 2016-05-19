@@ -19,6 +19,8 @@ public class BombShellAnimatorAsyncTask extends AsyncTask<BombShellPathComputer,
     private GameView mGameView;
     private int mViewHeight;
     private int mViewWidth;
+    private ViewCoordinates mBunkerPlayerOneCoordinates;
+    private ViewCoordinates mBunkerPlayerTwoCoordinates;
     private Landscape mLandscape;
 
     public BombShellAnimatorAsyncTask(GameView gameView, Landscape landscape) {
@@ -26,9 +28,13 @@ public class BombShellAnimatorAsyncTask extends AsyncTask<BombShellPathComputer,
         mLandscape = landscape;
         mViewHeight = mGameView.getHeight();
         mViewWidth = mGameView.getWidth();
+        mBunkerPlayerOneCoordinates = mGameView.getBunkerPlayerOneCoordinates();
+        mBunkerPlayerTwoCoordinates = mGameView.getBunkerPlayerTwoCoordinates();
 
+        /*
         Log.d(LOG_TAG, "View Width : " + mViewWidth);
         Log.d(LOG_TAG, "View Height : " + mViewHeight);
+        */
     }
 
     @Override
@@ -48,13 +54,31 @@ public class BombShellAnimatorAsyncTask extends AsyncTask<BombShellPathComputer,
                 e.printStackTrace();
             }
 
-            // Check that bombshell did not hurt landscape.
+            // TODO We must prevent the playing bunker from hitting itself when firing (don't check when timecounter is to low).
+            // Check if bombshell dit hit player one bunker.
+            /*
+            if ( Math.abs(bombShellPathComputers[0].getCurrentCoordinates().getX() - mBunkerPlayerOneCoordinates.getX()) < GameView.BUNKER_RADIUS &&
+                    Math.abs(bombShellPathComputers[0].getCurrentCoordinates().getY() - mBunkerPlayerOneCoordinates.getY()) < GameView.BUNKER_RADIUS) {
+                Log.d(LOG_TAG, "BombShell collided with player ONE.");
+                shouldHalt = true;
+            }
+            */
+
+            // Check if bombshell dit hit player two bunker.
+            if (Math.abs(bombShellPathComputers[0].getCurrentCoordinates().getX() - mBunkerPlayerTwoCoordinates.getX()) < GameView.BUNKER_RADIUS &&
+                    Math.abs(bombShellPathComputers[0].getCurrentCoordinates().getY() - mBunkerPlayerTwoCoordinates.getY()) < GameView.BUNKER_RADIUS) {
+                Log.d(LOG_TAG, "BombShell collided with player TWO.");
+                shouldHalt = true;
+            }
+
+            // Check that bombshell did not collide landscape.
             if (bombShellPathComputers[0].getCurrentCoordinates().getY() > getLandscapeHeightForX(bombShellPathComputers[0].getCurrentCoordinates().getX())) {
 
-                Log.d(LOG_TAG, "BombShell hurt landscape");
+                Log.d(LOG_TAG, "BombShell collided with landscape.");
+                /*
                 Log.d(LOG_TAG, "BombShell X : " + bombShellPathComputers[0].getCurrentCoordinates().getX());
                 Log.d(LOG_TAG, "BombShell Y : " + bombShellPathComputers[0].getCurrentCoordinates().getY());
-
+                */
                 shouldHalt = true;
             }
 
@@ -63,9 +87,11 @@ public class BombShellAnimatorAsyncTask extends AsyncTask<BombShellPathComputer,
                     bombShellPathComputers[0].getCurrentCoordinates().getX() > mViewWidth ||
                     bombShellPathComputers[0].getCurrentCoordinates().getX() < 0) {
 
-                Log.d(LOG_TAG, "BombShell out of Screen");
+                Log.d(LOG_TAG, "BombShell out of Screen.");
+                /*
                 Log.d(LOG_TAG, "BombShell X : " + bombShellPathComputers[0].getCurrentCoordinates().getX());
                 Log.d(LOG_TAG, "BombShell Y : " + bombShellPathComputers[0].getCurrentCoordinates().getY());
+                */
 
                 shouldHalt = true;
             }
@@ -87,7 +113,7 @@ public class BombShellAnimatorAsyncTask extends AsyncTask<BombShellPathComputer,
         Log.d(LOG_TAG, "onPostExecute");
     }
 
-    // TODO : Refactor into specific Landscape Collision detection method.
+    // TODO : Refactor into specific Landscape collision detection method.
     public float getLandscapeHeightForX(float x) {
         int sliceIndex = (int) (x / (mViewWidth / mLandscape.getNumberOfLandscapeSlices()));
         return mViewHeight - mViewHeight * GameView.MAX_HEIGHT_RATIO_FOR_LANDSCAPE * mLandscape.getLandscapeHeightPercentage(sliceIndex);
