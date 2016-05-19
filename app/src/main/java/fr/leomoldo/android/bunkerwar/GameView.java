@@ -5,7 +5,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
 import fr.leomoldo.android.bunkerwar.game.Bunker;
@@ -91,6 +90,10 @@ public class GameView extends View {
         return mBunkerPlayerTwoCoordinates;
     }
 
+    public float getLandscapeHeightForX(float x) {
+        // TODO Implement.
+        return getHeight();
+    }
 
     @Override
     protected void onDraw(Canvas canvas) {
@@ -152,7 +155,6 @@ public class GameView extends View {
     }
 
     private void drawBombShell(Canvas canvas, ViewCoordinates coordinates) {
-        Log.d(LOG_TAG, "Drawing BombShell");
         canvas.drawCircle(coordinates.getX(), coordinates.getY(), BOMBSHELL_RADIUS, mBombShellPaint);
     }
 

@@ -16,9 +16,13 @@ public class BombShellAnimatorAsyncTask extends AsyncTask<BombShellPathComputer,
     private final static int ITERATION_WAITING_TIME = 10;
 
     private GameView mGameView;
+    private int mViewHeight;
+    private int mViewWidth;
 
     public BombShellAnimatorAsyncTask(GameView gameView) {
         mGameView = gameView;
+        mViewHeight = mGameView.getHeight();
+        mViewWidth = mGameView.getWidth();
     }
 
     @Override
@@ -37,9 +41,19 @@ public class BombShellAnimatorAsyncTask extends AsyncTask<BombShellPathComputer,
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+
+            if (bombShellPathComputers[0].getCurrentCoordinates().getY() > mViewHeight ||
+                    // bombShellPathComputers[0].getCurrentCoordinates().getY() < 0 ||
+                    bombShellPathComputers[0].getCurrentCoordinates().getX() > mViewWidth ||
+                    bombShellPathComputers[0].getCurrentCoordinates().getX() > mViewHeight) {
+                shouldHalt = true;
+            }
+
+            /*
             if (bombShellPathComputers[0].getTimeCounter() > 100) {
                 shouldHalt = true;
             }
+            */
         }
         return false;
     }
