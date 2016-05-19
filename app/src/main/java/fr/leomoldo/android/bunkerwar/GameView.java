@@ -35,13 +35,17 @@ public class GameView extends View {
     private Bunker mPlayerOneBunker;
     private Bunker mPlayerTwoBunker;
 
-    private Float mBunkerPlayerOneX;
-    private Float mBunkerPlayerOneY;
-    private Float mBunkerPlayerTwoX;
-    private Float mBunkerPlayerTwoY;
+    private ViewCoordinates mBunkerPlayerOneCoordinates;
+    // private Float mBunkerPlayerOneX;
+    // private Float mBunkerPlayerOneY;
 
-    private Float mBombShellX;
-    private Float mBombShellY;
+    private ViewCoordinates mBunkerPlayerTwoCoordinates;
+    // private Float mBunkerPlayerTwoX;
+    // private Float mBunkerPlayerTwoY;
+
+    private ViewCoordinates mBombShellCoordinates;
+    // private Float mBombShellX;
+    // private Float mBombShellY;
 
     // Paints.
     private Paint mLandscapePaint;
@@ -69,41 +73,35 @@ public class GameView extends View {
     }
 
     public void initializeNewGame(Landscape landscape, Bunker playerOneBunker, Bunker playerTwoBunker) {
-        mBunkerPlayerOneX = null;
-        mBunkerPlayerOneY = null;
-        mBunkerPlayerTwoX = null;
-        mBunkerPlayerTwoY = null;
+        mBunkerPlayerOneCoordinates = null;
+        mBunkerPlayerTwoCoordinates = null;
         mLandscape = landscape;
         mPlayerOneBunker = playerOneBunker;
         mPlayerTwoBunker = playerTwoBunker;
         hideBombShell();
     }
 
-    public void showBombShell(float x, float y) {
-        mBombShellX = x;
-        mBombShellY = y;
+    public void showBombShell(ViewCoordinates coordinates) {
+        if (mBombShellCoordinates == null) {
+            mBunkerPlayerOneCoordinates = new ViewCoordinates(coordinates.getX(), coordinates.getY());
+        } else {
+            mBombShellCoordinates.setX(coordinates.getX());
+            mBombShellCoordinates.setY(coordinates.getY());
+        }
     }
 
     public void hideBombShell() {
-        mBombShellY = null;
-        mBombShellY = null;
+        mBombShellCoordinates = null;
     }
 
-    public float getBunkerPlayerOneX() {
-        return mBunkerPlayerOneX;
+    public ViewCoordinates getBunkerPlayerOneCoordinates() {
+        return mBunkerPlayerOneCoordinates;
     }
 
-    public float getBunkerPlayerOneY() {
-        return mBunkerPlayerOneY;
+    public ViewCoordinates getBunkerPlayerTwoCoordinates() {
+        return mBunkerPlayerTwoCoordinates;
     }
 
-    public float getBunkerPlayerTwoX() {
-        return mBunkerPlayerTwoX;
-    }
-
-    public float getBunkerPlayerTwoY() {
-        return mBunkerPlayerTwoY;
-    }
 
     @Override
     protected void onDraw(Canvas canvas) {
@@ -124,10 +122,8 @@ public class GameView extends View {
             drawLandscape(canvas);
         }
 
-        // TODO Draw BombShell if necessary (after Landscape).
-
-        if (mBombShellX != null && mBombShellY != null) {
-            drawBombShell(canvas, mBombShellX, mBombShellY);
+        if (mBombShellCoordinates != null) {
+            drawBombShell(canvas, mBombShellCoordinates);
         }
     }
 
@@ -143,30 +139,24 @@ public class GameView extends View {
     }
 
     private void drawPlayerOneBunker(Canvas canvas) {
-        if (mBunkerPlayerOneX == null) {
-            setBunkerOneX();
+        if (mBunkerPlayerOneCoordinates == null) {
+            setBunkerOneCoordinates();
         }
-        if (mBunkerPlayerOneY == null) {
-            setBunkerOneY();
-        }
-        drawBunker(canvas, mPlayerOneBunkerPaint, mBunkerPlayerOneX, mBunkerPlayerOneY, mPlayerOneBunker.getCanonAngleRadian(), true);
+        drawBunker(canvas, mPlayerOneBunkerPaint, mBunkerPlayerOneCoordinates, mPlayerOneBunker.getCanonAngleRadian(), true);
     }
 
     private void drawPlayerTwoBunker(Canvas canvas) {
-        if (mBunkerPlayerTwoX == null) {
-            setBunkerTwoX();
+        if (mBunkerPlayerTwoCoordinates == null) {
+            setBunkerTwoCoordinates();
         }
-        if (mBunkerPlayerTwoY == null) {
-            setBunkerTwoY();
-        }
-        drawBunker(canvas, mPlayerTwoBunkerPaint, mBunkerPlayerTwoX, mBunkerPlayerTwoY, mPlayerTwoBunker.getCanonAngleRadian(), false);
+        drawBunker(canvas, mPlayerTwoBunkerPaint, mBunkerPlayerTwoCoordinates, mPlayerTwoBunker.getCanonAngleRadian(), false);
     }
 
-    private void drawBunker(Canvas canvas, Paint paint, float x, float y, double canonAngleRadian, boolean isCanonSetLeftToRight) {
+    private void drawBunker(Canvas canvas, Paint paint, ViewCoordinates coordinates, double canonAngleRadian, boolean isCanonSetLeftToRight) {
 
         // Draw a circle and a rectangle for the bunker.
-        canvas.drawCircle(x, y, BUNKER_RADIUS, paint);
-        canvas.drawRect(x - BUNKER_RADIUS, y, x + BUNKER_RADIUS, getHeight(), paint);
+        canvas.drawCircle(coordinates.getX(), coordinates.getY(), BUNKER_RADIUS, paint);
+        canvas.drawRect(coordinates.getX() - BUNKER_RADIUS, coordinates.getY(), coordinates.getX() + BUNKER_RADIUS, getHeight(), paint);
 
         // Draw the canon of the bunker.
         float lengthX = (float) (BUNKER_CANON_LENGTH * Math.cos(canonAngleRadian));
@@ -176,12 +166,12 @@ public class GameView extends View {
             lengthX = -lengthX;
         }
 
-        canvas.drawLine(x, y, x + lengthX, y + lengthY, paint);
+        canvas.drawLine(coordinates.getX(), coordinates.getY(), coordinates.getX() + lengthX, coordinates.getY() + lengthY, paint);
     }
 
-    private void drawBombShell(Canvas canvas, float x, float y) {
+    private void drawBombShell(Canvas canvas, ViewCoordinates coordinates) {
         Log.d(LOG_TAG, "Drawing BombShell");
-        canvas.drawCircle(x, y, BOMBSHELL_RADIUS, mBombShellPaint);
+        canvas.drawCircle(coordinates.getX(), coordinates.getY(), BOMBSHELL_RADIUS, mBombShellPaint);
     }
 
     private void initializePaints() {
@@ -217,6 +207,17 @@ public class GameView extends View {
 
 
     // TODO Make the Landscape class fully handle Bunker Position logic.
+
+    private void setBunkerOneCoordinates() {
+        float landSliceWidth = getWidth() / mLandscape.getNumberOfLandscapeSlices();
+        mBunkerPlayerOneCoordinates = new ViewCoordinates(Landscape.BUNKER_POSITION_FROM_SCREEN_BORDER * landSliceWidth,
+                getHeight()
+                        - getHeight() * MAX_HEIGHT_RATIO_FOR_LANDSCAPE * mLandscape.getLandscapeHeightPercentage(Landscape.BUNKER_POSITION_FROM_SCREEN_BORDER)
+                        - BUNKER_RADIUS);
+    }
+
+    // TODO Clean.
+    /*
     private void setBunkerOneX() {
         float landSliceWidth = getWidth() / mLandscape.getNumberOfLandscapeSlices();
         mBunkerPlayerOneX = Landscape.BUNKER_POSITION_FROM_SCREEN_BORDER * landSliceWidth;
@@ -227,7 +228,19 @@ public class GameView extends View {
                 - getHeight() * MAX_HEIGHT_RATIO_FOR_LANDSCAPE * mLandscape.getLandscapeHeightPercentage(Landscape.BUNKER_POSITION_FROM_SCREEN_BORDER)
                 - BUNKER_RADIUS;
     }
+    */
 
+    private void setBunkerTwoCoordinates() {
+        float landSliceWidth = getWidth() / mLandscape.getNumberOfLandscapeSlices();
+        mBunkerPlayerTwoCoordinates = new ViewCoordinates(getWidth() - landSliceWidth * Landscape.BUNKER_POSITION_FROM_SCREEN_BORDER,
+                getHeight()
+                        - getHeight() * MAX_HEIGHT_RATIO_FOR_LANDSCAPE * mLandscape.getLandscapeHeightPercentage(mLandscape.getNumberOfLandscapeSlices() - 1 - Landscape.BUNKER_POSITION_FROM_SCREEN_BORDER)
+                        - BUNKER_RADIUS);
+    }
+
+
+    // TODO Clean.
+    /*
     private void setBunkerTwoX() {
         float landSliceWidth = getWidth() / mLandscape.getNumberOfLandscapeSlices();
         mBunkerPlayerTwoX = getWidth() - landSliceWidth * Landscape.BUNKER_POSITION_FROM_SCREEN_BORDER;
@@ -238,4 +251,5 @@ public class GameView extends View {
                 - getHeight() * MAX_HEIGHT_RATIO_FOR_LANDSCAPE * mLandscape.getLandscapeHeightPercentage(mLandscape.getNumberOfLandscapeSlices() - 1 - Landscape.BUNKER_POSITION_FROM_SCREEN_BORDER)
                 - BUNKER_RADIUS;
     }
+    */
 }
