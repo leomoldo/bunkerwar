@@ -157,7 +157,7 @@ public class GameActivity extends AppCompatActivity implements SeekBar.OnSeekBar
         mGameView.showBombShell(currentBombShellCoordinates);
         mGameView.invalidate();
 
-        BombShellAnimatorAsyncTask task = new BombShellAnimatorAsyncTask(mGameView);
+        BombShellAnimatorAsyncTask task = new BombShellAnimatorAsyncTask(mGameView, mLandscape);
         task.execute(bombShellPathComputer);
     }
 }

@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import fr.leomoldo.android.bunkerwar.game.BombShellPathComputer;
+import fr.leomoldo.android.bunkerwar.game.Landscape;
 
 /**
  * Created by leomoldo on 19/05/2016.
@@ -18,9 +19,11 @@ public class BombShellAnimatorAsyncTask extends AsyncTask<BombShellPathComputer,
     private GameView mGameView;
     private int mViewHeight;
     private int mViewWidth;
+    private Landscape mLandscape;
 
-    public BombShellAnimatorAsyncTask(GameView gameView) {
+    public BombShellAnimatorAsyncTask(GameView gameView, Landscape landscape) {
         mGameView = gameView;
+        mLandscape = landscape;
         mViewHeight = mGameView.getHeight();
         mViewWidth = mGameView.getWidth();
 
@@ -45,10 +48,22 @@ public class BombShellAnimatorAsyncTask extends AsyncTask<BombShellPathComputer,
                 e.printStackTrace();
             }
 
+            // Check that bombshell did not hurt landscape.
+            if (bombShellPathComputers[0].getCurrentCoordinates().getY() > getLandscapeHeightForX(bombShellPathComputers[0].getCurrentCoordinates().getX())) {
+
+                Log.d(LOG_TAG, "BombShell hurt landscape");
+                Log.d(LOG_TAG, "BombShell X : " + bombShellPathComputers[0].getCurrentCoordinates().getX());
+                Log.d(LOG_TAG, "BombShell Y : " + bombShellPathComputers[0].getCurrentCoordinates().getY());
+
+                shouldHalt = true;
+            }
+
+            // Check that bombshell did not left the screen from right of left side (+ bottom but is it really useful?).
             if (bombShellPathComputers[0].getCurrentCoordinates().getY() > mViewHeight ||
                     bombShellPathComputers[0].getCurrentCoordinates().getX() > mViewWidth ||
                     bombShellPathComputers[0].getCurrentCoordinates().getX() < 0) {
 
+                Log.d(LOG_TAG, "BombShell out of Screen");
                 Log.d(LOG_TAG, "BombShell X : " + bombShellPathComputers[0].getCurrentCoordinates().getX());
                 Log.d(LOG_TAG, "BombShell Y : " + bombShellPathComputers[0].getCurrentCoordinates().getY());
 
@@ -70,5 +85,11 @@ public class BombShellAnimatorAsyncTask extends AsyncTask<BombShellPathComputer,
         super.onPostExecute(b);
         mGameView.hideBombShell();
         Log.d(LOG_TAG, "onPostExecute");
+    }
+
+    // TODO : Refactor into specific Landscape Collision detection method.
+    public float getLandscapeHeightForX(float x) {
+        int sliceIndex = (int) (x / (mViewWidth / mLandscape.getNumberOfLandscapeSlices()));
+        return mViewHeight - mViewHeight * GameView.MAX_HEIGHT_RATIO_FOR_LANDSCAPE * mLandscape.getLandscapeHeightPercentage(sliceIndex);
     }
 }

@@ -17,7 +17,7 @@ public class GameView extends View {
 
     private static final String LOG_TAG = GameView.class.getSimpleName();
 
-    private final static float MAX_HEIGHT_RATIO_FOR_LANDSCAPE = 0.5f;
+    public final static float MAX_HEIGHT_RATIO_FOR_LANDSCAPE = 0.5f;
 
     private final static Double BUNKER_CANON_LENGTH = 30.0;
     public final static Float BUNKER_RADIUS = 17f;
@@ -88,11 +88,6 @@ public class GameView extends View {
 
     public ViewCoordinates getBunkerPlayerTwoCoordinates() {
         return mBunkerPlayerTwoCoordinates;
-    }
-
-    public float getLandscapeHeightForX(float x) {
-        // TODO Implement.
-        return getHeight();
     }
 
     @Override
