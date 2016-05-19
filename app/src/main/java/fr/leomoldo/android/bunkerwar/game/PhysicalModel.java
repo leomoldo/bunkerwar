@@ -8,18 +8,13 @@ public class PhysicalModel {
 	// private final static float BOMBSHELL_WEIGHT = 50f;
 	// private final static float GRAVITATIONAL_CONSTANT = 9.81f;
 	private final static float GRAVITATION_FACTOR = 490.5f;
+    private final static float MAX_INITIAL_SPEED = 30.0f;
+    private final static float TIME_FACTOR = 0.001f;
 
-	private final static float MAX_INITIAL_SPEED = 30.0f; // TODO : tweak!
-
-	private final static float TIME_FACTOR = 0.001f; // TODO : tweak!
-	// TODO Regrouper Time Factor et Gravitation Factor en un seul parametre?
-	
-	
 	private Double mInitialSpeedX;
 	private Double mInitialSpeedY;
 	private ViewCoordinates mCurrentCoordinates;
 	private Integer mTimeCounter = 0;
-
 
 	public PhysicalModel(Integer initialSpeed, double fireAngleRadian, ViewCoordinates initialCoordinates, Boolean isPlayerOnePlaying) {
         mCurrentCoordinates = initialCoordinates.clone();
@@ -43,21 +38,4 @@ public class PhysicalModel {
     public ViewCoordinates getCurrentCoordinates() {
         return mCurrentCoordinates;
     }
-
-	// TODO Clean :
-
-	/*
-	public Float getNextXOffset() {
-        // TODO Debug only.
-		return 1f;
-		// return mInitialSpeedX.floatValue();
-    }
-	
-	public Float getNextYOffset(Integer timeCounter) {
-        // TODO Debug only.
-		return -1f;
-		// return (float) (mInitialSpeedY + (double) (GRAVITATION_FACTOR*TIME_FACTOR*timeCounter));
-    }
-    */
-
 }

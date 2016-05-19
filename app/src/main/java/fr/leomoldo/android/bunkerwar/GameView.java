@@ -36,16 +36,8 @@ public class GameView extends View {
     private Bunker mPlayerTwoBunker;
 
     private ViewCoordinates mBunkerPlayerOneCoordinates;
-    // private Float mBunkerPlayerOneX;
-    // private Float mBunkerPlayerOneY;
-
     private ViewCoordinates mBunkerPlayerTwoCoordinates;
-    // private Float mBunkerPlayerTwoX;
-    // private Float mBunkerPlayerTwoY;
-
     private ViewCoordinates mBombShellCoordinates;
-    // private Float mBombShellX;
-    // private Float mBombShellY;
 
     // Paints.
     private Paint mLandscapePaint;
@@ -64,11 +56,8 @@ public class GameView extends View {
 
     public GameView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-
         mContext = context;
-
         this.setWillNotDraw(false);
-
         initializePaints();
     }
 
@@ -105,30 +94,23 @@ public class GameView extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
-
         super.onDraw(canvas);
-
         if (canvas == null) return;
-        
         if (mBombShellCoordinates != null) {
             drawBombShell(canvas, mBombShellCoordinates);
         }
-
         if (mPlayerOneBunker != null) {
             drawPlayerOneBunker(canvas);
         }
-
         if (mPlayerTwoBunker != null) {
             drawPlayerTwoBunker(canvas);
         }
-
         if (mLandscape != null) {
             drawLandscape(canvas);
         }
     }
 
     private void drawLandscape(Canvas canvas) {
-
         for (int i = 0; i < mLandscape.getNumberOfLandscapeSlices(); i++) {
             canvas.drawRect(i * getWidth() / mLandscape.getNumberOfLandscapeSlices(),
                     getHeight() - getHeight() * MAX_HEIGHT_RATIO_FOR_LANDSCAPE * mLandscape.getLandscapeHeightPercentage(i),
@@ -201,12 +183,11 @@ public class GameView extends View {
 		} else {
 			mBombShellPaint.setColor(Color.YELLOW);
 		}*/
-        mBombShellPaint.setColor(Color.BLACK); // TODO Debug only.
+        mBombShellPaint.setColor(Color.BLACK);
         mBombShellPaint.setStyle(Paint.Style.FILL);
     }
 
-
-    // TODO Make the Landscape class fully handle Bunker Position logic.
+    // TODO Make the Landscape class fully handle Bunker Position logic?
 
     private void setBunkerOneCoordinates() {
         float landSliceWidth = getWidth() / mLandscape.getNumberOfLandscapeSlices();
@@ -216,20 +197,6 @@ public class GameView extends View {
                         - BUNKER_RADIUS);
     }
 
-    // TODO Clean.
-    /*
-    private void setBunkerOneX() {
-        float landSliceWidth = getWidth() / mLandscape.getNumberOfLandscapeSlices();
-        mBunkerPlayerOneX = Landscape.BUNKER_POSITION_FROM_SCREEN_BORDER * landSliceWidth;
-    }
-
-    private void setBunkerOneY() {
-        mBunkerPlayerOneY = getHeight()
-                - getHeight() * MAX_HEIGHT_RATIO_FOR_LANDSCAPE * mLandscape.getLandscapeHeightPercentage(Landscape.BUNKER_POSITION_FROM_SCREEN_BORDER)
-                - BUNKER_RADIUS;
-    }
-    */
-
     private void setBunkerTwoCoordinates() {
         float landSliceWidth = getWidth() / mLandscape.getNumberOfLandscapeSlices();
         mBunkerPlayerTwoCoordinates = new ViewCoordinates(getWidth() - landSliceWidth * Landscape.BUNKER_POSITION_FROM_SCREEN_BORDER,
@@ -237,19 +204,4 @@ public class GameView extends View {
                         - getHeight() * MAX_HEIGHT_RATIO_FOR_LANDSCAPE * mLandscape.getLandscapeHeightPercentage(mLandscape.getNumberOfLandscapeSlices() - 1 - Landscape.BUNKER_POSITION_FROM_SCREEN_BORDER)
                         - BUNKER_RADIUS);
     }
-
-
-    // TODO Clean.
-    /*
-    private void setBunkerTwoX() {
-        float landSliceWidth = getWidth() / mLandscape.getNumberOfLandscapeSlices();
-        mBunkerPlayerTwoX = getWidth() - landSliceWidth * Landscape.BUNKER_POSITION_FROM_SCREEN_BORDER;
-    }
-
-    private void setBunkerTwoY() {
-        mBunkerPlayerTwoY = getHeight()
-                - getHeight() * MAX_HEIGHT_RATIO_FOR_LANDSCAPE * mLandscape.getLandscapeHeightPercentage(mLandscape.getNumberOfLandscapeSlices() - 1 - Landscape.BUNKER_POSITION_FROM_SCREEN_BORDER)
-                - BUNKER_RADIUS;
-    }
-    */
 }

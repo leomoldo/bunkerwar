@@ -159,37 +159,5 @@ public class GameActivity extends AppCompatActivity implements SeekBar.OnSeekBar
 
         BombShellAnimatorAsyncTask task = new BombShellAnimatorAsyncTask(mGameView);
         task.execute(physicalModel);
-
-        /*
-        Boolean shouldHalt = false;
-        Integer timeCounter = 0;
-
-        // TODO Uncomment.
-
-        while (!shouldHalt) {
-
-            Log.d(LOG_TAG, "timeCounter : " + timeCounter);
-            Log.d(LOG_TAG, "currentBombShellX : " + currentBombShellCoordinates.getX());
-            Log.d(LOG_TAG, "currentBombShellY : " + currentBombShellCoordinates.getY());
-
-
-            currentBombShellX += physicalModel.getNextXOffset();
-            currentBombShellY += physicalModel.getNextYOffset(timeCounter);
-
-            mGameView.showBombShell(currentBombShellX, currentBombShellY);
-            mGameView.invalidate();
-
-            timeCounter++;
-
-            if (timeCounter > 100) {
-                shouldHalt = true;
-                // mGameView.hideBombShell();
-            }
-        }
-        */
     }
-
-
 }
-
-
