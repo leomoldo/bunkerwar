@@ -83,7 +83,7 @@ public class GameView extends View {
 
     public void showBombShell(ViewCoordinates coordinates) {
         if (mBombShellCoordinates == null) {
-            mBunkerPlayerOneCoordinates = new ViewCoordinates(coordinates.getX(), coordinates.getY());
+            mBombShellCoordinates = new ViewCoordinates(coordinates.getX(), coordinates.getY());
         } else {
             mBombShellCoordinates.setX(coordinates.getX());
             mBombShellCoordinates.setY(coordinates.getY());
@@ -109,6 +109,10 @@ public class GameView extends View {
         super.onDraw(canvas);
 
         if (canvas == null) return;
+        
+        if (mBombShellCoordinates != null) {
+            drawBombShell(canvas, mBombShellCoordinates);
+        }
 
         if (mPlayerOneBunker != null) {
             drawPlayerOneBunker(canvas);
@@ -120,10 +124,6 @@ public class GameView extends View {
 
         if (mLandscape != null) {
             drawLandscape(canvas);
-        }
-
-        if (mBombShellCoordinates != null) {
-            drawBombShell(canvas, mBombShellCoordinates);
         }
     }
 
