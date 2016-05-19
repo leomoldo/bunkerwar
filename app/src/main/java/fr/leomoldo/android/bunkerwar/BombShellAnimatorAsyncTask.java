@@ -23,6 +23,9 @@ public class BombShellAnimatorAsyncTask extends AsyncTask<BombShellPathComputer,
         mGameView = gameView;
         mViewHeight = mGameView.getHeight();
         mViewWidth = mGameView.getWidth();
+
+        Log.d(LOG_TAG, "View Width : " + mViewWidth);
+        Log.d(LOG_TAG, "View Height : " + mViewHeight);
     }
 
     @Override
@@ -43,17 +46,14 @@ public class BombShellAnimatorAsyncTask extends AsyncTask<BombShellPathComputer,
             }
 
             if (bombShellPathComputers[0].getCurrentCoordinates().getY() > mViewHeight ||
-                    // bombShellPathComputers[0].getCurrentCoordinates().getY() < 0 ||
                     bombShellPathComputers[0].getCurrentCoordinates().getX() > mViewWidth ||
-                    bombShellPathComputers[0].getCurrentCoordinates().getX() > mViewHeight) {
-                shouldHalt = true;
-            }
+                    bombShellPathComputers[0].getCurrentCoordinates().getX() < 0) {
 
-            /*
-            if (bombShellPathComputers[0].getTimeCounter() > 100) {
+                Log.d(LOG_TAG, "BombShell X : " + bombShellPathComputers[0].getCurrentCoordinates().getX());
+                Log.d(LOG_TAG, "BombShell Y : " + bombShellPathComputers[0].getCurrentCoordinates().getY());
+
                 shouldHalt = true;
             }
-            */
         }
         return false;
     }
