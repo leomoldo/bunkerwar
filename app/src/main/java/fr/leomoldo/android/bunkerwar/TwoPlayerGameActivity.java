@@ -13,10 +13,11 @@ import fr.leomoldo.android.bunkerwar.game.BombShellPathComputer;
 import fr.leomoldo.android.bunkerwar.game.Bunker;
 import fr.leomoldo.android.bunkerwar.game.GameSequencer;
 import fr.leomoldo.android.bunkerwar.game.Landscape;
+import fr.leomoldo.android.bunkerwar.sdk.ViewCoordinates;
 
-public class GameActivity extends AppCompatActivity implements SeekBar.OnSeekBarChangeListener {
+public class TwoPlayerGameActivity extends AppCompatActivity implements SeekBar.OnSeekBarChangeListener {
 
-    private final static String LOG_TAG = GameActivity.class.getSimpleName();
+    private final static String LOG_TAG = TwoPlayerGameActivity.class.getSimpleName();
 
     // Model :
     private GameSequencer mGameSequencer;
@@ -25,7 +26,7 @@ public class GameActivity extends AppCompatActivity implements SeekBar.OnSeekBar
     private Landscape mLandscape;
 
     // Views :
-    private GameView mGameView;
+    private TwoPlayerGameView mTwoPlayerGameView;
 
     private TextView mTextViewIndicatorAnglePlayerOne;
     private TextView mTextViewIndicatorPowerPlayerOne;
@@ -48,7 +49,7 @@ public class GameActivity extends AppCompatActivity implements SeekBar.OnSeekBar
         ((SeekBar) findViewById(R.id.seekBarPowerPlayerOne)).setOnSeekBarChangeListener(this);
         ((SeekBar) findViewById(R.id.seekBarAnglePlayerTwo)).setOnSeekBarChangeListener(this);
         ((SeekBar) findViewById(R.id.seekBarPowerPlayerTwo)).setOnSeekBarChangeListener(this);
-        mGameView = (GameView) findViewById(R.id.gameView);
+        mTwoPlayerGameView = (TwoPlayerGameView) findViewById(R.id.gameView);
 
         initializeGame();
     }
@@ -66,7 +67,7 @@ public class GameActivity extends AppCompatActivity implements SeekBar.OnSeekBar
         switch (item.getItemId()) {
             case R.menu.game_menu:
 
-                mGameView.initializeNewGame(mLandscape, mPlayerOneBunker, mPlayerTwoBunker);
+                mTwoPlayerGameView.initializeNewGame(mLandscape, mPlayerOneBunker, mPlayerTwoBunker);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -81,7 +82,7 @@ public class GameActivity extends AppCompatActivity implements SeekBar.OnSeekBar
 
             case R.id.seekBarAnglePlayerOne:
                 mPlayerOneBunker.setCanonAngle(progress);
-                mGameView.invalidate();
+                mTwoPlayerGameView.invalidate();
                 mTextViewIndicatorAnglePlayerOne.setText(value.toString());
                 break;
             case R.id.seekBarPowerPlayerOne:
@@ -90,7 +91,7 @@ public class GameActivity extends AppCompatActivity implements SeekBar.OnSeekBar
                 break;
             case R.id.seekBarAnglePlayerTwo:
                 mPlayerTwoBunker.setCanonAngle(progress);
-                mGameView.invalidate();
+                mTwoPlayerGameView.invalidate();
                 mTextViewIndicatorAnglePlayerTwo.setText(value.toString());
                 break;
             case R.id.seekBarPowerPlayerTwo:
@@ -118,8 +119,8 @@ public class GameActivity extends AppCompatActivity implements SeekBar.OnSeekBar
         mPlayerTwoBunker = new Bunker(false);
 
         // Initialize GameView.
-        mGameView.initializeNewGame(mLandscape, mPlayerOneBunker, mPlayerTwoBunker);
-        mGameView.invalidate();
+        mTwoPlayerGameView.initializeNewGame(mLandscape, mPlayerOneBunker, mPlayerTwoBunker);
+        mTwoPlayerGameView.invalidate();
 
         findViewById(R.id.buttonFirePlayerOne).setVisibility(View.VISIBLE);
 
@@ -147,18 +148,18 @@ public class GameActivity extends AppCompatActivity implements SeekBar.OnSeekBar
         if (didPlayerOneFire) {
             // TODO Uncomment.
             // findViewById(R.id.buttonFirePlayerOne).setVisibility(View.GONE);
-            currentBombShellCoordinates = mGameView.getBunkerPlayerOneCoordinates();
+            currentBombShellCoordinates = mTwoPlayerGameView.getBunkerPlayerOneCoordinates();
             bombShellPathComputer = new BombShellPathComputer(mPlayerOneBunker.getCanonPower(), mPlayerOneBunker.getCanonAngleRadian(), currentBombShellCoordinates, true);
         } else {
             findViewById(R.id.buttonFirePlayerTwo).setVisibility(View.GONE);
-            currentBombShellCoordinates = mGameView.getBunkerPlayerTwoCoordinates();
+            currentBombShellCoordinates = mTwoPlayerGameView.getBunkerPlayerTwoCoordinates();
             bombShellPathComputer = new BombShellPathComputer(mPlayerTwoBunker.getCanonPower(), mPlayerTwoBunker.getCanonAngleRadian(), currentBombShellCoordinates, false);
         }
 
-        mGameView.showBombShell(currentBombShellCoordinates);
-        mGameView.invalidate();
+        mTwoPlayerGameView.showBombShell(currentBombShellCoordinates);
+        mTwoPlayerGameView.invalidate();
 
-        BombShellAnimatorAsyncTask task = new BombShellAnimatorAsyncTask(mGameView, mLandscape);
+        BombShellAnimatorAsyncTask task = new BombShellAnimatorAsyncTask(mTwoPlayerGameView, mLandscape);
         task.execute(bombShellPathComputer);
     }
 }

@@ -5,8 +5,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.support.annotation.Nullable;
 
-import fr.leomoldo.android.bunkerwar.ViewCoordinates;
-
 /**
  * Created by leomoldo on 23/05/2016.
  */

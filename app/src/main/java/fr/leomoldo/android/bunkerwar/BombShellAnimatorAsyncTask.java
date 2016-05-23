@@ -6,6 +6,7 @@ import android.util.Log;
 
 import fr.leomoldo.android.bunkerwar.game.BombShellPathComputer;
 import fr.leomoldo.android.bunkerwar.game.Landscape;
+import fr.leomoldo.android.bunkerwar.sdk.ViewCoordinates;
 
 /**
  * Created by leomoldo on 19/05/2016.
@@ -16,14 +17,14 @@ public class BombShellAnimatorAsyncTask extends AsyncTask<BombShellPathComputer,
 
     private final static int ITERATION_WAITING_TIME = 10;
 
-    private GameView mGameView;
+    private TwoPlayerGameView mGameView;
     private int mViewHeight;
     private int mViewWidth;
     private ViewCoordinates mBunkerPlayerOneCoordinates;
     private ViewCoordinates mBunkerPlayerTwoCoordinates;
     private Landscape mLandscape;
 
-    public BombShellAnimatorAsyncTask(GameView gameView, Landscape landscape) {
+    public BombShellAnimatorAsyncTask(TwoPlayerGameView gameView, Landscape landscape) {
         mGameView = gameView;
         mLandscape = landscape;
         mViewHeight = mGameView.getHeight();
@@ -65,8 +66,8 @@ public class BombShellAnimatorAsyncTask extends AsyncTask<BombShellPathComputer,
             */
 
             // Check if bombshell dit hit player two bunker.
-            if (Math.abs(bombShellPathComputers[0].getCurrentCoordinates().getX() - mBunkerPlayerTwoCoordinates.getX()) < GameView.BUNKER_RADIUS &&
-                    Math.abs(bombShellPathComputers[0].getCurrentCoordinates().getY() - mBunkerPlayerTwoCoordinates.getY()) < GameView.BUNKER_RADIUS) {
+            if (Math.abs(bombShellPathComputers[0].getCurrentCoordinates().getX() - mBunkerPlayerTwoCoordinates.getX()) < TwoPlayerGameView.BUNKER_RADIUS &&
+                    Math.abs(bombShellPathComputers[0].getCurrentCoordinates().getY() - mBunkerPlayerTwoCoordinates.getY()) < TwoPlayerGameView.BUNKER_RADIUS) {
                 Log.d(LOG_TAG, "BombShell collided with player TWO.");
                 shouldHalt = true;
             }
@@ -116,6 +117,6 @@ public class BombShellAnimatorAsyncTask extends AsyncTask<BombShellPathComputer,
     // TODO : Refactor into specific Landscape collision detection method.
     public float getLandscapeHeightForX(float x) {
         int sliceIndex = (int) (x / (mViewWidth / mLandscape.getNumberOfLandscapeSlices()));
-        return mViewHeight - mViewHeight * GameView.MAX_HEIGHT_RATIO_FOR_LANDSCAPE * mLandscape.getLandscapeHeightPercentage(sliceIndex);
+        return mViewHeight - mViewHeight * TwoPlayerGameView.MAX_HEIGHT_RATIO_FOR_LANDSCAPE * mLandscape.getLandscapeHeightPercentage(sliceIndex);
     }
 }

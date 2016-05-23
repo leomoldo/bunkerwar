@@ -9,13 +9,14 @@ import android.view.View;
 
 import fr.leomoldo.android.bunkerwar.game.Bunker;
 import fr.leomoldo.android.bunkerwar.game.Landscape;
+import fr.leomoldo.android.bunkerwar.sdk.ViewCoordinates;
 
 /**
  * Created by leomoldo on 16/05/2016.
  */
-public class GameView extends View {
+public class TwoPlayerGameView extends View {
 
-    private static final String LOG_TAG = GameView.class.getSimpleName();
+    private static final String LOG_TAG = TwoPlayerGameView.class.getSimpleName();
 
     public final static float MAX_HEIGHT_RATIO_FOR_LANDSCAPE = 0.5f;
 
@@ -45,15 +46,15 @@ public class GameView extends View {
     private Paint mBombShellPaint;
 
 
-    public GameView(Context context) {
+    public TwoPlayerGameView(Context context) {
         this(context, null);
     }
 
-    public GameView(Context context, AttributeSet attrs) {
+    public TwoPlayerGameView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public GameView(Context context, AttributeSet attrs, int defStyle) {
+    public TwoPlayerGameView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         mContext = context;
         this.setWillNotDraw(false);

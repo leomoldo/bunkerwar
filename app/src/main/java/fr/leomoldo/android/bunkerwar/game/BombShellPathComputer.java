@@ -1,6 +1,6 @@
 package fr.leomoldo.android.bunkerwar.game;
 
-import fr.leomoldo.android.bunkerwar.ViewCoordinates;
+import fr.leomoldo.android.bunkerwar.sdk.ViewCoordinates;
 
 public class BombShellPathComputer {
 

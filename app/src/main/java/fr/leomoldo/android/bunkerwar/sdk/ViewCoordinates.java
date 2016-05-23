@@ -1,4 +1,4 @@
-package fr.leomoldo.android.bunkerwar;
+package fr.leomoldo.android.bunkerwar.sdk;
 
 /**
  * Created by leomoldo on 19/05/2016.
