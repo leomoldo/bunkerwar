@@ -1,4 +1,4 @@
-package fr.leomoldo.android.bunkerwar.game;
+package fr.leomoldo.android.bunkerwar.drawer;
 
 import java.util.ArrayList;
 import java.util.Random;

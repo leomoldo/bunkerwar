@@ -1,4 +1,4 @@
-package fr.leomoldo.android.bunkerwar.game;
+package fr.leomoldo.android.bunkerwar;
 
 import fr.leomoldo.android.bunkerwar.sdk.ViewCoordinates;
 

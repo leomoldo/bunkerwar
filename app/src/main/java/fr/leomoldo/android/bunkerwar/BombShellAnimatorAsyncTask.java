@@ -4,8 +4,7 @@ package fr.leomoldo.android.bunkerwar;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import fr.leomoldo.android.bunkerwar.game.BombShellPathComputer;
-import fr.leomoldo.android.bunkerwar.game.Landscape;
+import fr.leomoldo.android.bunkerwar.drawer.Landscape;
 import fr.leomoldo.android.bunkerwar.sdk.ViewCoordinates;
 
 /**

@@ -7,8 +7,8 @@ import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.View;
 
-import fr.leomoldo.android.bunkerwar.game.Bunker;
-import fr.leomoldo.android.bunkerwar.game.Landscape;
+import fr.leomoldo.android.bunkerwar.drawer.Bunker;
+import fr.leomoldo.android.bunkerwar.drawer.Landscape;
 import fr.leomoldo.android.bunkerwar.sdk.ViewCoordinates;
 
 /**
