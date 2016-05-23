@@ -15,6 +15,7 @@ public class BombshellAnimatorAsyncTask extends AsyncTask<BombshellPathComputer,
     private static final String LOG_TAG = BombshellAnimatorAsyncTask.class.getSimpleName();
 
     private final static int ITERATION_WAITING_TIME = 10;
+    private final static float BUNKER_HITBOX_EXPANSION_RATIO = 2f;
 
     private TwoPlayerGameView mGameView;
     private int mViewHeight;
@@ -63,9 +64,8 @@ public class BombshellAnimatorAsyncTask extends AsyncTask<BombshellPathComputer,
             */
 
             // Check if bombshell dit hit target bunker.
-            // TODO Replace "2" by constant factor for collision detection.
-            if (Math.abs(bombshellPathComputers[0].getCurrentCoordinates().getX() - mTargetBunkerVC.getX()) < TwoPlayerGameView.BUNKER_RADIUS * 2 &&
-                    Math.abs(bombshellPathComputers[0].getCurrentCoordinates().getY() - mTargetBunkerVC.getY()) < TwoPlayerGameView.BUNKER_RADIUS * 2) {
+            if (Math.abs(bombshellPathComputers[0].getCurrentCoordinates().getX() - mTargetBunkerVC.getX()) < TwoPlayerGameView.BUNKER_RADIUS * BUNKER_HITBOX_EXPANSION_RATIO &&
+                    Math.abs(bombshellPathComputers[0].getCurrentCoordinates().getY() - mTargetBunkerVC.getY()) < TwoPlayerGameView.BUNKER_RADIUS * BUNKER_HITBOX_EXPANSION_RATIO) {
                 Log.d(LOG_TAG, "Bombshell collided with target Bunker.");
                 shouldHalt = true;
             }
