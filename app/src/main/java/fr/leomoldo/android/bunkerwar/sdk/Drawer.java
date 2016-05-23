@@ -10,6 +10,8 @@ import android.support.annotation.Nullable;
  */
 public abstract class Drawer {
 
+    // TODO : Make it a simple interface and add a Paint parameter to "draw" method + mPaint getter ???
+
     private Paint mPaint;
 
     public Drawer() {
