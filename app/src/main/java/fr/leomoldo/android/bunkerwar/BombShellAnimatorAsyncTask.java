@@ -20,17 +20,15 @@ public class BombShellAnimatorAsyncTask extends AsyncTask<BombShellPathComputer,
     private TwoPlayerGameView mGameView;
     private int mViewHeight;
     private int mViewWidth;
-    private ViewCoordinates mBunkerPlayerOneCoordinates;
-    private ViewCoordinates mBunkerPlayerTwoCoordinates;
+    private ViewCoordinates mTargetBunkerVC;
     private Landscape mLandscape;
 
-    public BombShellAnimatorAsyncTask(TwoPlayerGameView gameView, Landscape landscape) {
+    public BombShellAnimatorAsyncTask(TwoPlayerGameView gameView, Landscape landscape, ViewCoordinates targetBunkerVC) {
         mGameView = gameView;
         mLandscape = landscape;
         mViewHeight = mGameView.getHeight();
         mViewWidth = mGameView.getWidth();
-        mBunkerPlayerOneCoordinates = mGameView.getBunkerPlayerOneCoordinates();
-        mBunkerPlayerTwoCoordinates = mGameView.getBunkerPlayerTwoCoordinates();
+        mTargetBunkerVC = targetBunkerVC;
 
         /*
         Log.d(LOG_TAG, "View Width : " + mViewWidth);
@@ -65,10 +63,11 @@ public class BombShellAnimatorAsyncTask extends AsyncTask<BombShellPathComputer,
             }
             */
 
-            // Check if bombshell dit hit player two bunker.
-            if (Math.abs(bombShellPathComputers[0].getCurrentCoordinates().getX() - mBunkerPlayerTwoCoordinates.getX()) < TwoPlayerGameView.BUNKER_RADIUS &&
-                    Math.abs(bombShellPathComputers[0].getCurrentCoordinates().getY() - mBunkerPlayerTwoCoordinates.getY()) < TwoPlayerGameView.BUNKER_RADIUS) {
-                Log.d(LOG_TAG, "BombShell collided with player TWO.");
+            // Check if bombshell dit hit target bunker.
+            // TODO Replace "2" by constant factor for collision detection.
+            if (Math.abs(bombShellPathComputers[0].getCurrentCoordinates().getX() - mTargetBunkerVC.getX()) < TwoPlayerGameView.BUNKER_RADIUS * 2 &&
+                    Math.abs(bombShellPathComputers[0].getCurrentCoordinates().getY() - mTargetBunkerVC.getY()) < TwoPlayerGameView.BUNKER_RADIUS * 2) {
+                Log.d(LOG_TAG, "BombShell collided with target Bunker.");
                 shouldHalt = true;
             }
 
