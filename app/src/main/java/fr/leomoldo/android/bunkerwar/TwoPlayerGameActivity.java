@@ -81,7 +81,7 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements SeekBar.
         switch (seekBar.getId()) {
 
             case R.id.seekBarAnglePlayerOne:
-                mPlayerOneBunker.setCanonAngle(progress);
+                mPlayerOneBunker.setAbsoluteCanonAngle(progress);
                 mTwoPlayerGameView.invalidate();
                 mTextViewIndicatorAnglePlayerOne.setText(value.toString());
                 break;
@@ -90,7 +90,7 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements SeekBar.
                 mTextViewIndicatorPowerPlayerOne.setText(value.toString());
                 break;
             case R.id.seekBarAnglePlayerTwo:
-                mPlayerTwoBunker.setCanonAngle(progress);
+                mPlayerTwoBunker.setAbsoluteCanonAngle(progress);
                 mTwoPlayerGameView.invalidate();
                 mTextViewIndicatorAnglePlayerTwo.setText(value.toString());
                 break;
@@ -149,11 +149,11 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements SeekBar.
             // TODO Uncomment.
             // findViewById(R.id.buttonFirePlayerOne).setVisibility(View.GONE);
             currentBombShellCoordinates = mTwoPlayerGameView.getBunkerPlayerOneCoordinates();
-            bombShellPathComputer = new BombShellPathComputer(mPlayerOneBunker.getCanonPower(), mPlayerOneBunker.getCanonAngleRadian(), currentBombShellCoordinates, true);
+            bombShellPathComputer = new BombShellPathComputer(mPlayerOneBunker.getCanonPower(), mPlayerOneBunker.getGeometricalCanonAngleRadian(), currentBombShellCoordinates);
         } else {
             findViewById(R.id.buttonFirePlayerTwo).setVisibility(View.GONE);
             currentBombShellCoordinates = mTwoPlayerGameView.getBunkerPlayerTwoCoordinates();
-            bombShellPathComputer = new BombShellPathComputer(mPlayerTwoBunker.getCanonPower(), mPlayerTwoBunker.getCanonAngleRadian(), currentBombShellCoordinates, false);
+            bombShellPathComputer = new BombShellPathComputer(mPlayerTwoBunker.getCanonPower(), mPlayerTwoBunker.getGeometricalCanonAngleRadian(), currentBombShellCoordinates);
         }
 
         mTwoPlayerGameView.showBombShell(currentBombShellCoordinates);

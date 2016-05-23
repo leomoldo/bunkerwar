@@ -123,17 +123,17 @@ public class TwoPlayerGameView extends View {
         if (mBunkerPlayerOneCoordinates == null) {
             initializeBunkerOneCoordinates();
         }
-        drawBunker(canvas, mPlayerOneBunkerPaint, mBunkerPlayerOneCoordinates, mPlayerOneBunker.getCanonAngleRadian(), true);
+        drawBunker(canvas, mPlayerOneBunkerPaint, mBunkerPlayerOneCoordinates, mPlayerOneBunker.getGeometricalCanonAngleRadian());
     }
 
     private void drawPlayerTwoBunker(Canvas canvas) {
         if (mBunkerPlayerTwoCoordinates == null) {
             initializeBunkerTwoCoordinates();
         }
-        drawBunker(canvas, mPlayerTwoBunkerPaint, mBunkerPlayerTwoCoordinates, mPlayerTwoBunker.getCanonAngleRadian(), false);
+        drawBunker(canvas, mPlayerTwoBunkerPaint, mBunkerPlayerTwoCoordinates, mPlayerTwoBunker.getGeometricalCanonAngleRadian());
     }
 
-    private void drawBunker(Canvas canvas, Paint paint, ViewCoordinates coordinates, double canonAngleRadian, boolean isCanonSetLeftToRight) {
+    private void drawBunker(Canvas canvas, Paint paint, ViewCoordinates coordinates, double canonAngleRadian) {
 
         // Draw a circle and a rectangle for the bunker.
         canvas.drawCircle(coordinates.getX(), coordinates.getY(), BUNKER_RADIUS, paint);
@@ -142,10 +142,6 @@ public class TwoPlayerGameView extends View {
         // Draw the canon of the bunker.
         float lengthX = (float) (BUNKER_CANON_LENGTH * Math.cos(canonAngleRadian));
         float lengthY = (float) (-BUNKER_CANON_LENGTH * Math.sin(canonAngleRadian));
-
-        if (!isCanonSetLeftToRight) {
-            lengthX = -lengthX;
-        }
 
         canvas.drawLine(coordinates.getX(), coordinates.getY(), coordinates.getX() + lengthX, coordinates.getY() + lengthY, paint);
     }

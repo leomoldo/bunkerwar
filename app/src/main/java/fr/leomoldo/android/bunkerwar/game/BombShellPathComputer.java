@@ -15,12 +15,9 @@ public class BombShellPathComputer {
 	private ViewCoordinates mCurrentCoordinates;
 	private Integer mTimeCounter = 0;
 
-    public BombShellPathComputer(Integer initialSpeed, double fireAngleRadian, ViewCoordinates initialCoordinates, Boolean isPlayerOnePlaying) {
+    public BombShellPathComputer(Integer initialSpeed, double fireAngleRadian, ViewCoordinates initialCoordinates) {
         mCurrentCoordinates = initialCoordinates.clone();
         mInitialSpeedX = initialSpeed*MAX_INITIAL_SPEED*Math.cos(fireAngleRadian) / 100;
-		if (!isPlayerOnePlaying) {
-			mInitialSpeedX = - mInitialSpeedX;
-		}
 		mInitialSpeedY = - initialSpeed*MAX_INITIAL_SPEED*Math.sin(fireAngleRadian) / 100;
 	}
 
