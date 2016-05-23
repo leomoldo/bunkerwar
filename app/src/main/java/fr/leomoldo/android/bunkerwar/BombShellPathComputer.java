@@ -2,7 +2,7 @@ package fr.leomoldo.android.bunkerwar;
 
 import fr.leomoldo.android.bunkerwar.sdk.ViewCoordinates;
 
-public class BombShellPathComputer {
+public class BombshellPathComputer {
 
 	// private final static float BOMBSHELL_WEIGHT = 50f;
 	// private final static float GRAVITATIONAL_CONSTANT = 9.81f;
@@ -15,7 +15,7 @@ public class BombShellPathComputer {
 	private ViewCoordinates mCurrentCoordinates;
 	private Integer mTimeCounter = 0;
 
-    public BombShellPathComputer(Integer initialSpeed, double fireAngleRadian, ViewCoordinates initialCoordinates) {
+    public BombshellPathComputer(Integer initialSpeed, double fireAngleRadian, ViewCoordinates initialCoordinates) {
         mCurrentCoordinates = initialCoordinates.clone();
         mInitialSpeedX = initialSpeed*MAX_INITIAL_SPEED*Math.cos(fireAngleRadian) / 100;
 		mInitialSpeedY = - initialSpeed*MAX_INITIAL_SPEED*Math.sin(fireAngleRadian) / 100;

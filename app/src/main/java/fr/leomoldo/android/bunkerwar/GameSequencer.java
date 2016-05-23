@@ -52,12 +52,12 @@ public class GameSequencer {
 		
 		mRoundsCount++;
 	}
-	
-	public void bombShellTouchedBunker(Boolean bunkerOneTouched) {
+
+	public void bombshellTouchedBunker(Boolean bunkerOneTouched) {
 		// To be implemented.
 	}
-	
-	public void bombShellTouchedLandscape() {
+
+	public void bombshellTouchedLandscape() {
 		// To be implemented.
 	}
 	

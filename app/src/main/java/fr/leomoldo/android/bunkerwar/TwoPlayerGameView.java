@@ -37,13 +37,13 @@ public class TwoPlayerGameView extends View {
 
     private ViewCoordinates mBunkerPlayerOneCoordinates;
     private ViewCoordinates mBunkerPlayerTwoCoordinates;
-    private ViewCoordinates mBombShellCoordinates;
+    private ViewCoordinates mBombshellCoordinates;
 
     // Paints.
     private Paint mLandscapePaint;
     private Paint mPlayerOneBunkerPaint;
     private Paint mPlayerTwoBunkerPaint;
-    private Paint mBombShellPaint;
+    private Paint mBombshellPaint;
 
 
     public TwoPlayerGameView(Context context) {
@@ -67,20 +67,20 @@ public class TwoPlayerGameView extends View {
         mLandscape = landscape;
         mPlayerOneBunker = playerOneBunker;
         mPlayerTwoBunker = playerTwoBunker;
-        hideBombShell();
+        hideBombshell();
     }
 
-    public void showBombShell(ViewCoordinates coordinates) {
-        if (mBombShellCoordinates == null) {
-            mBombShellCoordinates = new ViewCoordinates(coordinates.getX(), coordinates.getY());
+    public void showBombshell(ViewCoordinates coordinates) {
+        if (mBombshellCoordinates == null) {
+            mBombshellCoordinates = new ViewCoordinates(coordinates.getX(), coordinates.getY());
         } else {
-            mBombShellCoordinates.setX(coordinates.getX());
-            mBombShellCoordinates.setY(coordinates.getY());
+            mBombshellCoordinates.setX(coordinates.getX());
+            mBombshellCoordinates.setY(coordinates.getY());
         }
     }
 
-    public void hideBombShell() {
-        mBombShellCoordinates = null;
+    public void hideBombshell() {
+        mBombshellCoordinates = null;
     }
 
     public ViewCoordinates getBunkerPlayerOneCoordinates() {
@@ -95,8 +95,8 @@ public class TwoPlayerGameView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         if (canvas == null) return;
-        if (mBombShellCoordinates != null) {
-            drawBombShell(canvas, mBombShellCoordinates);
+        if (mBombshellCoordinates != null) {
+            drawBombshell(canvas, mBombshellCoordinates);
         }
         if (mPlayerOneBunker != null) {
             drawPlayerOneBunker(canvas);
@@ -146,8 +146,8 @@ public class TwoPlayerGameView extends View {
         canvas.drawLine(coordinates.getX(), coordinates.getY(), coordinates.getX() + lengthX, coordinates.getY() + lengthY, paint);
     }
 
-    private void drawBombShell(Canvas canvas, ViewCoordinates coordinates) {
-        canvas.drawCircle(coordinates.getX(), coordinates.getY(), BOMBSHELL_RADIUS, mBombShellPaint);
+    private void drawBombshell(Canvas canvas, ViewCoordinates coordinates) {
+        canvas.drawCircle(coordinates.getX(), coordinates.getY(), BOMBSHELL_RADIUS, mBombshellPaint);
     }
 
     private void initializePaints() {
@@ -171,14 +171,14 @@ public class TwoPlayerGameView extends View {
         mPlayerTwoBunkerPaint.setStrokeWidth(BUNKER_STROKE_WIDTH);
 
         // Bombshell.
-        mBombShellPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        mBombshellPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         /*if (mBunker.isPlayerOne()) {
-            mBombShellPaint.setColor(Color.RED);
+            mBombshellPaint.setColor(Color.RED);
 		} else {
-			mBombShellPaint.setColor(Color.YELLOW);
+			mBombshellPaint.setColor(Color.YELLOW);
 		}*/
-        mBombShellPaint.setColor(Color.BLACK);
-        mBombShellPaint.setStyle(Paint.Style.FILL);
+        mBombshellPaint.setColor(Color.BLACK);
+        mBombshellPaint.setStyle(Paint.Style.FILL);
     }
 
     private void initializeBunkerOneCoordinates() {

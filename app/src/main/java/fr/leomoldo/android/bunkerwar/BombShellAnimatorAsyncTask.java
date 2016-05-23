@@ -10,9 +10,9 @@ import fr.leomoldo.android.bunkerwar.sdk.ViewCoordinates;
 /**
  * Created by leomoldo on 19/05/2016.
  */
-public class BombShellAnimatorAsyncTask extends AsyncTask<BombShellPathComputer, ViewCoordinates, Boolean> {
+public class BombshellAnimatorAsyncTask extends AsyncTask<BombshellPathComputer, ViewCoordinates, Boolean> {
 
-    private static final String LOG_TAG = BombShellAnimatorAsyncTask.class.getSimpleName();
+    private static final String LOG_TAG = BombshellAnimatorAsyncTask.class.getSimpleName();
 
     private final static int ITERATION_WAITING_TIME = 10;
 
@@ -22,7 +22,7 @@ public class BombShellAnimatorAsyncTask extends AsyncTask<BombShellPathComputer,
     private ViewCoordinates mTargetBunkerVC;
     private Landscape mLandscape;
 
-    public BombShellAnimatorAsyncTask(TwoPlayerGameView gameView, Landscape landscape, ViewCoordinates targetBunkerVC) {
+    public BombshellAnimatorAsyncTask(TwoPlayerGameView gameView, Landscape landscape, ViewCoordinates targetBunkerVC) {
         mGameView = gameView;
         mLandscape = landscape;
         mViewHeight = mGameView.getHeight();
@@ -36,15 +36,15 @@ public class BombShellAnimatorAsyncTask extends AsyncTask<BombShellPathComputer,
     }
 
     @Override
-    protected Boolean doInBackground(BombShellPathComputer... bombShellPathComputers) {
+    protected Boolean doInBackground(BombshellPathComputer... bombshellPathComputers) {
         Boolean shouldHalt = false;
         while (!shouldHalt) {
-            bombShellPathComputers[0].incrementCoordinates();
-            publishProgress(bombShellPathComputers[0].getCurrentCoordinates());
+            bombshellPathComputers[0].incrementCoordinates();
+            publishProgress(bombshellPathComputers[0].getCurrentCoordinates());
             /*
-            Log.d(LOG_TAG, "timeCounter : " + bombShellPathComputers[0].getTimeCounter());
-            Log.d(LOG_TAG, "currentBombShellX : " + bombShellPathComputers[0].getCurrentCoordinates().getX());
-            Log.d(LOG_TAG, "currentBombShellY : " + bombShellPathComputers[0].getCurrentCoordinates().getY());
+            Log.d(LOG_TAG, "timeCounter : " + bombshellPathComputers[0].getTimeCounter());
+            Log.d(LOG_TAG, "currentBombshellX : " + bombshellPathComputers[0].getCurrentCoordinates().getX());
+            Log.d(LOG_TAG, "currentBombshellY : " + bombshellPathComputers[0].getCurrentCoordinates().getY());
             */
             try {
                 Thread.sleep(ITERATION_WAITING_TIME);
@@ -55,41 +55,41 @@ public class BombShellAnimatorAsyncTask extends AsyncTask<BombShellPathComputer,
             // TODO We must prevent the playing bunker from hitting itself when firing (don't check when timecounter is to low).
             // Check if bombshell dit hit player one bunker.
             /*
-            if ( Math.abs(bombShellPathComputers[0].getCurrentCoordinates().getX() - mBunkerPlayerOneCoordinates.getX()) < GameView.BUNKER_RADIUS &&
-                    Math.abs(bombShellPathComputers[0].getCurrentCoordinates().getY() - mBunkerPlayerOneCoordinates.getY()) < GameView.BUNKER_RADIUS) {
-                Log.d(LOG_TAG, "BombShell collided with player ONE.");
+            if ( Math.abs(bombshellPathComputers[0].getCurrentCoordinates().getX() - mBunkerPlayerOneCoordinates.getX()) < GameView.BUNKER_RADIUS &&
+                    Math.abs(bombshellPathComputers[0].getCurrentCoordinates().getY() - mBunkerPlayerOneCoordinates.getY()) < GameView.BUNKER_RADIUS) {
+                Log.d(LOG_TAG, "Bombshell collided with player ONE.");
                 shouldHalt = true;
             }
             */
 
             // Check if bombshell dit hit target bunker.
             // TODO Replace "2" by constant factor for collision detection.
-            if (Math.abs(bombShellPathComputers[0].getCurrentCoordinates().getX() - mTargetBunkerVC.getX()) < TwoPlayerGameView.BUNKER_RADIUS * 2 &&
-                    Math.abs(bombShellPathComputers[0].getCurrentCoordinates().getY() - mTargetBunkerVC.getY()) < TwoPlayerGameView.BUNKER_RADIUS * 2) {
-                Log.d(LOG_TAG, "BombShell collided with target Bunker.");
+            if (Math.abs(bombshellPathComputers[0].getCurrentCoordinates().getX() - mTargetBunkerVC.getX()) < TwoPlayerGameView.BUNKER_RADIUS * 2 &&
+                    Math.abs(bombshellPathComputers[0].getCurrentCoordinates().getY() - mTargetBunkerVC.getY()) < TwoPlayerGameView.BUNKER_RADIUS * 2) {
+                Log.d(LOG_TAG, "Bombshell collided with target Bunker.");
                 shouldHalt = true;
             }
 
             // Check that bombshell did not collide landscape.
-            if (bombShellPathComputers[0].getCurrentCoordinates().getY() > getLandscapeHeightForX(bombShellPathComputers[0].getCurrentCoordinates().getX())) {
+            if (bombshellPathComputers[0].getCurrentCoordinates().getY() > getLandscapeHeightForX(bombshellPathComputers[0].getCurrentCoordinates().getX())) {
 
-                Log.d(LOG_TAG, "BombShell collided with landscape.");
+                Log.d(LOG_TAG, "Bombshell collided with landscape.");
                 /*
-                Log.d(LOG_TAG, "BombShell X : " + bombShellPathComputers[0].getCurrentCoordinates().getX());
-                Log.d(LOG_TAG, "BombShell Y : " + bombShellPathComputers[0].getCurrentCoordinates().getY());
+                Log.d(LOG_TAG, "Bombshell X : " + bombshellPathComputers[0].getCurrentCoordinates().getX());
+                Log.d(LOG_TAG, "Bombshell Y : " + bombshellPathComputers[0].getCurrentCoordinates().getY());
                 */
                 shouldHalt = true;
             }
 
             // Check that bombshell did not left the screen from right of left side (+ bottom but is it really useful?).
-            if (bombShellPathComputers[0].getCurrentCoordinates().getY() > mViewHeight ||
-                    bombShellPathComputers[0].getCurrentCoordinates().getX() > mViewWidth ||
-                    bombShellPathComputers[0].getCurrentCoordinates().getX() < 0) {
+            if (bombshellPathComputers[0].getCurrentCoordinates().getY() > mViewHeight ||
+                    bombshellPathComputers[0].getCurrentCoordinates().getX() > mViewWidth ||
+                    bombshellPathComputers[0].getCurrentCoordinates().getX() < 0) {
 
-                Log.d(LOG_TAG, "BombShell out of Screen.");
+                Log.d(LOG_TAG, "Bombshell out of Screen.");
                 /*
-                Log.d(LOG_TAG, "BombShell X : " + bombShellPathComputers[0].getCurrentCoordinates().getX());
-                Log.d(LOG_TAG, "BombShell Y : " + bombShellPathComputers[0].getCurrentCoordinates().getY());
+                Log.d(LOG_TAG, "Bombshell X : " + bombshellPathComputers[0].getCurrentCoordinates().getX());
+                Log.d(LOG_TAG, "Bombshell Y : " + bombshellPathComputers[0].getCurrentCoordinates().getY());
                 */
 
                 shouldHalt = true;
@@ -101,14 +101,14 @@ public class BombShellAnimatorAsyncTask extends AsyncTask<BombShellPathComputer,
     @Override
     protected void onProgressUpdate(ViewCoordinates... values) {
         super.onProgressUpdate(values);
-        mGameView.showBombShell(values[0]);
+        mGameView.showBombshell(values[0]);
         mGameView.invalidate();
     }
 
     @Override
     protected void onPostExecute(Boolean b) {
         super.onPostExecute(b);
-        mGameView.hideBombShell();
+        mGameView.hideBombshell();
         Log.d(LOG_TAG, "onPostExecute");
     }
 

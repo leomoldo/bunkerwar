@@ -138,28 +138,28 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements SeekBar.
         // Update GameSequencer.
         mGameSequencer.fireButtonPressed(didPlayerOneFire);
 
-        ViewCoordinates currentBombShellCoordinates;
+        ViewCoordinates currentBombshellCoordinates;
         ViewCoordinates targetBunkerCoordinates;
-        BombShellPathComputer bombShellPathComputer;
+        BombshellPathComputer bombshellPathComputer;
 
         // Update UI.
         if (didPlayerOneFire) {
             // TODO Uncomment.
             // findViewById(R.id.buttonFirePlayerOne).setVisibility(View.GONE);
-            currentBombShellCoordinates = mTwoPlayerGameView.getBunkerPlayerOneCoordinates();
-            bombShellPathComputer = new BombShellPathComputer(mPlayerOneBunker.getCanonPower(), mPlayerOneBunker.getGeometricalCanonAngleRadian(), currentBombShellCoordinates);
+            currentBombshellCoordinates = mTwoPlayerGameView.getBunkerPlayerOneCoordinates();
+            bombshellPathComputer = new BombshellPathComputer(mPlayerOneBunker.getCanonPower(), mPlayerOneBunker.getGeometricalCanonAngleRadian(), currentBombshellCoordinates);
             targetBunkerCoordinates = mTwoPlayerGameView.getBunkerPlayerTwoCoordinates();
         } else {
             findViewById(R.id.buttonFirePlayerTwo).setVisibility(View.GONE);
-            currentBombShellCoordinates = mTwoPlayerGameView.getBunkerPlayerTwoCoordinates();
-            bombShellPathComputer = new BombShellPathComputer(mPlayerTwoBunker.getCanonPower(), mPlayerTwoBunker.getGeometricalCanonAngleRadian(), currentBombShellCoordinates);
+            currentBombshellCoordinates = mTwoPlayerGameView.getBunkerPlayerTwoCoordinates();
+            bombshellPathComputer = new BombshellPathComputer(mPlayerTwoBunker.getCanonPower(), mPlayerTwoBunker.getGeometricalCanonAngleRadian(), currentBombshellCoordinates);
             targetBunkerCoordinates = mTwoPlayerGameView.getBunkerPlayerOneCoordinates();
         }
 
-        mTwoPlayerGameView.showBombShell(currentBombShellCoordinates);
+        mTwoPlayerGameView.showBombshell(currentBombshellCoordinates);
         mTwoPlayerGameView.invalidate();
 
-        BombShellAnimatorAsyncTask task = new BombShellAnimatorAsyncTask(mTwoPlayerGameView, mLandscape, targetBunkerCoordinates);
-        task.execute(bombShellPathComputer);
+        BombshellAnimatorAsyncTask task = new BombshellAnimatorAsyncTask(mTwoPlayerGameView, mLandscape, targetBunkerCoordinates);
+        task.execute(bombshellPathComputer);
     }
 }
