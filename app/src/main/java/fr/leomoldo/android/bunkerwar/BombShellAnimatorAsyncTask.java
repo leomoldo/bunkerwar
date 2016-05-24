@@ -53,7 +53,7 @@ public class BombshellAnimatorAsyncTask extends AsyncTask<BombshellPathComputer,
                 e.printStackTrace();
             }
 
-            // TODO We must prevent the playing bunker from hitting itself when firing (don't check when timecounter is to low).
+            // We must prevent the playing bunker from hitting itself when firing (don't check when timecounter is to low).
             // Check if bombshell dit hit player one bunker.
             /*
             if ( Math.abs(bombshellPathComputers[0].getCurrentCoordinates().getX() - mBunkerPlayerOneCoordinates.getX()) < GameView.BUNKER_RADIUS &&
