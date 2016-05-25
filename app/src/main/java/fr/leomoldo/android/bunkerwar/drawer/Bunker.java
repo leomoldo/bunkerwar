@@ -13,8 +13,7 @@ public class Bunker extends Drawer {
 	public final static Float BUNKER_RADIUS = 17f;
 	private final static Float BUNKER_STROKE_WIDTH = 10f;
 
-    // TODO Remove?
-    private final static float BUNKER_HITBOX_EXPANSION_RATIO = 2f;
+    private final static float BUNKER_HITBOX_EXPANSION_RATIO = 1.5f;
 
 	private Boolean mIsPlayerOne;
 
@@ -47,12 +46,6 @@ public class Bunker extends Drawer {
 			angle = Math.PI - angle;
 		}
 		return angle;
-
-		// TODO Clean old code :
-		/*
-		double angle = (double) mAsboluteCanonAngle;
-		return angle * Math.PI / 180.0;
-		*/
 	}
 
 	public void setAbsoluteCanonAngle(Integer mCanonAngle) {
@@ -86,15 +79,11 @@ public class Bunker extends Drawer {
 
     @Override
     public boolean isHitByBombshell(ViewCoordinates bombshellVC, int viewWidth, int viewHeight) {
-        // TODO Clean.
-        /*
-        return Math.abs(bombshellVC.getX() - getViewCoordinates().getX()) < Bunker.BUNKER_RADIUS * BUNKER_HITBOX_EXPANSION_RATIO &&
-				Math.abs(bombshellVC.getY() - getViewCoordinates().getY()) < Bunker.BUNKER_RADIUS * BUNKER_HITBOX_EXPANSION_RATIO;
-				*/
+
         double distance = Math.sqrt(
                 Math.pow(bombshellVC.getX() - getViewCoordinates().getX(), 2) +
                         Math.pow(bombshellVC.getY() - getViewCoordinates().getY(), 2)
         );
-        return distance < BUNKER_RADIUS;
+        return distance < BUNKER_RADIUS * BUNKER_HITBOX_EXPANSION_RATIO;
     }
 }

@@ -3,9 +3,6 @@ package fr.leomoldo.android.bunkerwar;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.SeekBar;
@@ -61,28 +58,6 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements SeekBar.
                 });
     }
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.game_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        switch (item.getItemId()) {
-            case R.menu.game_menu:
-
-                // TODO Clean or reimplement.
-                //  mTwoPlayerGameView.initializeNewGame(mLandscape, mPlayerOneBunker, mPlayerTwoBunker);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
         Integer value = progress;
@@ -134,7 +109,7 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements SeekBar.
         // Update GameSequencer.
         mGameSequencer.fireButtonPressed(didPlayerOneFire);
 
-        ViewCoordinates currentBombshellCoordinates;
+        ViewCoordinates initialBombshellCoordinates;
         Bunker targetBunker;
         BombshellPathComputer bombshellPathComputer;
 
@@ -142,23 +117,17 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements SeekBar.
         if (didPlayerOneFire) {
             // TODO Uncomment.
             // findViewById(R.id.buttonFirePlayerOne).setVisibility(View.GONE);
-            currentBombshellCoordinates = mPlayerOneBunker.getViewCoordinates();
-            bombshellPathComputer = new BombshellPathComputer(mPlayerOneBunker.getCanonPower(), mPlayerOneBunker.getGeometricalCanonAngleRadian(), currentBombshellCoordinates);
+            initialBombshellCoordinates = mPlayerOneBunker.getViewCoordinates();
+            bombshellPathComputer = new BombshellPathComputer(mPlayerOneBunker.getCanonPower(), mPlayerOneBunker.getGeometricalCanonAngleRadian(), initialBombshellCoordinates);
             targetBunker = mPlayerTwoBunker;
         } else {
             findViewById(R.id.buttonFirePlayerTwo).setVisibility(View.GONE);
-            currentBombshellCoordinates = mPlayerTwoBunker.getViewCoordinates();
-            bombshellPathComputer = new BombshellPathComputer(mPlayerTwoBunker.getCanonPower(), mPlayerTwoBunker.getGeometricalCanonAngleRadian(), currentBombshellCoordinates);
+            initialBombshellCoordinates = mPlayerTwoBunker.getViewCoordinates();
+            bombshellPathComputer = new BombshellPathComputer(mPlayerTwoBunker.getCanonPower(), mPlayerTwoBunker.getGeometricalCanonAngleRadian(), initialBombshellCoordinates);
             targetBunker = mPlayerOneBunker;
         }
 
-        // TODO Clean.
-        /*
-        mTwoPlayerGameView.showBombshell(currentBombshellCoordinates);
-        mTwoPlayerGameView.invalidate();
-        */
-
-        BombshellAnimatorAsyncTask task = new BombshellAnimatorAsyncTask(mGameView, mLandscape, currentBombshellCoordinates, targetBunker);
+        BombshellAnimatorAsyncTask task = new BombshellAnimatorAsyncTask(mGameView, mLandscape, initialBombshellCoordinates, targetBunker);
         task.execute(bombshellPathComputer);
     }
 

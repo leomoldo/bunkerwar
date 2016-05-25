@@ -37,6 +37,7 @@ public class BombshellAnimatorAsyncTask extends AsyncTask<BombshellPathComputer,
         mBombshell = new Bombshell(Color.BLACK);
         mBombshell.setViewCoordinates(initialVC);
         mGameView.registerDrawer(mBombshell);
+        mGameView.invalidate();
 
         /*
         Log.d(LOG_TAG, "View Width : " + mViewWidth);
@@ -72,25 +73,12 @@ public class BombshellAnimatorAsyncTask extends AsyncTask<BombshellPathComputer,
             */
 
             // Check if bombshell dit hit target bunker.
-            /*
-            if (Math.abs(bombshellPathComputers[0].getCurrentCoordinates().getX() - mTargetBunkerVC.getX()) < Bunker.BUNKER_RADIUS * BUNKER_HITBOX_EXPANSION_RATIO &&
-                    Math.abs(bombshellPathComputers[0].getCurrentCoordinates().getY() - mTargetBunkerVC.getY()) < Bunker.BUNKER_RADIUS * BUNKER_HITBOX_EXPANSION_RATIO) {
-                Log.d(LOG_TAG, "Bombshell collided with target Bunker.");
-                shouldHalt = true;
-            }
-            */
             if (mTargetBunker.isHitByBombshell(bombshellPathComputers[0].getCurrentCoordinates(), mViewWidth, mViewHeight)) {
                 Log.d(LOG_TAG, "Bombshell collided with target Bunker.");
                 shouldHalt = true;
             }
 
             // Check that bombshell did not collide landscape.
-            /*
-            if (bombshellPathComputers[0].getCurrentCoordinates().getY() > getLandscapeHeightForX(bombshellPathComputers[0].getCurrentCoordinates().getX())) {
-                Log.d(LOG_TAG, "Bombshell collided with landscape.");
-                shouldHalt = true;
-            }
-            */
             if (mLandscape.isHitByBombshell(bombshellPathComputers[0].getCurrentCoordinates(), mViewWidth, mViewHeight)) {
                 Log.d(LOG_TAG, "Bombshell collided with landscape.");
                 shouldHalt = true;
@@ -116,8 +104,6 @@ public class BombshellAnimatorAsyncTask extends AsyncTask<BombshellPathComputer,
     @Override
     protected void onProgressUpdate(ViewCoordinates... values) {
         super.onProgressUpdate(values);
-        // TODO Clean.
-        // mGameView.showBombshell(values[0]);
         mBombshell.setViewCoordinates(values[0]);
         mGameView.invalidate();
     }
@@ -125,9 +111,8 @@ public class BombshellAnimatorAsyncTask extends AsyncTask<BombshellPathComputer,
     @Override
     protected void onPostExecute(Boolean b) {
         super.onPostExecute(b);
-        // TODO Clean.
-        // mGameView.hideBombshell();
         mGameView.unregisterDrawer(mBombshell);
+        mGameView.invalidate();
         Log.d(LOG_TAG, "onPostExecute");
     }
 
