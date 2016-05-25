@@ -135,7 +135,7 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements SeekBar.
         mGameSequencer.fireButtonPressed(didPlayerOneFire);
 
         ViewCoordinates currentBombshellCoordinates;
-        ViewCoordinates targetBunkerCoordinates;
+        Bunker targetBunker;
         BombshellPathComputer bombshellPathComputer;
 
         // Update UI.
@@ -144,12 +144,12 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements SeekBar.
             // findViewById(R.id.buttonFirePlayerOne).setVisibility(View.GONE);
             currentBombshellCoordinates = mPlayerOneBunker.getViewCoordinates();
             bombshellPathComputer = new BombshellPathComputer(mPlayerOneBunker.getCanonPower(), mPlayerOneBunker.getGeometricalCanonAngleRadian(), currentBombshellCoordinates);
-            targetBunkerCoordinates = mPlayerTwoBunker.getViewCoordinates();
+            targetBunker = mPlayerTwoBunker;
         } else {
             findViewById(R.id.buttonFirePlayerTwo).setVisibility(View.GONE);
             currentBombshellCoordinates = mPlayerTwoBunker.getViewCoordinates();
             bombshellPathComputer = new BombshellPathComputer(mPlayerTwoBunker.getCanonPower(), mPlayerTwoBunker.getGeometricalCanonAngleRadian(), currentBombshellCoordinates);
-            targetBunkerCoordinates = mPlayerOneBunker.getViewCoordinates();
+            targetBunker = mPlayerOneBunker;
         }
 
         // TODO Clean.
@@ -158,7 +158,7 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements SeekBar.
         mTwoPlayerGameView.invalidate();
         */
 
-        BombshellAnimatorAsyncTask task = new BombshellAnimatorAsyncTask(mGameView, mLandscape, currentBombshellCoordinates, targetBunkerCoordinates);
+        BombshellAnimatorAsyncTask task = new BombshellAnimatorAsyncTask(mGameView, mLandscape, currentBombshellCoordinates, targetBunker);
         task.execute(bombshellPathComputer);
     }
 

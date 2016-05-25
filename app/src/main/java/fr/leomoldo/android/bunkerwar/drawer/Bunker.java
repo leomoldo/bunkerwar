@@ -13,6 +13,9 @@ public class Bunker extends Drawer {
 	public final static Float BUNKER_RADIUS = 17f;
 	private final static Float BUNKER_STROKE_WIDTH = 10f;
 
+    // TODO Remove?
+    private final static float BUNKER_HITBOX_EXPANSION_RATIO = 2f;
+
 	private Boolean mIsPlayerOne;
 
 	private Integer mAsboluteCanonAngle; // Integer between 0 and 90.
@@ -80,4 +83,18 @@ public class Bunker extends Drawer {
 		float lengthY = (float) (-BUNKER_CANON_LENGTH * Math.sin(getGeometricalCanonAngleRadian()));
 		canvas.drawLine(getViewCoordinates().getX(), getViewCoordinates().getY(), getViewCoordinates().getX() + lengthX, getViewCoordinates().getY() + lengthY, getPaint());
 	}
+
+    @Override
+    public boolean isHitByBombshell(ViewCoordinates bombshellVC, int viewWidth, int viewHeight) {
+        // TODO Clean.
+        /*
+        return Math.abs(bombshellVC.getX() - getViewCoordinates().getX()) < Bunker.BUNKER_RADIUS * BUNKER_HITBOX_EXPANSION_RATIO &&
+				Math.abs(bombshellVC.getY() - getViewCoordinates().getY()) < Bunker.BUNKER_RADIUS * BUNKER_HITBOX_EXPANSION_RATIO;
+				*/
+        double distance = Math.sqrt(
+                Math.pow(bombshellVC.getX() - getViewCoordinates().getX(), 2) +
+                        Math.pow(bombshellVC.getY() - getViewCoordinates().getY(), 2)
+        );
+        return distance < BUNKER_RADIUS;
+    }
 }

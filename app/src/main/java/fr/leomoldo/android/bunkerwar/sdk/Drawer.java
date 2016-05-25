@@ -23,6 +23,8 @@ public abstract class Drawer {
 
     public abstract void draw(Canvas canvas, @Nullable int viewWidth, int viewHeight);
 
+    public abstract boolean isHitByBombshell(ViewCoordinates bombshellVC, int viewWidth, int viewHeight);
+
     public void setViewCoordinates(ViewCoordinates vc) {
         mViewCoordinates = vc;
     }

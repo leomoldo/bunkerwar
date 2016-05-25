@@ -19,21 +19,20 @@ public class BombshellAnimatorAsyncTask extends AsyncTask<BombshellPathComputer,
     private static final String LOG_TAG = BombshellAnimatorAsyncTask.class.getSimpleName();
 
     private final static int ITERATION_WAITING_TIME = 10;
-    private final static float BUNKER_HITBOX_EXPANSION_RATIO = 2f;
 
     private GameView mGameView;
     private int mViewHeight;
     private int mViewWidth;
-    private ViewCoordinates mTargetBunkerVC;
+    private Bunker mTargetBunker;
     private Landscape mLandscape;
     private Bombshell mBombshell;
 
-    public BombshellAnimatorAsyncTask(GameView gameView, Landscape landscape, ViewCoordinates initialVC, ViewCoordinates targetBunkerVC) {
+    public BombshellAnimatorAsyncTask(GameView gameView, Landscape landscape, ViewCoordinates initialVC, Bunker targetBunker) {
         mGameView = gameView;
         mLandscape = landscape;
         mViewHeight = mGameView.getHeight();
         mViewWidth = mGameView.getWidth();
-        mTargetBunkerVC = targetBunkerVC;
+        mTargetBunker = targetBunker;
 
         mBombshell = new Bombshell(Color.BLACK);
         mBombshell.setViewCoordinates(initialVC);
@@ -73,20 +72,27 @@ public class BombshellAnimatorAsyncTask extends AsyncTask<BombshellPathComputer,
             */
 
             // Check if bombshell dit hit target bunker.
+            /*
             if (Math.abs(bombshellPathComputers[0].getCurrentCoordinates().getX() - mTargetBunkerVC.getX()) < Bunker.BUNKER_RADIUS * BUNKER_HITBOX_EXPANSION_RATIO &&
                     Math.abs(bombshellPathComputers[0].getCurrentCoordinates().getY() - mTargetBunkerVC.getY()) < Bunker.BUNKER_RADIUS * BUNKER_HITBOX_EXPANSION_RATIO) {
                 Log.d(LOG_TAG, "Bombshell collided with target Bunker.");
                 shouldHalt = true;
             }
+            */
+            if (mTargetBunker.isHitByBombshell(bombshellPathComputers[0].getCurrentCoordinates(), mViewWidth, mViewHeight)) {
+                Log.d(LOG_TAG, "Bombshell collided with target Bunker.");
+                shouldHalt = true;
+            }
 
             // Check that bombshell did not collide landscape.
+            /*
             if (bombshellPathComputers[0].getCurrentCoordinates().getY() > getLandscapeHeightForX(bombshellPathComputers[0].getCurrentCoordinates().getX())) {
-
                 Log.d(LOG_TAG, "Bombshell collided with landscape.");
-                /*
-                Log.d(LOG_TAG, "Bombshell X : " + bombshellPathComputers[0].getCurrentCoordinates().getX());
-                Log.d(LOG_TAG, "Bombshell Y : " + bombshellPathComputers[0].getCurrentCoordinates().getY());
-                */
+                shouldHalt = true;
+            }
+            */
+            if (mLandscape.isHitByBombshell(bombshellPathComputers[0].getCurrentCoordinates(), mViewWidth, mViewHeight)) {
+                Log.d(LOG_TAG, "Bombshell collided with landscape.");
                 shouldHalt = true;
             }
 
@@ -125,9 +131,4 @@ public class BombshellAnimatorAsyncTask extends AsyncTask<BombshellPathComputer,
         Log.d(LOG_TAG, "onPostExecute");
     }
 
-    // TODO : Refactor into specific Landscape collision detection method.
-    public float getLandscapeHeightForX(float x) {
-        int sliceIndex = (int) (x / (mViewWidth / mLandscape.getNumberOfLandscapeSlices()));
-        return mViewHeight - mViewHeight * Landscape.MAX_HEIGHT_RATIO_FOR_LANDSCAPE * mLandscape.getLandscapeHeightPercentage(sliceIndex);
-    }
 }

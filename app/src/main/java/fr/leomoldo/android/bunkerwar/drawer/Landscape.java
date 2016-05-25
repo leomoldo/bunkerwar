@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import fr.leomoldo.android.bunkerwar.sdk.Drawer;
+import fr.leomoldo.android.bunkerwar.sdk.ViewCoordinates;
 
 public class Landscape extends Drawer {
 
@@ -68,6 +69,11 @@ public class Landscape extends Drawer {
         }
     }
 
+    @Override
+    public boolean isHitByBombshell(ViewCoordinates bombshellVC, int viewWidth, int viewHeight) {
+        return bombshellVC.getY() > getLandscapeHeightForX(bombshellVC.getX(), viewWidth, viewHeight);
+    }
+
     private void interpolateHeightsArrayList(ArrayList<Integer> heightsArrayList) {
 		Integer sizeOfNewArrayList = 2 * heightsArrayList.size() - 1;
 		int currentInterpolationValue = 0;
@@ -84,4 +90,9 @@ public class Landscape extends Drawer {
 		}
 		return initialWidth;
 	}
+
+    private float getLandscapeHeightForX(float x, int viewWidth, int mViewHeight) {
+        int sliceIndex = (int) (x / (viewWidth / getNumberOfLandscapeSlices()));
+        return mViewHeight - mViewHeight * Landscape.MAX_HEIGHT_RATIO_FOR_LANDSCAPE * getLandscapeHeightPercentage(sliceIndex);
+    }
 }
