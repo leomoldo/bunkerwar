@@ -115,7 +115,7 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements SeekBar.
 
         // Update UI.
         if (didPlayerOneFire) {
-            // TODO Uncomment.
+            // This line is commented for debug purposes until GameSequencer is implemented :
             // findViewById(R.id.buttonFirePlayerOne).setVisibility(View.GONE);
             initialBombshellCoordinates = mPlayerOneBunker.getViewCoordinates();
             bombshellPathComputer = new BombshellPathComputer(mPlayerOneBunker.getCanonPower(), mPlayerOneBunker.getGeometricalCanonAngleRadian(), initialBombshellCoordinates);
@@ -133,7 +133,7 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements SeekBar.
 
     private void initializeGame() {
 
-        // TODO Only useful for now?
+        // TODO Only useful for now? (with "reload game" debug button)
         mGameView.unregisterDrawer(mLandscape);
         mGameView.unregisterDrawer(mPlayerOneBunker);
         mGameView.unregisterDrawer(mPlayerTwoBunker);
