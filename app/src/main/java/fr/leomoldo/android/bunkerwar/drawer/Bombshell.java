@@ -1,20 +1,27 @@
 package fr.leomoldo.android.bunkerwar.drawer;
 
 import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.support.annotation.Nullable;
 
 import fr.leomoldo.android.bunkerwar.sdk.Drawer;
-import fr.leomoldo.android.bunkerwar.sdk.ViewCoordinates;
 
 /**
  * Created by leomoldo on 23/05/2016.
  */
 public class Bombshell extends Drawer {
-    @Override
-    public void draw(Canvas canvas, @Nullable ViewCoordinates vc, @Nullable int viewWidth, int viewHeight) {
 
+    public final static Float BOMBSHELL_RADIUS = 5f;
+
+    public Bombshell(int color) {
+        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        paint.setColor(color);
+        paint.setStyle(Paint.Style.FILL);
+        setPaint(paint);
     }
 
-    // TODO Implement.
-
+    @Override
+    public void draw(Canvas canvas, @Nullable int viewWidth, int viewHeight) {
+        canvas.drawCircle(getViewCoordinates().getX(), getViewCoordinates().getY(), BOMBSHELL_RADIUS, getPaint());
+    }
 }

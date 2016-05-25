@@ -2,21 +2,17 @@ package fr.leomoldo.android.bunkerwar.sdk;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 
 /**
  * Created by leomoldo on 23/05/2016.
  */
-public abstract class GameView extends View {
+public class GameView extends View {
 
-    // Not needed?
-    // protected Context mContext;
-
-    private HashMap<Drawer, ViewCoordinates> mRegisteredDrawers;
+    private ArrayList<Drawer> mRegisteredDrawers;
 
     public GameView(Context context) {
         this(context, null);
@@ -28,19 +24,14 @@ public abstract class GameView extends View {
 
     public GameView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        // Not needed?
-        // mContext = context;
+        mRegisteredDrawers = new ArrayList<>();
         this.setWillNotDraw(false);
     }
 
-    public int registerDrawer(Drawer drawer, @Nullable ViewCoordinates vc) {
-
-        if (mRegisteredDrawers == null) {
-            mRegisteredDrawers = new HashMap<Drawer, ViewCoordinates>();
-        }
-
-        mRegisteredDrawers.put(drawer, vc);
-
+    // TODO Add a way to change drawing order?
+    // TODO Remove int returned value (no error codes needed?).
+    public int registerDrawer(Drawer drawer) {
+        mRegisteredDrawers.add(drawer);
         return 0;
     }
 
@@ -50,22 +41,11 @@ public abstract class GameView extends View {
             return 0;
         }
 
-        if (mRegisteredDrawers.remove(drawer) == null) {
+        if (mRegisteredDrawers.remove(drawer)) {
             return 0;
         } else {
             return 0;
         }
-    }
-
-    public int moveDrawer(Drawer drawer, ViewCoordinates vc) {
-
-        if (!mRegisteredDrawers.containsKey(drawer)) {
-            return 0;
-        }
-
-        mRegisteredDrawers.put(drawer, vc);
-
-        return 0;
     }
 
     @Override
@@ -73,8 +53,8 @@ public abstract class GameView extends View {
         super.onDraw(canvas);
         if (canvas == null) return;
 
-        for (Drawer drawer : mRegisteredDrawers.keySet()) {
-            drawer.draw(canvas, mRegisteredDrawers.get(drawer), getWidth(), getHeight());
+        for (Drawer drawer : mRegisteredDrawers) {
+            drawer.draw(canvas, getWidth(), getHeight());
         }
     }
 

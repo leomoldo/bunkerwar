@@ -1,16 +1,19 @@
 package fr.leomoldo.android.bunkerwar;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
 import fr.leomoldo.android.bunkerwar.drawer.Bunker;
 import fr.leomoldo.android.bunkerwar.drawer.Landscape;
+import fr.leomoldo.android.bunkerwar.sdk.GameView;
 import fr.leomoldo.android.bunkerwar.sdk.ViewCoordinates;
 
 public class TwoPlayerGameActivity extends AppCompatActivity implements SeekBar.OnSeekBarChangeListener {
@@ -24,13 +27,12 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements SeekBar.
     private Landscape mLandscape;
 
     // Views :
-    private TwoPlayerGameView mTwoPlayerGameView;
+    private GameView mGameView;
 
     private TextView mTextViewIndicatorAnglePlayerOne;
     private TextView mTextViewIndicatorPowerPlayerOne;
     private TextView mTextViewIndicatorAnglePlayerTwo;
     private TextView mTextViewIndicatorPowerPlayerTwo;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,10 +49,18 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements SeekBar.
         ((SeekBar) findViewById(R.id.seekBarPowerPlayerOne)).setOnSeekBarChangeListener(this);
         ((SeekBar) findViewById(R.id.seekBarAnglePlayerTwo)).setOnSeekBarChangeListener(this);
         ((SeekBar) findViewById(R.id.seekBarPowerPlayerTwo)).setOnSeekBarChangeListener(this);
-        mTwoPlayerGameView = (TwoPlayerGameView) findViewById(R.id.gameView);
+        mGameView = (GameView) findViewById(R.id.gameView);
 
-        initializeGame();
+        final View rootView = getWindow().getDecorView().getRootView();
+        rootView.getViewTreeObserver().addOnGlobalLayoutListener(
+                new ViewTreeObserver.OnGlobalLayoutListener() {
+                    @Override
+                    public void onGlobalLayout() {
+                        initializeGame();
+                    }
+                });
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -65,7 +75,8 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements SeekBar.
         switch (item.getItemId()) {
             case R.menu.game_menu:
 
-                mTwoPlayerGameView.initializeNewGame(mLandscape, mPlayerOneBunker, mPlayerTwoBunker);
+                // TODO Clean or reimplement.
+                //  mTwoPlayerGameView.initializeNewGame(mLandscape, mPlayerOneBunker, mPlayerTwoBunker);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -80,7 +91,7 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements SeekBar.
 
             case R.id.seekBarAnglePlayerOne:
                 mPlayerOneBunker.setAbsoluteCanonAngle(progress);
-                mTwoPlayerGameView.invalidate();
+                mGameView.invalidate();
                 mTextViewIndicatorAnglePlayerOne.setText(value.toString());
                 break;
             case R.id.seekBarPowerPlayerOne:
@@ -89,7 +100,7 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements SeekBar.
                 break;
             case R.id.seekBarAnglePlayerTwo:
                 mPlayerTwoBunker.setAbsoluteCanonAngle(progress);
-                mTwoPlayerGameView.invalidate();
+                mGameView.invalidate();
                 mTextViewIndicatorAnglePlayerTwo.setText(value.toString());
                 break;
             case R.id.seekBarPowerPlayerTwo:
@@ -106,21 +117,6 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements SeekBar.
 
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
-
-    }
-
-    private void initializeGame() {
-        // Initialize game model.
-        mGameSequencer = new GameSequencer();
-        mLandscape = new Landscape();
-        mPlayerOneBunker = new Bunker(true);
-        mPlayerTwoBunker = new Bunker(false);
-
-        // Initialize GameView.
-        mTwoPlayerGameView.initializeNewGame(mLandscape, mPlayerOneBunker, mPlayerTwoBunker);
-        mTwoPlayerGameView.invalidate();
-
-        findViewById(R.id.buttonFirePlayerOne).setVisibility(View.VISIBLE);
 
     }
 
@@ -146,20 +142,62 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements SeekBar.
         if (didPlayerOneFire) {
             // TODO Uncomment.
             // findViewById(R.id.buttonFirePlayerOne).setVisibility(View.GONE);
-            currentBombshellCoordinates = mTwoPlayerGameView.getBunkerPlayerOneCoordinates();
+            currentBombshellCoordinates = mPlayerOneBunker.getViewCoordinates();
             bombshellPathComputer = new BombshellPathComputer(mPlayerOneBunker.getCanonPower(), mPlayerOneBunker.getGeometricalCanonAngleRadian(), currentBombshellCoordinates);
-            targetBunkerCoordinates = mTwoPlayerGameView.getBunkerPlayerTwoCoordinates();
+            targetBunkerCoordinates = mPlayerTwoBunker.getViewCoordinates();
         } else {
             findViewById(R.id.buttonFirePlayerTwo).setVisibility(View.GONE);
-            currentBombshellCoordinates = mTwoPlayerGameView.getBunkerPlayerTwoCoordinates();
+            currentBombshellCoordinates = mPlayerTwoBunker.getViewCoordinates();
             bombshellPathComputer = new BombshellPathComputer(mPlayerTwoBunker.getCanonPower(), mPlayerTwoBunker.getGeometricalCanonAngleRadian(), currentBombshellCoordinates);
-            targetBunkerCoordinates = mTwoPlayerGameView.getBunkerPlayerOneCoordinates();
+            targetBunkerCoordinates = mPlayerOneBunker.getViewCoordinates();
         }
 
+        // TODO Clean.
+        /*
         mTwoPlayerGameView.showBombshell(currentBombshellCoordinates);
         mTwoPlayerGameView.invalidate();
+        */
 
-        BombshellAnimatorAsyncTask task = new BombshellAnimatorAsyncTask(mTwoPlayerGameView, mLandscape, targetBunkerCoordinates);
+        BombshellAnimatorAsyncTask task = new BombshellAnimatorAsyncTask(mGameView, mLandscape, currentBombshellCoordinates, targetBunkerCoordinates);
         task.execute(bombshellPathComputer);
+    }
+
+    private void initializeGame() {
+
+        // TODO Only useful for now?
+        mGameView.unregisterDrawer(mLandscape);
+        mGameView.unregisterDrawer(mPlayerOneBunker);
+        mGameView.unregisterDrawer(mPlayerTwoBunker);
+
+        // Initialize game model.
+        mGameSequencer = new GameSequencer();
+        mLandscape = new Landscape(getResources().getColor(R.color.green_land_slice));
+        mPlayerOneBunker = new Bunker(true, Color.RED, getBunkerOneCoordinates());
+        mPlayerTwoBunker = new Bunker(false, Color.YELLOW, getBunkerTwoCoordinates());
+
+        // Initialize GameView.
+        mGameView.registerDrawer(mPlayerOneBunker);
+        mGameView.registerDrawer(mPlayerTwoBunker);
+        mGameView.registerDrawer(mLandscape);
+        mGameView.invalidate();
+
+        findViewById(R.id.buttonFirePlayerOne).setVisibility(View.VISIBLE);
+
+    }
+
+    private ViewCoordinates getBunkerOneCoordinates() {
+        float landSliceWidth = mGameView.getWidth() / mLandscape.getNumberOfLandscapeSlices();
+        return new ViewCoordinates(Landscape.BUNKER_POSITION_FROM_SCREEN_BORDER * landSliceWidth,
+                mGameView.getHeight()
+                        - mGameView.getHeight() * Landscape.MAX_HEIGHT_RATIO_FOR_LANDSCAPE * mLandscape.getLandscapeHeightPercentage(Landscape.BUNKER_POSITION_FROM_SCREEN_BORDER)
+                        - Bunker.BUNKER_RADIUS);
+    }
+
+    private ViewCoordinates getBunkerTwoCoordinates() {
+        float landSliceWidth = mGameView.getWidth() / mLandscape.getNumberOfLandscapeSlices();
+        return new ViewCoordinates(mGameView.getWidth() - landSliceWidth * Landscape.BUNKER_POSITION_FROM_SCREEN_BORDER,
+                mGameView.getHeight()
+                        - mGameView.getHeight() * Landscape.MAX_HEIGHT_RATIO_FOR_LANDSCAPE * mLandscape.getLandscapeHeightPercentage(mLandscape.getNumberOfLandscapeSlices() - 1 - Landscape.BUNKER_POSITION_FROM_SCREEN_BORDER)
+                        - Bunker.BUNKER_RADIUS);
     }
 }

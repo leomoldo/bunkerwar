@@ -1,10 +1,14 @@
 package fr.leomoldo.android.bunkerwar;
 
 
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import fr.leomoldo.android.bunkerwar.drawer.Bombshell;
+import fr.leomoldo.android.bunkerwar.drawer.Bunker;
 import fr.leomoldo.android.bunkerwar.drawer.Landscape;
+import fr.leomoldo.android.bunkerwar.sdk.GameView;
 import fr.leomoldo.android.bunkerwar.sdk.ViewCoordinates;
 
 /**
@@ -17,18 +21,23 @@ public class BombshellAnimatorAsyncTask extends AsyncTask<BombshellPathComputer,
     private final static int ITERATION_WAITING_TIME = 10;
     private final static float BUNKER_HITBOX_EXPANSION_RATIO = 2f;
 
-    private TwoPlayerGameView mGameView;
+    private GameView mGameView;
     private int mViewHeight;
     private int mViewWidth;
     private ViewCoordinates mTargetBunkerVC;
     private Landscape mLandscape;
+    private Bombshell mBombshell;
 
-    public BombshellAnimatorAsyncTask(TwoPlayerGameView gameView, Landscape landscape, ViewCoordinates targetBunkerVC) {
+    public BombshellAnimatorAsyncTask(GameView gameView, Landscape landscape, ViewCoordinates initialVC, ViewCoordinates targetBunkerVC) {
         mGameView = gameView;
         mLandscape = landscape;
         mViewHeight = mGameView.getHeight();
         mViewWidth = mGameView.getWidth();
         mTargetBunkerVC = targetBunkerVC;
+
+        mBombshell = new Bombshell(Color.BLACK);
+        mBombshell.setViewCoordinates(initialVC);
+        mGameView.registerDrawer(mBombshell);
 
         /*
         Log.d(LOG_TAG, "View Width : " + mViewWidth);
@@ -64,8 +73,8 @@ public class BombshellAnimatorAsyncTask extends AsyncTask<BombshellPathComputer,
             */
 
             // Check if bombshell dit hit target bunker.
-            if (Math.abs(bombshellPathComputers[0].getCurrentCoordinates().getX() - mTargetBunkerVC.getX()) < TwoPlayerGameView.BUNKER_RADIUS * BUNKER_HITBOX_EXPANSION_RATIO &&
-                    Math.abs(bombshellPathComputers[0].getCurrentCoordinates().getY() - mTargetBunkerVC.getY()) < TwoPlayerGameView.BUNKER_RADIUS * BUNKER_HITBOX_EXPANSION_RATIO) {
+            if (Math.abs(bombshellPathComputers[0].getCurrentCoordinates().getX() - mTargetBunkerVC.getX()) < Bunker.BUNKER_RADIUS * BUNKER_HITBOX_EXPANSION_RATIO &&
+                    Math.abs(bombshellPathComputers[0].getCurrentCoordinates().getY() - mTargetBunkerVC.getY()) < Bunker.BUNKER_RADIUS * BUNKER_HITBOX_EXPANSION_RATIO) {
                 Log.d(LOG_TAG, "Bombshell collided with target Bunker.");
                 shouldHalt = true;
             }
@@ -101,20 +110,24 @@ public class BombshellAnimatorAsyncTask extends AsyncTask<BombshellPathComputer,
     @Override
     protected void onProgressUpdate(ViewCoordinates... values) {
         super.onProgressUpdate(values);
-        mGameView.showBombshell(values[0]);
+        // TODO Clean.
+        // mGameView.showBombshell(values[0]);
+        mBombshell.setViewCoordinates(values[0]);
         mGameView.invalidate();
     }
 
     @Override
     protected void onPostExecute(Boolean b) {
         super.onPostExecute(b);
-        mGameView.hideBombshell();
+        // TODO Clean.
+        // mGameView.hideBombshell();
+        mGameView.unregisterDrawer(mBombshell);
         Log.d(LOG_TAG, "onPostExecute");
     }
 
     // TODO : Refactor into specific Landscape collision detection method.
     public float getLandscapeHeightForX(float x) {
         int sliceIndex = (int) (x / (mViewWidth / mLandscape.getNumberOfLandscapeSlices()));
-        return mViewHeight - mViewHeight * TwoPlayerGameView.MAX_HEIGHT_RATIO_FOR_LANDSCAPE * mLandscape.getLandscapeHeightPercentage(sliceIndex);
+        return mViewHeight - mViewHeight * Landscape.MAX_HEIGHT_RATIO_FOR_LANDSCAPE * mLandscape.getLandscapeHeightPercentage(sliceIndex);
     }
 }

@@ -10,9 +10,8 @@ import android.support.annotation.Nullable;
  */
 public abstract class Drawer {
 
-    // TODO : Make it a simple interface and add a Paint parameter to "draw" method + mPaint getter ???
-
     private Paint mPaint;
+    private ViewCoordinates mViewCoordinates;
 
     public Drawer() {
         mPaint = getDefaultPaint();
@@ -22,10 +21,22 @@ public abstract class Drawer {
         mPaint = paint;
     }
 
-    public abstract void draw(Canvas canvas, @Nullable ViewCoordinates vc, @Nullable int viewWidth, int viewHeight);
+    public abstract void draw(Canvas canvas, @Nullable int viewWidth, int viewHeight);
+
+    public void setViewCoordinates(ViewCoordinates vc) {
+        mViewCoordinates = vc;
+    }
+
+    public ViewCoordinates getViewCoordinates() {
+        return mViewCoordinates;
+    }
 
     public void setPaint(Paint paint) {
         mPaint = paint;
+    }
+
+    public Paint getPaint() {
+        return mPaint;
     }
 
     private Paint getDefaultPaint() {
