@@ -143,11 +143,11 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements SeekBar.
         // Update UI.
         if (didPlayerOneFire) {
             mFireButtonPlayerOne.setVisibility(View.GONE);
-            bombshellPathComputer = new BombshellPathComputer(mPlayerOneBunker.getCanonPower(), mPlayerOneBunker.getGeometricalCanonAngleRadian(), mPlayerOneBunker.getViewCoordinates().clone());
+            bombshellPathComputer = new BombshellPathComputer(mPlayerOneBunker.getCanonPower(), mPlayerOneBunker.getGeometricalCanonAngleRadian(), mPlayerOneBunker.getViewCoordinates());
             collidableDrawers.add(mPlayerTwoBunker);
         } else {
             mFireButtonPlayerTwo.setVisibility(View.GONE);
-            bombshellPathComputer = new BombshellPathComputer(mPlayerTwoBunker.getCanonPower(), mPlayerTwoBunker.getGeometricalCanonAngleRadian(), mPlayerTwoBunker.getViewCoordinates().clone());
+            bombshellPathComputer = new BombshellPathComputer(mPlayerTwoBunker.getCanonPower(), mPlayerTwoBunker.getGeometricalCanonAngleRadian(), mPlayerTwoBunker.getViewCoordinates());
             collidableDrawers.add(mPlayerOneBunker);
         }
 

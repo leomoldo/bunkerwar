@@ -90,7 +90,7 @@ public class BombshellAnimatorAsyncTask extends AsyncTask<BombshellPathComputer,
     @Override
     protected void onProgressUpdate(ViewCoordinates... values) {
         super.onProgressUpdate(values);
-        Log.d(LOG_TAG, "onProgressUpdate.");
+        // Log.d(LOG_TAG, "onProgressUpdate.");
         mBombshell.setViewCoordinates(values[0]);
         mGameView.invalidate();
     }
@@ -98,7 +98,7 @@ public class BombshellAnimatorAsyncTask extends AsyncTask<BombshellPathComputer,
     @Override
     protected void onPostExecute(Drawer drawer) {
         super.onPostExecute(drawer);
-        Log.d(LOG_TAG, "onPostExecute");
+        // Log.d(LOG_TAG, "onPostExecute");
         mGameView.unregisterDrawer(mBombshell);
         mGameView.invalidate();
         mCollisionListener.onDrawerHit(drawer);
@@ -106,7 +106,7 @@ public class BombshellAnimatorAsyncTask extends AsyncTask<BombshellPathComputer,
 
     public interface CollisionListener {
 
-        public void onDrawerHit(Drawer drawer);
+        void onDrawerHit(Drawer drawer);
 
     }
 
