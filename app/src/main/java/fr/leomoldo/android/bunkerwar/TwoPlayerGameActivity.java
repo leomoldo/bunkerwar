@@ -143,10 +143,12 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements SeekBar.
         // Update UI.
         if (didPlayerOneFire) {
             mFireButtonPlayerOne.setVisibility(View.GONE);
+            mFireButtonPlayerTwo.setVisibility(View.GONE);
             bombshellPathComputer = new BombshellPathComputer(mPlayerOneBunker.getCanonPower(), mPlayerOneBunker.getGeometricalCanonAngleRadian(), mPlayerOneBunker.getViewCoordinates());
             collidableDrawers.add(mPlayerTwoBunker);
         } else {
             mFireButtonPlayerTwo.setVisibility(View.GONE);
+            mFireButtonPlayerOne.setVisibility(View.GONE);
             bombshellPathComputer = new BombshellPathComputer(mPlayerTwoBunker.getCanonPower(), mPlayerTwoBunker.getGeometricalCanonAngleRadian(), mPlayerTwoBunker.getViewCoordinates());
             collidableDrawers.add(mPlayerOneBunker);
         }
@@ -192,7 +194,8 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements SeekBar.
         mGameView.registerDrawer(mLandscape);
         mGameView.invalidate();
 
-        findViewById(R.id.buttonFirePlayerOne).setVisibility(View.VISIBLE);
+        mFireButtonPlayerOne.setVisibility(View.VISIBLE);
+        mFireButtonPlayerTwo.setVisibility(View.VISIBLE);
 
     }
 
