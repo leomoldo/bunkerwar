@@ -1,12 +1,15 @@
 package fr.leomoldo.android.bunkerwar;
 
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -16,7 +19,7 @@ import fr.leomoldo.android.bunkerwar.sdk.Drawer;
 import fr.leomoldo.android.bunkerwar.sdk.GameView;
 import fr.leomoldo.android.bunkerwar.sdk.ViewCoordinates;
 
-public class TwoPlayerGameActivity extends AppCompatActivity implements SeekBar.OnSeekBarChangeListener {
+public class TwoPlayerGameActivity extends AppCompatActivity implements SeekBar.OnSeekBarChangeListener, BombshellAnimatorAsyncTask.CollisionListener {
 
     private final static String LOG_TAG = TwoPlayerGameActivity.class.getSimpleName();
 
@@ -34,6 +37,14 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements SeekBar.
     private TextView mTextViewIndicatorAnglePlayerTwo;
     private TextView mTextViewIndicatorPowerPlayerTwo;
 
+    private Button mFireButtonPlayerOne;
+    private Button mFireButtonPlayerTwo;
+
+    private SeekBar mSeekBarAnglePlayerOne;
+    private SeekBar mSeekBarPowerPlayerOne;
+    private SeekBar mSeekBarAnglePlayerTwo;
+    private SeekBar mSeekBarPowerPlayerTwo;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,10 +56,18 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements SeekBar.
         mTextViewIndicatorPowerPlayerOne = (TextView) findViewById(R.id.textViewIndicatorPowerPlayerOne);
         mTextViewIndicatorAnglePlayerTwo = (TextView) findViewById(R.id.textViewIndicatorAnglePlayerTwo);
         mTextViewIndicatorPowerPlayerTwo = (TextView) findViewById(R.id.textViewIndicatorPowerPlayerTwo);
-        ((SeekBar) findViewById(R.id.seekBarAnglePlayerOne)).setOnSeekBarChangeListener(this);
-        ((SeekBar) findViewById(R.id.seekBarPowerPlayerOne)).setOnSeekBarChangeListener(this);
-        ((SeekBar) findViewById(R.id.seekBarAnglePlayerTwo)).setOnSeekBarChangeListener(this);
-        ((SeekBar) findViewById(R.id.seekBarPowerPlayerTwo)).setOnSeekBarChangeListener(this);
+        mFireButtonPlayerOne = (Button) findViewById(R.id.buttonFirePlayerOne);
+        mFireButtonPlayerTwo = (Button) findViewById(R.id.buttonFirePlayerTwo);
+        mSeekBarAnglePlayerOne = (SeekBar) findViewById(R.id.seekBarAnglePlayerOne);
+        mSeekBarPowerPlayerOne = (SeekBar) findViewById(R.id.seekBarPowerPlayerOne);
+        mSeekBarAnglePlayerTwo = (SeekBar) findViewById(R.id.seekBarAnglePlayerTwo);
+        mSeekBarPowerPlayerTwo = (SeekBar) findViewById(R.id.seekBarPowerPlayerTwo);
+
+        mSeekBarAnglePlayerOne.setOnSeekBarChangeListener(this);
+        mSeekBarPowerPlayerOne.setOnSeekBarChangeListener(this);
+        mSeekBarAnglePlayerTwo.setOnSeekBarChangeListener(this);
+        mSeekBarPowerPlayerTwo.setOnSeekBarChangeListener(this);
+
         mGameView = (GameView) findViewById(R.id.gameView);
 
         final View rootView = getWindow().getDecorView().getRootView();
@@ -57,6 +76,11 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements SeekBar.
                     @Override
                     public void onGlobalLayout() {
                         initializeGame();
+                        if (Build.VERSION.SDK_INT < 16) {
+                            rootView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                        } else {
+                            rootView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                        }
                     }
                 });
     }
@@ -112,27 +136,41 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements SeekBar.
         // Update GameSequencer.
         mGameSequencer.fireButtonPressed(didPlayerOneFire);
 
-        ViewCoordinates initialBombshellCoordinates;
         BombshellPathComputer bombshellPathComputer;
         ArrayList<Drawer> collidableDrawers = new ArrayList<Drawer>();
         collidableDrawers.add(mLandscape);
 
         // Update UI.
         if (didPlayerOneFire) {
-            // This line is commented for debug purposes until GameSequencer is implemented :
-            // findViewById(R.id.buttonFirePlayerOne).setVisibility(View.GONE);
-            initialBombshellCoordinates = mPlayerOneBunker.getViewCoordinates();
-            bombshellPathComputer = new BombshellPathComputer(mPlayerOneBunker.getCanonPower(), mPlayerOneBunker.getGeometricalCanonAngleRadian(), initialBombshellCoordinates);
+            mFireButtonPlayerOne.setVisibility(View.GONE);
+            bombshellPathComputer = new BombshellPathComputer(mPlayerOneBunker.getCanonPower(), mPlayerOneBunker.getGeometricalCanonAngleRadian(), mPlayerOneBunker.getViewCoordinates().clone());
             collidableDrawers.add(mPlayerTwoBunker);
         } else {
-            findViewById(R.id.buttonFirePlayerTwo).setVisibility(View.GONE);
-            initialBombshellCoordinates = mPlayerTwoBunker.getViewCoordinates();
-            bombshellPathComputer = new BombshellPathComputer(mPlayerTwoBunker.getCanonPower(), mPlayerTwoBunker.getGeometricalCanonAngleRadian(), initialBombshellCoordinates);
+            mFireButtonPlayerTwo.setVisibility(View.GONE);
+            bombshellPathComputer = new BombshellPathComputer(mPlayerTwoBunker.getCanonPower(), mPlayerTwoBunker.getGeometricalCanonAngleRadian(), mPlayerTwoBunker.getViewCoordinates().clone());
             collidableDrawers.add(mPlayerOneBunker);
         }
 
-        BombshellAnimatorAsyncTask task = new BombshellAnimatorAsyncTask(mGameView, collidableDrawers);
+        BombshellAnimatorAsyncTask task = new BombshellAnimatorAsyncTask(mGameView, collidableDrawers, this);
         task.execute(bombshellPathComputer);
+    }
+
+    @Override
+    public void onDrawerHit(Drawer drawer) {
+
+        // TODO Update GameSequencer.
+
+        if (drawer == null || drawer.equals(mLandscape)) {
+            Toast.makeText(this, R.string.target_missed, Toast.LENGTH_SHORT).show();
+            mFireButtonPlayerOne.setVisibility(View.VISIBLE);
+            mFireButtonPlayerTwo.setVisibility(View.VISIBLE);
+        } else if (drawer.equals(mPlayerTwoBunker)) {
+            Toast.makeText(this, R.string.player_one_won, Toast.LENGTH_LONG).show();
+            mGameView.unregisterDrawer(mPlayerTwoBunker);
+        } else if (drawer.equals(mPlayerOneBunker)) {
+            Toast.makeText(this, R.string.player_two_won, Toast.LENGTH_LONG).show();
+            mGameView.unregisterDrawer(mPlayerOneBunker);
+        }
     }
 
     private void initializeGame() {

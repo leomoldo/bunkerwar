@@ -11,5 +11,8 @@
     <string name="UI_text_power_initial_value">50</string>
 
     <string name="reload">Recharger</string>
+    <string name="target_missed">C\'est raté...</string>
+    <string name="player_one_won">Victoire pour les rouges!</string>
+    <string name="player_two_won">Victoire pour les jaunes!</string>
 
 </resources>

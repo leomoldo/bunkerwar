@@ -26,15 +26,17 @@ public class BombshellAnimatorAsyncTask extends AsyncTask<BombshellPathComputer,
     private int mViewWidth;
     private Bombshell mBombshell;
     private ArrayList<Drawer> mCollidableDrawers;
+    private CollisionListener mCollisionListener;
 
-    public BombshellAnimatorAsyncTask(GameView gameView, ArrayList<Drawer> collidableDrawers) {
+    public BombshellAnimatorAsyncTask(GameView gameView, ArrayList<Drawer> collidableDrawers, CollisionListener collisionListener) {
         mGameView = gameView;
         mViewHeight = mGameView.getHeight();
         mViewWidth = mGameView.getWidth();
         mCollidableDrawers = collidableDrawers;
+        mCollisionListener = collisionListener;
 
         mBombshell = new Bombshell(Color.BLACK);
-        // mBombshell.setViewCoordinates(initialVC);
+        // mBombshell.setViewCoordinates(new ViewCoordinates(-2*Bombshell.BOMBSHELL_RADIUS, -2*Bombshell.BOMBSHELL_RADIUS));
         mGameView.registerDrawer(mBombshell);
         // mGameView.invalidate();
 
@@ -49,11 +51,13 @@ public class BombshellAnimatorAsyncTask extends AsyncTask<BombshellPathComputer,
         while (true) {
             bombshellPathComputers[0].incrementCoordinates();
             publishProgress(bombshellPathComputers[0].getCurrentCoordinates());
+
             /*
             Log.d(LOG_TAG, "timeCounter : " + bombshellPathComputers[0].getTimeCounter());
             Log.d(LOG_TAG, "currentBombshellX : " + bombshellPathComputers[0].getCurrentCoordinates().getX());
             Log.d(LOG_TAG, "currentBombshellY : " + bombshellPathComputers[0].getCurrentCoordinates().getY());
             */
+
             try {
                 Thread.sleep(ITERATION_WAITING_TIME);
             } catch (InterruptedException e) {
@@ -86,6 +90,7 @@ public class BombshellAnimatorAsyncTask extends AsyncTask<BombshellPathComputer,
     @Override
     protected void onProgressUpdate(ViewCoordinates... values) {
         super.onProgressUpdate(values);
+        Log.d(LOG_TAG, "onProgressUpdate.");
         mBombshell.setViewCoordinates(values[0]);
         mGameView.invalidate();
     }
@@ -93,9 +98,16 @@ public class BombshellAnimatorAsyncTask extends AsyncTask<BombshellPathComputer,
     @Override
     protected void onPostExecute(Drawer drawer) {
         super.onPostExecute(drawer);
+        Log.d(LOG_TAG, "onPostExecute");
         mGameView.unregisterDrawer(mBombshell);
         mGameView.invalidate();
-        Log.d(LOG_TAG, "onPostExecute");
+        mCollisionListener.onDrawerHit(drawer);
+    }
+
+    public interface CollisionListener {
+
+        public void onDrawerHit(Drawer drawer);
+
     }
 
 }
