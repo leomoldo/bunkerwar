@@ -8,8 +8,11 @@ import android.view.ViewTreeObserver;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 import fr.leomoldo.android.bunkerwar.drawer.Bunker;
 import fr.leomoldo.android.bunkerwar.drawer.Landscape;
+import fr.leomoldo.android.bunkerwar.sdk.Drawer;
 import fr.leomoldo.android.bunkerwar.sdk.GameView;
 import fr.leomoldo.android.bunkerwar.sdk.ViewCoordinates;
 
@@ -110,8 +113,9 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements SeekBar.
         mGameSequencer.fireButtonPressed(didPlayerOneFire);
 
         ViewCoordinates initialBombshellCoordinates;
-        Bunker targetBunker;
         BombshellPathComputer bombshellPathComputer;
+        ArrayList<Drawer> collidableDrawers = new ArrayList<Drawer>();
+        collidableDrawers.add(mLandscape);
 
         // Update UI.
         if (didPlayerOneFire) {
@@ -119,15 +123,15 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements SeekBar.
             // findViewById(R.id.buttonFirePlayerOne).setVisibility(View.GONE);
             initialBombshellCoordinates = mPlayerOneBunker.getViewCoordinates();
             bombshellPathComputer = new BombshellPathComputer(mPlayerOneBunker.getCanonPower(), mPlayerOneBunker.getGeometricalCanonAngleRadian(), initialBombshellCoordinates);
-            targetBunker = mPlayerTwoBunker;
+            collidableDrawers.add(mPlayerTwoBunker);
         } else {
             findViewById(R.id.buttonFirePlayerTwo).setVisibility(View.GONE);
             initialBombshellCoordinates = mPlayerTwoBunker.getViewCoordinates();
             bombshellPathComputer = new BombshellPathComputer(mPlayerTwoBunker.getCanonPower(), mPlayerTwoBunker.getGeometricalCanonAngleRadian(), initialBombshellCoordinates);
-            targetBunker = mPlayerOneBunker;
+            collidableDrawers.add(mPlayerOneBunker);
         }
 
-        BombshellAnimatorAsyncTask task = new BombshellAnimatorAsyncTask(mGameView, mLandscape, initialBombshellCoordinates, targetBunker);
+        BombshellAnimatorAsyncTask task = new BombshellAnimatorAsyncTask(mGameView, collidableDrawers);
         task.execute(bombshellPathComputer);
     }
 

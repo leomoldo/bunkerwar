@@ -5,16 +5,17 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import java.util.ArrayList;
+
 import fr.leomoldo.android.bunkerwar.drawer.Bombshell;
-import fr.leomoldo.android.bunkerwar.drawer.Bunker;
-import fr.leomoldo.android.bunkerwar.drawer.Landscape;
+import fr.leomoldo.android.bunkerwar.sdk.Drawer;
 import fr.leomoldo.android.bunkerwar.sdk.GameView;
 import fr.leomoldo.android.bunkerwar.sdk.ViewCoordinates;
 
 /**
  * Created by leomoldo on 19/05/2016.
  */
-public class BombshellAnimatorAsyncTask extends AsyncTask<BombshellPathComputer, ViewCoordinates, Boolean> {
+public class BombshellAnimatorAsyncTask extends AsyncTask<BombshellPathComputer, ViewCoordinates, Drawer> {
 
     private static final String LOG_TAG = BombshellAnimatorAsyncTask.class.getSimpleName();
 
@@ -23,21 +24,19 @@ public class BombshellAnimatorAsyncTask extends AsyncTask<BombshellPathComputer,
     private GameView mGameView;
     private int mViewHeight;
     private int mViewWidth;
-    private Bunker mTargetBunker;
-    private Landscape mLandscape;
     private Bombshell mBombshell;
+    private ArrayList<Drawer> mCollidableDrawers;
 
-    public BombshellAnimatorAsyncTask(GameView gameView, Landscape landscape, ViewCoordinates initialVC, Bunker targetBunker) {
+    public BombshellAnimatorAsyncTask(GameView gameView, ArrayList<Drawer> collidableDrawers) {
         mGameView = gameView;
-        mLandscape = landscape;
         mViewHeight = mGameView.getHeight();
         mViewWidth = mGameView.getWidth();
-        mTargetBunker = targetBunker;
+        mCollidableDrawers = collidableDrawers;
 
         mBombshell = new Bombshell(Color.BLACK);
-        mBombshell.setViewCoordinates(initialVC);
+        // mBombshell.setViewCoordinates(initialVC);
         mGameView.registerDrawer(mBombshell);
-        mGameView.invalidate();
+        // mGameView.invalidate();
 
         /*
         Log.d(LOG_TAG, "View Width : " + mViewWidth);
@@ -46,9 +45,8 @@ public class BombshellAnimatorAsyncTask extends AsyncTask<BombshellPathComputer,
     }
 
     @Override
-    protected Boolean doInBackground(BombshellPathComputer... bombshellPathComputers) {
-        Boolean shouldHalt = false;
-        while (!shouldHalt) {
+    protected Drawer doInBackground(BombshellPathComputer... bombshellPathComputers) {
+        while (true) {
             bombshellPathComputers[0].incrementCoordinates();
             publishProgress(bombshellPathComputers[0].getCurrentCoordinates());
             /*
@@ -62,26 +60,11 @@ public class BombshellAnimatorAsyncTask extends AsyncTask<BombshellPathComputer,
                 e.printStackTrace();
             }
 
-            // We must prevent the playing bunker from hitting itself when firing (don't check when timecounter is to low).
-            // Check if bombshell dit hit player one bunker.
-            /*
-            if ( Math.abs(bombshellPathComputers[0].getCurrentCoordinates().getX() - mBunkerPlayerOneCoordinates.getX()) < GameView.BUNKER_RADIUS &&
-                    Math.abs(bombshellPathComputers[0].getCurrentCoordinates().getY() - mBunkerPlayerOneCoordinates.getY()) < GameView.BUNKER_RADIUS) {
-                Log.d(LOG_TAG, "Bombshell collided with player ONE.");
-                shouldHalt = true;
-            }
-            */
-
-            // Check if bombshell dit hit target bunker.
-            if (mTargetBunker.isHitByBombshell(bombshellPathComputers[0].getCurrentCoordinates(), mViewWidth, mViewHeight)) {
-                Log.d(LOG_TAG, "Bombshell collided with target Bunker.");
-                shouldHalt = true;
-            }
-
-            // Check that bombshell did not collide landscape.
-            if (mLandscape.isHitByBombshell(bombshellPathComputers[0].getCurrentCoordinates(), mViewWidth, mViewHeight)) {
-                Log.d(LOG_TAG, "Bombshell collided with landscape.");
-                shouldHalt = true;
+            // Check if a collidable drawer was hit.
+            for (Drawer drawer : mCollidableDrawers) {
+                if (drawer.isHitByBombshell(bombshellPathComputers[0].getCurrentCoordinates(), mViewWidth, mViewHeight)) {
+                    return drawer;
+                }
             }
 
             // Check that bombshell did not left the screen from right of left side (+ bottom but is it really useful?).
@@ -95,10 +78,9 @@ public class BombshellAnimatorAsyncTask extends AsyncTask<BombshellPathComputer,
                 Log.d(LOG_TAG, "Bombshell Y : " + bombshellPathComputers[0].getCurrentCoordinates().getY());
                 */
 
-                shouldHalt = true;
+                return null;
             }
         }
-        return false;
     }
 
     @Override
@@ -109,8 +91,8 @@ public class BombshellAnimatorAsyncTask extends AsyncTask<BombshellPathComputer,
     }
 
     @Override
-    protected void onPostExecute(Boolean b) {
-        super.onPostExecute(b);
+    protected void onPostExecute(Drawer drawer) {
+        super.onPostExecute(drawer);
         mGameView.unregisterDrawer(mBombshell);
         mGameView.invalidate();
         Log.d(LOG_TAG, "onPostExecute");
