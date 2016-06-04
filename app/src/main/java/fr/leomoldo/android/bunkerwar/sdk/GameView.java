@@ -35,6 +35,11 @@ public class GameView extends View {
         return 0;
     }
 
+    public int registerDrawer(Drawer drawer, int index) {
+        mRegisteredDrawers.add(index, drawer);
+        return 0;
+    }
+
     public int unregisterDrawer(Drawer drawer) {
 
         if (mRegisteredDrawers == null) {

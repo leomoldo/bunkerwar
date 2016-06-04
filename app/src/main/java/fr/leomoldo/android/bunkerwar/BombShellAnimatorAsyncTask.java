@@ -37,7 +37,7 @@ public class BombshellAnimatorAsyncTask extends AsyncTask<BombshellPathComputer,
 
         mBombshell = new Bombshell(Color.BLACK);
         // mBombshell.setViewCoordinates(new ViewCoordinates(-2*Bombshell.BOMBSHELL_RADIUS, -2*Bombshell.BOMBSHELL_RADIUS));
-        mGameView.registerDrawer(mBombshell);
+        mGameView.registerDrawer(mBombshell, 0);
         // mGameView.invalidate();
 
         /*
