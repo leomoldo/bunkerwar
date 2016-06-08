@@ -1,4 +1,4 @@
-package fr.leomoldo.android.bunkerwar;
+package fr.leomoldo.android.bunkerwar.activity;
 
 import android.graphics.Color;
 import android.os.Build;
@@ -13,6 +13,10 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import fr.leomoldo.android.bunkerwar.BombshellAnimatorAsyncTask;
+import fr.leomoldo.android.bunkerwar.BombshellPathComputer;
+import fr.leomoldo.android.bunkerwar.GameSequencer;
+import fr.leomoldo.android.bunkerwar.R;
 import fr.leomoldo.android.bunkerwar.drawer.Bunker;
 import fr.leomoldo.android.bunkerwar.drawer.Landscape;
 import fr.leomoldo.android.bunkerwar.sdk.Drawer;
@@ -49,7 +53,7 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements SeekBar.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_game);
+        setContentView(R.layout.activity_two_player_game);
 
         // Retrieve useful views.
         mTextViewIndicatorAnglePlayerOne = (TextView) findViewById(R.id.textViewIndicatorAnglePlayerOne);
@@ -126,7 +130,7 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements SeekBar.
         initializeGame();
     }
 
-    public void onFireButtonClicked(View view) {
+    public void onButtonClickedFire(View view) {
         // Check which player has clicked the button.
         Boolean didPlayerOneFire = false;
         if (view.getId() == R.id.buttonFirePlayerOne) {
@@ -161,6 +165,7 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements SeekBar.
     public void onDrawerHit(Drawer drawer) {
 
         // TODO Update GameSequencer.
+        // TODO Replace by AlertDialog displaying rounds count.
 
         if (drawer == null || drawer.equals(mLandscape)) {
             Toast.makeText(this, R.string.target_missed, Toast.LENGTH_SHORT).show();

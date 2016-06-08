@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/blue_sky"
-    tools:context=".TwoPlayerGameActivity">
+    tools:context=".activity.TwoPlayerGameActivity">
 
     <!-- GameView. -->
 
@@ -170,7 +170,7 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@id/linearLayoutPower"
         android:layout_margin="@dimen/UI_global_margin"
-        android:onClick="onFireButtonClicked"
+        android:onClick="onButtonClickedFire"
         android:text="@string/UI_text_button_fire"
         android:visibility="visible"></Button>
 
@@ -181,7 +181,7 @@
         android:layout_alignParentRight="true"
         android:layout_below="@id/linearLayoutPower"
         android:layout_margin="@dimen/UI_global_margin"
-        android:onClick="onFireButtonClicked"
+        android:onClick="onButtonClickedFire"
         android:text="@string/UI_text_button_fire"
         android:visibility="gone"></Button>
 
