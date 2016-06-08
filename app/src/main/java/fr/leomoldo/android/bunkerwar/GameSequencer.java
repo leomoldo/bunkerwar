@@ -10,21 +10,27 @@ public class GameSequencer {
 		PLAYER_ONE_WON,
 		PLAYER_TWO_WON
 	}
-	
-	
-	private Integer mRoundsCount;
-	private GameState mGameState;
+
+
+    private Integer mRoundsCountPlayerOne;
+    private Integer mRoundsCountPlayerTwo;
+    private GameState mGameState;
 	
 	
 	public GameSequencer() {
-		mRoundsCount = 1;
-		mGameState = GameState.PLAYER_ONE_PLAYING;
+        mRoundsCountPlayerOne = 1;
+        mRoundsCountPlayerTwo = 0;
+        mGameState = GameState.PLAYER_ONE_PLAYING;
 	}
 
-	public Integer getRoundsCount() {
-		return mRoundsCount;
-	}
-	
+    public Integer getmRoundsCountPlayerOne() {
+        return mRoundsCountPlayerOne;
+    }
+
+    public Integer getmRoundsCountPlayerTwo() {
+        return mRoundsCountPlayerTwo;
+    }
+
 	public GameState getGameState() {
 		return mGameState;
 	}
@@ -49,16 +55,14 @@ public class GameSequencer {
 			default:
 				break;
 		}
-		
-		mRoundsCount++;
 	}
 
-	public void bombshellTouchedBunker(Boolean bunkerOneTouched) {
-		// To be implemented.
+    public void bombshellDitHitBunker(Boolean bunkerOneHit) {
+        // To be implemented.
 	}
 
-	public void bombshellTouchedLandscape() {
-		// To be implemented.
+    public void bombshellMissedTarget() {
+        // To be implemented.
 	}
 	
 	public void exportGameResult() {
