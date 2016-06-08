@@ -23,11 +23,11 @@ public class GameSequencer {
         mGameState = GameState.PLAYER_ONE_PLAYING;
 	}
 
-    public Integer getmRoundsCountPlayerOne() {
+    public Integer getRoundsCountPlayerOne() {
         return mRoundsCountPlayerOne;
     }
 
-    public Integer getmRoundsCountPlayerTwo() {
+    public Integer getRoundsCountPlayerTwo() {
         return mRoundsCountPlayerTwo;
     }
 
@@ -63,9 +63,5 @@ public class GameSequencer {
 
     public void bombshellMissedTarget() {
         // To be implemented.
-	}
-	
-	public void exportGameResult() {
-		// To be implemented.
 	}
 }
