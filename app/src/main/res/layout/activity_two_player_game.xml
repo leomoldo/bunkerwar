@@ -13,16 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <!-- Reload Button. (Debug only). -->
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:onClick="onReloadButtonClicked"
-        android:text="@string/reload" />
-
-    <!-- Seebars, indicators and labels (in LinearLayouts). -->
+    <!-- SeekBars, indicators and labels (in LinearLayouts). -->
     <LinearLayout
         android:id="@+id/linearLayoutAngle"
         android:layout_width="match_parent"

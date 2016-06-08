@@ -126,10 +126,6 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements SeekBar.
 
     }
 
-    public void onReloadButtonClicked(View view) {
-        initializeGame();
-    }
-
     public void onButtonClickedFire(View view) {
         // Check which player has clicked the button.
         Boolean didPlayerOneFire = false;
