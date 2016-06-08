@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
@@ -32,6 +33,8 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements SeekBar.
     private Bunker mPlayerOneBunker;
     private Bunker mPlayerTwoBunker;
     private Landscape mLandscape;
+
+    private BombshellAnimatorAsyncTask mBombshellAnimatorAsyncTask;
 
     // Views :
     private GameView mGameView;
@@ -90,6 +93,20 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements SeekBar.
     }
 
     @Override
+    protected void onDestroy() {
+        if (mBombshellAnimatorAsyncTask != null) {
+            mBombshellAnimatorAsyncTask.cancel(true);
+        }
+        super.onDestroy();
+    }
+
+    @Override
+    public void onBackPressed() {
+        // TODO Implement AlertDialog to confirm call to super.onBackPressed.
+        super.onBackPressed();
+    }
+
+    @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
         Integer value = progress;
 
@@ -127,6 +144,12 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements SeekBar.
     }
 
     public void onButtonClickedFire(View view) {
+
+        if (mBombshellAnimatorAsyncTask != null) {
+            Log.d(LOG_TAG, "There is a Bombshell flying already");
+            return;
+        }
+
         // Check which player has clicked the button.
         Boolean didPlayerOneFire = false;
         if (view.getId() == R.id.buttonFirePlayerOne) {
@@ -153,12 +176,14 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements SeekBar.
             collidableDrawers.add(mPlayerOneBunker);
         }
 
-        BombshellAnimatorAsyncTask task = new BombshellAnimatorAsyncTask(mGameView, collidableDrawers, this);
-        task.execute(bombshellPathComputer);
+        mBombshellAnimatorAsyncTask = new BombshellAnimatorAsyncTask(mGameView, collidableDrawers, this);
+        mBombshellAnimatorAsyncTask.execute(bombshellPathComputer);
     }
 
     @Override
     public void onDrawerHit(Drawer drawer) {
+
+        mBombshellAnimatorAsyncTask = null;
 
         // TODO Update GameSequencer.
         // TODO Replace by AlertDialog displaying rounds count.

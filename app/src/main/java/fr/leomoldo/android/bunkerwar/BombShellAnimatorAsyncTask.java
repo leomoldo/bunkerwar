@@ -49,6 +49,11 @@ public class BombshellAnimatorAsyncTask extends AsyncTask<BombshellPathComputer,
     @Override
     protected Drawer doInBackground(BombshellPathComputer... bombshellPathComputers) {
         while (true) {
+
+            if (isCancelled()) {
+                return null;
+            }
+
             bombshellPathComputers[0].incrementCoordinates();
             publishProgress(bombshellPathComputers[0].getCurrentCoordinates());
 
@@ -103,6 +108,16 @@ public class BombshellAnimatorAsyncTask extends AsyncTask<BombshellPathComputer,
         mGameView.invalidate();
         mCollisionListener.onDrawerHit(drawer);
     }
+
+    /*
+    @Override
+    protected void onCancelled(Drawer drawer) {
+        super.onCancelled(drawer);
+        mGameView.unregisterDrawer(mBombshell);
+        mGameView.invalidate();
+        mCollisionListener.onDrawerHit(drawer);
+    }
+    */
 
     public interface CollisionListener {
 
