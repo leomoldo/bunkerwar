@@ -2,12 +2,14 @@ package fr.leomoldo.android.bunkerwar.drawer;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 
 import fr.leomoldo.android.bunkerwar.sdk.Drawer;
 import fr.leomoldo.android.bunkerwar.sdk.ViewCoordinates;
 
-public class Bunker extends Drawer {
+public class Bunker extends Drawer implements Parcelable {
 
 	private final static Double BUNKER_CANON_LENGTH = 30.0;
 	public final static Float BUNKER_RADIUS = 17f;
@@ -19,6 +21,7 @@ public class Bunker extends Drawer {
 
 	private Integer mAsboluteCanonAngle; // Integer between 0 and 90.
 	private Integer mCanonPower; // Integer between 0 and 100.
+    private int mColor;
 
 
 	public Bunker(Boolean isPlayerOne, int color, ViewCoordinates vc) {
@@ -28,13 +31,39 @@ public class Bunker extends Drawer {
 
 		setViewCoordinates(vc);
 
-		Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-		paint.setColor(color);
-		paint.setStyle(Paint.Style.FILL);
-		paint.setStrokeCap(Paint.Cap.BUTT);
-		paint.setStrokeWidth(BUNKER_STROKE_WIDTH);
-		setPaint(paint);
-	}
+        mColor = color;
+        initializePaint();
+    }
+
+    protected Bunker(Parcel in) {
+        mIsPlayerOne = in.readInt() >= 1;
+        mAsboluteCanonAngle = in.readInt();
+        mCanonPower = in.readInt();
+        mColor = in.readInt();
+        setViewCoordinates((ViewCoordinates) in.readParcelable(null));
+        initializePaint();
+    }
+
+    public static final Creator<Bunker> CREATOR = new Creator<Bunker>() {
+        @Override
+        public Bunker createFromParcel(Parcel in) {
+            return new Bunker(in);
+        }
+
+        @Override
+        public Bunker[] newArray(int size) {
+            return new Bunker[size];
+        }
+    };
+
+    protected void initializePaint() {
+        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        paint.setColor(mColor);
+        paint.setStyle(Paint.Style.FILL);
+        paint.setStrokeCap(Paint.Cap.BUTT);
+        paint.setStrokeWidth(BUNKER_STROKE_WIDTH);
+        setPaint(paint);
+    }
 
 	public Integer getAbsoluteCanonAngleDegrees() {
 		return mAsboluteCanonAngle;
@@ -85,5 +114,19 @@ public class Bunker extends Drawer {
                         Math.pow(bombshellVC.getY() - getViewCoordinates().getY(), 2)
         );
         return distance < BUNKER_RADIUS * BUNKER_HITBOX_EXPANSION_RATIO;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(mIsPlayerOne ? 1 : 0);
+        dest.writeInt(mAsboluteCanonAngle);
+        dest.writeInt(mCanonPower);
+        dest.writeInt(mColor);
+        dest.writeParcelable(getViewCoordinates(), 0);
     }
 }
