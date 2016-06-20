@@ -80,22 +80,33 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements SeekBar.
         mFireButtonPlayerOne.setVisibility(View.VISIBLE);
         mFireButtonPlayerTwo.setVisibility(View.VISIBLE);
 
-        // Initialize game model.
-        mGameSequencer = new GameSequencer();
-        mLandscape = new Landscape(getResources().getColor(R.color.green_land_slice));
-        mPlayerOneBunker = new Bunker(true, Color.RED, getBunkerOneCoordinates());
-        mPlayerTwoBunker = new Bunker(false, Color.YELLOW, getBunkerTwoCoordinates());
+
 
         final View rootView = getWindow().getDecorView().getRootView();
         rootView.getViewTreeObserver().addOnGlobalLayoutListener(
                 new ViewTreeObserver.OnGlobalLayoutListener() {
                     @Override
                     public void onGlobalLayout() {
+
+                        // Only useful for now? (with "reload game" debug button).
+                        /*
+                        mGameView.unregisterDrawer(mLandscape);
+                        mGameView.unregisterDrawer(mPlayerOneBunker);
+                        mGameView.unregisterDrawer(mPlayerTwoBunker);
+                        */
+
+                        // Initialize game model.
+                        mGameSequencer = new GameSequencer();
+                        mLandscape = new Landscape(getResources().getColor(R.color.green_land_slice));
+                        mPlayerOneBunker = new Bunker(true, Color.RED, getBunkerOneCoordinates());
+                        mPlayerTwoBunker = new Bunker(false, Color.YELLOW, getBunkerTwoCoordinates());
+
                         // Initialize GameView.
                         mGameView.registerDrawer(mPlayerOneBunker);
                         mGameView.registerDrawer(mPlayerTwoBunker);
                         mGameView.registerDrawer(mLandscape);
                         mGameView.invalidate();
+
                         if (Build.VERSION.SDK_INT < 16) {
                             rootView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
                         } else {
@@ -212,17 +223,6 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements SeekBar.
             Toast.makeText(this, R.string.player_two_won, Toast.LENGTH_LONG).show();
             mGameView.unregisterDrawer(mPlayerOneBunker);
         }
-    }
-
-    // TODO Remove.
-    private void initializeGame() {
-
-        // Only useful for now? (with "reload game" debug button).
-        /*
-        mGameView.unregisterDrawer(mLandscape);
-        mGameView.unregisterDrawer(mPlayerOneBunker);
-        mGameView.unregisterDrawer(mPlayerTwoBunker);
-        */
     }
 
     private ViewCoordinates getBunkerOneCoordinates() {
