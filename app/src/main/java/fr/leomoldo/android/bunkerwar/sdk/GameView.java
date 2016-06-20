@@ -28,7 +28,6 @@ public class GameView extends View {
         this.setWillNotDraw(false);
     }
 
-    // TODO Add a way to change drawing order?
     // TODO Remove int returned value (no error codes needed?) --> See ArrayList doc.
     public int registerDrawer(Drawer drawer) {
         mRegisteredDrawers.add(drawer);
