@@ -80,15 +80,13 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements SeekBar.
         mFireButtonPlayerOne.setVisibility(View.VISIBLE);
         mFireButtonPlayerTwo.setVisibility(View.VISIBLE);
 
-
-
         final View rootView = getWindow().getDecorView().getRootView();
         rootView.getViewTreeObserver().addOnGlobalLayoutListener(
                 new ViewTreeObserver.OnGlobalLayoutListener() {
                     @Override
                     public void onGlobalLayout() {
 
-                        // Only useful for now? (with "reload game" debug button).
+                        // TODO Clean :
                         /*
                         mGameView.unregisterDrawer(mLandscape);
                         mGameView.unregisterDrawer(mPlayerOneBunker);

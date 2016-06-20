@@ -46,14 +46,12 @@ public class Landscape extends Drawer implements Parcelable {
 
     protected Landscape(Parcel in) {
         mColor = in.readInt();
-
-        // TODO Refactor to implement this :
-        /*
         int[] parcelArray = new int[calculateFinalLandscapeWidth(INITIAL_LANDSCAPE_WIDTH, NUMBER_OF_INTERPOLATION_ITERATIONS)];
         in.readIntArray(parcelArray);
-        mLandscapeHeights = new ArrayList<Integer>(parcelArray);
-        */
-
+        mLandscapeHeights = new ArrayList<Integer>();
+        for (int i = 0; i < parcelArray.length; i++) {
+            mLandscapeHeights.add(i, parcelArray[i]);
+        }
         initializePaint();
     }
 
@@ -90,7 +88,6 @@ public class Landscape extends Drawer implements Parcelable {
 		return mLandscapeHeights.size();
 	}
 
-
     @Override
     public void draw(Canvas canvas, int viewWidth, int viewHeight) {
         for (int i = 0; i < getNumberOfLandscapeSlices(); i++) {
@@ -114,7 +111,6 @@ public class Landscape extends Drawer implements Parcelable {
 			currentInterpolationValue = ( heightsArrayList.get(i-1) + heightsArrayList.get(i) ) / 2;
 			heightsArrayList.add(i, currentInterpolationValue);
 		}
-		
 	}
 	
 	private int calculateFinalLandscapeWidth(int initialWidth, int numberOfIterations) {
@@ -137,7 +133,10 @@ public class Landscape extends Drawer implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(mColor);
-        // TODO Refactor to implement this correctly :
-        dest.writeArray(mLandscapeHeights.toArray());
+        int[] intArray = new int[mLandscapeHeights.size()];
+        for (int i = 0; i < mLandscapeHeights.size(); i++) {
+            intArray[i] = mLandscapeHeights.get(i);
+        }
+        dest.writeIntArray(intArray);
     }
 }
