@@ -2,6 +2,8 @@ package fr.leomoldo.android.bunkerwar.drawer;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -9,7 +11,7 @@ import java.util.Random;
 import fr.leomoldo.android.bunkerwar.sdk.Drawer;
 import fr.leomoldo.android.bunkerwar.sdk.ViewCoordinates;
 
-public class Landscape extends Drawer {
+public class Landscape extends Drawer implements Parcelable {
 
 	private final static Integer INITIAL_LANDSCAPE_WIDTH = 6;
 	private final static Integer NUMBER_OF_INTERPOLATION_ITERATIONS = 4;
@@ -23,6 +25,7 @@ public class Landscape extends Drawer {
 
 	// Contains Integers between 0 and MAX_HEIGHT_VALUE.
 	private ArrayList<Integer> mLandscapeHeights;
+    private int mColor;
 
 
     public Landscape(int color) {
@@ -37,8 +40,38 @@ public class Landscape extends Drawer {
 			interpolateHeightsArrayList(mLandscapeHeights);
 		}
 
+        mColor = color;
+        initializePaint();
+    }
+
+    protected Landscape(Parcel in) {
+        mColor = in.readInt();
+
+        // TODO Refactor to implement this :
+        /*
+        int[] parcelArray = new int[calculateFinalLandscapeWidth(INITIAL_LANDSCAPE_WIDTH, NUMBER_OF_INTERPOLATION_ITERATIONS)];
+        in.readIntArray(parcelArray);
+        mLandscapeHeights = new ArrayList<Integer>(parcelArray);
+        */
+
+        initializePaint();
+    }
+
+    public static final Creator<Landscape> CREATOR = new Creator<Landscape>() {
+        @Override
+        public Landscape createFromParcel(Parcel in) {
+            return new Landscape(in);
+        }
+
+        @Override
+        public Landscape[] newArray(int size) {
+            return new Landscape[size];
+        }
+    };
+
+    protected void initializePaint() {
         Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        paint.setColor(color);
+        paint.setColor(mColor);
         setPaint(paint);
     }
 
@@ -94,5 +127,17 @@ public class Landscape extends Drawer {
     private float getLandscapeHeightForX(float x, int viewWidth, int mViewHeight) {
         int sliceIndex = (int) (x / (viewWidth / getNumberOfLandscapeSlices()));
         return mViewHeight - mViewHeight * Landscape.MAX_HEIGHT_RATIO_FOR_LANDSCAPE * getLandscapeHeightPercentage(sliceIndex);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(mColor);
+        // TODO Refactor to implement this correctly :
+        dest.writeArray(mLandscapeHeights.toArray());
     }
 }
