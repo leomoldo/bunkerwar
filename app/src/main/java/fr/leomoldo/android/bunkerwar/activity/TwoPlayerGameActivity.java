@@ -28,6 +28,11 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements SeekBar.
 
     private final static String LOG_TAG = TwoPlayerGameActivity.class.getSimpleName();
 
+    private final static String BUNDLE_KEY_GAME_SEQUENCER = TwoPlayerGameActivity.class.getName() + ".gameSequencer";
+    private final static String BUNDLE_KEY_BUNKER_ONE = TwoPlayerGameActivity.class.getName() + ".bunkerOne";
+    private final static String BUNDLE_KEY_BUNKER_TWO = TwoPlayerGameActivity.class.getName() + ".bunkerTwo";
+    private final static String BUNDLE_KEY_LANDSCAPE = TwoPlayerGameActivity.class.getName() + ".landscape";
+
     // Model :
     private GameSequencer mGameSequencer;
     private Bunker mPlayerOneBunker;
@@ -53,7 +58,7 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements SeekBar.
     private SeekBar mSeekBarPowerPlayerTwo;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_two_player_game);
@@ -93,11 +98,21 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements SeekBar.
                         mGameView.unregisterDrawer(mPlayerTwoBunker);
                         */
 
-                        // Initialize game model.
-                        mGameSequencer = new GameSequencer();
-                        mLandscape = new Landscape(getResources().getColor(R.color.green_land_slice));
-                        mPlayerOneBunker = new Bunker(true, Color.RED, getBunkerOneCoordinates());
-                        mPlayerTwoBunker = new Bunker(false, Color.YELLOW, getBunkerTwoCoordinates());
+                        // Initialize or restore game model.
+                        if (savedInstanceState != null) {
+                            mGameSequencer = savedInstanceState.getParcelable(BUNDLE_KEY_GAME_SEQUENCER);
+                            mLandscape = savedInstanceState.getParcelable(BUNDLE_KEY_LANDSCAPE);
+                            mPlayerOneBunker = savedInstanceState.getParcelable(BUNDLE_KEY_BUNKER_ONE);
+                            mPlayerTwoBunker = savedInstanceState.getParcelable(BUNDLE_KEY_BUNKER_TWO);
+
+                            // TODO : Update UI Controls (Seekbars and text etc...).
+
+                        } else {
+                            mGameSequencer = new GameSequencer();
+                            mLandscape = new Landscape(getResources().getColor(R.color.green_land_slice));
+                            mPlayerOneBunker = new Bunker(true, Color.RED, getBunkerOneCoordinates());
+                            mPlayerTwoBunker = new Bunker(false, Color.YELLOW, getBunkerTwoCoordinates());
+                        }
 
                         // Initialize GameView.
                         mGameView.registerDrawer(mPlayerOneBunker);
@@ -112,6 +127,15 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements SeekBar.
                         }
                     }
                 });
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putParcelable(BUNDLE_KEY_GAME_SEQUENCER, mGameSequencer);
+        outState.putParcelable(BUNDLE_KEY_LANDSCAPE, mLandscape);
+        outState.putParcelable(BUNDLE_KEY_BUNKER_ONE, mPlayerOneBunker);
+        outState.putParcelable(BUNDLE_KEY_BUNKER_TWO, mPlayerTwoBunker);
+        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -135,21 +159,29 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements SeekBar.
         switch (seekBar.getId()) {
 
             case R.id.seekBarAnglePlayerOne:
-                mPlayerOneBunker.setAbsoluteCanonAngle(progress);
+                if (mPlayerOneBunker != null) {
+                    mPlayerOneBunker.setAbsoluteCanonAngle(progress);
+                }
                 mGameView.invalidate();
                 mTextViewIndicatorAnglePlayerOne.setText(value.toString());
                 break;
             case R.id.seekBarPowerPlayerOne:
-                mPlayerOneBunker.setCanonPower(progress);
+                if (mPlayerOneBunker != null) {
+                    mPlayerOneBunker.setCanonPower(progress);
+                }
                 mTextViewIndicatorPowerPlayerOne.setText(value.toString());
                 break;
             case R.id.seekBarAnglePlayerTwo:
-                mPlayerTwoBunker.setAbsoluteCanonAngle(progress);
+                if (mPlayerTwoBunker != null) {
+                    mPlayerTwoBunker.setAbsoluteCanonAngle(progress);
+                }
                 mGameView.invalidate();
                 mTextViewIndicatorAnglePlayerTwo.setText(value.toString());
                 break;
             case R.id.seekBarPowerPlayerTwo:
-                mPlayerTwoBunker.setCanonPower(progress);
+                if (mPlayerTwoBunker != null) {
+                    mPlayerTwoBunker.setCanonPower(progress);
+                }
                 mTextViewIndicatorPowerPlayerTwo.setText(value.toString());
                 break;
         }

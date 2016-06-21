@@ -23,7 +23,6 @@ public class Bunker extends Drawer implements Parcelable {
 	private Integer mCanonPower; // Integer between 0 and 100.
     private int mColor;
 
-
 	public Bunker(Boolean isPlayerOne, int color, ViewCoordinates vc) {
 		mIsPlayerOne = isPlayerOne;
 		mCanonPower = 50;
@@ -40,7 +39,8 @@ public class Bunker extends Drawer implements Parcelable {
         mAsboluteCanonAngle = in.readInt();
         mCanonPower = in.readInt();
         mColor = in.readInt();
-        setViewCoordinates((ViewCoordinates) in.readParcelable(null));
+        ViewCoordinates vc = in.readParcelable(getClass().getClassLoader());
+        setViewCoordinates(vc);
         initializePaint();
     }
 
@@ -55,6 +55,20 @@ public class Bunker extends Drawer implements Parcelable {
             return new Bunker[size];
         }
     };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(mIsPlayerOne ? 1 : 0);
+        dest.writeInt(mAsboluteCanonAngle);
+        dest.writeInt(mCanonPower);
+        dest.writeInt(mColor);
+        dest.writeParcelable(getViewCoordinates(), 0);
+    }
 
     protected void initializePaint() {
         Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -114,19 +128,5 @@ public class Bunker extends Drawer implements Parcelable {
                         Math.pow(bombshellVC.getY() - getViewCoordinates().getY(), 2)
         );
         return distance < BUNKER_RADIUS * BUNKER_HITBOX_EXPANSION_RATIO;
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(mIsPlayerOne ? 1 : 0);
-        dest.writeInt(mAsboluteCanonAngle);
-        dest.writeInt(mCanonPower);
-        dest.writeInt(mColor);
-        dest.writeParcelable(getViewCoordinates(), 0);
     }
 }

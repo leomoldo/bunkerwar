@@ -33,6 +33,17 @@ public class ViewCoordinates implements Parcelable {
         }
     };
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeFloat(mX);
+        dest.writeFloat(mY);
+    }
+
     public Float getY() {
         return mY;
     }
@@ -52,16 +63,5 @@ public class ViewCoordinates implements Parcelable {
     @Override
     public ViewCoordinates clone() {
         return new ViewCoordinates(getX(), getY());
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeFloat(mX);
-        dest.writeFloat(mY);
     }
 }

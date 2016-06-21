@@ -67,6 +67,21 @@ public class Landscape extends Drawer implements Parcelable {
         }
     };
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(mColor);
+        int[] intArray = new int[mLandscapeHeights.size()];
+        for (int i = 0; i < mLandscapeHeights.size(); i++) {
+            intArray[i] = mLandscapeHeights.get(i);
+        }
+        dest.writeIntArray(intArray);
+    }
+
     protected void initializePaint() {
         Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         paint.setColor(mColor);
@@ -123,20 +138,5 @@ public class Landscape extends Drawer implements Parcelable {
     private float getLandscapeHeightForX(float x, int viewWidth, int mViewHeight) {
         int sliceIndex = (int) (x / (viewWidth / getNumberOfLandscapeSlices()));
         return mViewHeight - mViewHeight * Landscape.MAX_HEIGHT_RATIO_FOR_LANDSCAPE * getLandscapeHeightPercentage(sliceIndex);
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(mColor);
-        int[] intArray = new int[mLandscapeHeights.size()];
-        for (int i = 0; i < mLandscapeHeights.size(); i++) {
-            intArray[i] = mLandscapeHeights.get(i);
-        }
-        dest.writeIntArray(intArray);
     }
 }
