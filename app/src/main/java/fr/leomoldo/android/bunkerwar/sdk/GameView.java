@@ -28,28 +28,16 @@ public class GameView extends View {
         this.setWillNotDraw(false);
     }
 
-    // TODO Remove int returned value (no error codes needed?) --> See ArrayList doc.
-    public int registerDrawer(Drawer drawer) {
+    public void registerDrawer(Drawer drawer) {
         mRegisteredDrawers.add(drawer);
-        return 0;
     }
 
-    public int registerDrawer(Drawer drawer, int index) {
+    public void registerDrawer(Drawer drawer, int index) {
         mRegisteredDrawers.add(index, drawer);
-        return 0;
     }
 
-    public int unregisterDrawer(Drawer drawer) {
-
-        if (mRegisteredDrawers == null) {
-            return 0;
-        }
-
-        if (mRegisteredDrawers.remove(drawer)) {
-            return 0;
-        } else {
-            return 0;
-        }
+    public void unregisterDrawer(Drawer drawer) {
+        mRegisteredDrawers.remove(drawer);
     }
 
     @Override
