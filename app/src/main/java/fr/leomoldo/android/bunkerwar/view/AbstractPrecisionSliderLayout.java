@@ -16,7 +16,7 @@ import fr.leomoldo.android.bunkerwar.R;
 public abstract class AbstractPrecisionSliderLayout extends LinearLayout implements SeekBar.OnSeekBarChangeListener, Button.OnClickListener {
 
     public interface PrecisionSliderLayoutListener {
-        void onValueChanged(int newValue);
+        void onValueChanged(AbstractPrecisionSliderLayout layout, int newValue);
     }
 
     protected SeekBar mSeekBar;
@@ -67,7 +67,7 @@ public abstract class AbstractPrecisionSliderLayout extends LinearLayout impleme
         Integer newValue = progress;
         mTextViewValue.setText(newValue.toString());
         if (fromUser) {
-            mListener.onValueChanged(progress);
+            mListener.onValueChanged(this, progress);
         }
     }
 
@@ -94,6 +94,6 @@ public abstract class AbstractPrecisionSliderLayout extends LinearLayout impleme
             default:
         }
         mSeekBar.setProgress(currentValue);
-        mListener.onValueChanged(currentValue);
+        mListener.onValueChanged(this, currentValue);
     }
 }

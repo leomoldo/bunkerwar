@@ -99,10 +99,30 @@ public class GameSequencer implements Parcelable {
 	}
 
     public void bombshellDitHitBunker(Boolean bunkerOneHit) {
-        // To be implemented.
-	}
+        if (bunkerOneHit) {
+            mGameState = GameState.PLAYER_TWO_WON;
+        } else {
+            mGameState = GameState.PLAYER_ONE_WON;
+        }
+    }
 
     public void bombshellMissedTarget() {
-        // To be implemented.
-	}
+        if (mGameState == GameState.PLAYER_ONE_FIRING) {
+            mGameState = GameState.PLAYER_TWO_PLAYING;
+            mRoundsCountPlayerTwo++;
+        } else if (mGameState == GameState.PLAYER_TWO_FIRING) {
+            mGameState = GameState.PLAYER_ONE_PLAYING;
+            mRoundsCountPlayerOne++;
+        } else {
+            // Issue...
+        }
+    }
+
+    public void cancelFiring() {
+        if (mGameState == GameState.PLAYER_ONE_FIRING) {
+            mGameState = GameState.PLAYER_ONE_FIRING;
+        } else if (mGameState == GameState.PLAYER_TWO_FIRING) {
+            mGameState = GameState.PLAYER_TWO_PLAYING;
+        }
+    }
 }

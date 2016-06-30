@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -48,7 +47,6 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
     private GameView mGameView;
     private LinearLayout mLinearLayoutControls;
     private TextView mTextViewPlayersName;
-    private Button mButtonFire;
     private AnglePrecisionSliderLayout mAnglePrecisionSliderLayout;
     private PowerPrecisionSliderLayout mPowerPrecisionSliderLayout;
 
@@ -61,7 +59,6 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
         // Retrieve useful views.
         mLinearLayoutControls = (LinearLayout) findViewById(R.id.linearLayoutControls);
         mTextViewPlayersName = (TextView) findViewById(R.id.textView_playersName);
-        mButtonFire = (Button) findViewById(R.id.button_fire);
         mAnglePrecisionSliderLayout = (AnglePrecisionSliderLayout) findViewById(R.id.anglePrecisionSliderLayout);
         mPowerPrecisionSliderLayout = (PowerPrecisionSliderLayout) findViewById(R.id.powerPrecisionSliderLayout);
         mGameView = (GameView) findViewById(R.id.gameView);
@@ -86,10 +83,12 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
                         if (savedInstanceState != null) {
                             mGameSequencer = savedInstanceState.getParcelable(BUNDLE_KEY_GAME_SEQUENCER);
                             mLandscape = savedInstanceState.getParcelable(BUNDLE_KEY_LANDSCAPE);
-                            mPlayerOneBunker = savedInstanceState.getParcelable(BUNDLE_KEY_BUNKER_ONE);
-                            mPlayerTwoBunker = savedInstanceState.getParcelable(BUNDLE_KEY_BUNKER_TWO);
-
-                            // TODO : Update UI Controls (Seekbars and text etc...).
+                            if (mGameSequencer.getGameState() != GameSequencer.GameState.PLAYER_TWO_WON) {
+                                mPlayerOneBunker = savedInstanceState.getParcelable(BUNDLE_KEY_BUNKER_ONE);
+                            }
+                            if (mGameSequencer.getGameState() != GameSequencer.GameState.PLAYER_ONE_WON) {
+                                mPlayerTwoBunker = savedInstanceState.getParcelable(BUNDLE_KEY_BUNKER_TWO);
+                            }
 
                         } else {
                             mGameSequencer = new GameSequencer();
@@ -98,9 +97,25 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
                             mPlayerTwoBunker = new Bunker(false, Color.YELLOW, getBunkerTwoCoordinates());
                         }
 
+                        if (mGameSequencer.getGameState() == GameSequencer.GameState.PLAYER_ONE_PLAYING) {
+                            mTextViewPlayersName.setText(getString(R.string.UI_text_player_one));
+                            mAnglePrecisionSliderLayout.setValue(mPlayerOneBunker.getAbsoluteCanonAngleDegrees());
+                            mPowerPrecisionSliderLayout.setValue(mPlayerOneBunker.getCanonPower());
+                        } else if (mGameSequencer.getGameState() == GameSequencer.GameState.PLAYER_TWO_PLAYING) {
+                            mTextViewPlayersName.setText(getString(R.string.UI_text_player_two));
+                            mAnglePrecisionSliderLayout.setValue(mPlayerTwoBunker.getAbsoluteCanonAngleDegrees());
+                            mPowerPrecisionSliderLayout.setValue(mPlayerTwoBunker.getCanonPower());
+                        } else {
+                            mLinearLayoutControls.setVisibility(View.GONE);
+                        }
+
                         // Initialize GameView.
-                        mGameView.registerDrawer(mPlayerOneBunker);
-                        mGameView.registerDrawer(mPlayerTwoBunker);
+                        if (mPlayerOneBunker != null) {
+                            mGameView.registerDrawer(mPlayerOneBunker);
+                        }
+                        if (mPlayerTwoBunker != null) {
+                            mGameView.registerDrawer(mPlayerTwoBunker);
+                        }
                         mGameView.registerDrawer(mLandscape);
                         mGameView.invalidate();
 
@@ -115,10 +130,15 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
+        mGameSequencer.cancelFiring();
         outState.putParcelable(BUNDLE_KEY_GAME_SEQUENCER, mGameSequencer);
         outState.putParcelable(BUNDLE_KEY_LANDSCAPE, mLandscape);
-        outState.putParcelable(BUNDLE_KEY_BUNKER_ONE, mPlayerOneBunker);
-        outState.putParcelable(BUNDLE_KEY_BUNKER_TWO, mPlayerTwoBunker);
+        if (mGameSequencer.getGameState() != GameSequencer.GameState.PLAYER_TWO_WON) {
+            outState.putParcelable(BUNDLE_KEY_BUNKER_ONE, mPlayerOneBunker);
+        }
+        if (mGameSequencer.getGameState() != GameSequencer.GameState.PLAYER_ONE_WON) {
+            outState.putParcelable(BUNDLE_KEY_BUNKER_TWO, mPlayerTwoBunker);
+        }
         super.onSaveInstanceState(outState);
     }
 
@@ -137,9 +157,22 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
     }
 
     @Override
-    public void onValueChanged(int newValue) {
-        // TODO Implement.
+    public void onValueChanged(AbstractPrecisionSliderLayout sliderLayout, int newValue) {
+        if (sliderLayout.equals(mAnglePrecisionSliderLayout)) {
+            if (mGameSequencer.getGameState() == GameSequencer.GameState.PLAYER_ONE_PLAYING) {
+                mPlayerOneBunker.setAbsoluteCanonAngle(newValue);
+            } else if (mGameSequencer.getGameState() == GameSequencer.GameState.PLAYER_ONE_PLAYING) {
+                mPlayerTwoBunker.setAbsoluteCanonAngle(newValue);
+            }
+        } else if (sliderLayout.equals(mPowerPrecisionSliderLayout)) {
+            if (mGameSequencer.getGameState() == GameSequencer.GameState.PLAYER_ONE_PLAYING) {
+                mPlayerOneBunker.setCanonPower(newValue);
+            } else if (mGameSequencer.getGameState() == GameSequencer.GameState.PLAYER_ONE_PLAYING) {
+                mPlayerTwoBunker.setCanonPower(newValue);
+            }
+        }
 
+        // TODO Clean :
         /*
         Integer value = progress;
 
@@ -212,18 +245,22 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
 
         mBombshellAnimatorAsyncTask = null;
 
-        // TODO Update GameSequencer.
-        // TODO Replace by AlertDialog displaying rounds count.
+        // TODO Replace Toasts by AlertDialog displaying rounds count.
 
         if (drawer == null || drawer.equals(mLandscape)) {
             Toast.makeText(this, R.string.target_missed, Toast.LENGTH_SHORT).show();
             mLinearLayoutControls.setVisibility(View.VISIBLE);
+            mGameSequencer.bombshellMissedTarget();
         } else if (drawer.equals(mPlayerTwoBunker)) {
             Toast.makeText(this, R.string.player_one_won, Toast.LENGTH_LONG).show();
             mGameView.unregisterDrawer(mPlayerTwoBunker);
+            mPlayerTwoBunker = null;
+            mGameSequencer.bombshellDitHitBunker(false);
         } else if (drawer.equals(mPlayerOneBunker)) {
             Toast.makeText(this, R.string.player_two_won, Toast.LENGTH_LONG).show();
             mGameView.unregisterDrawer(mPlayerOneBunker);
+            mPlayerOneBunker = null;
+            mGameSequencer.bombshellDitHitBunker(true);
         }
     }
 
