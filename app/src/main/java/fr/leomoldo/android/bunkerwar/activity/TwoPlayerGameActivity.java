@@ -8,7 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
-import android.widget.SeekBar;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,8 +23,11 @@ import fr.leomoldo.android.bunkerwar.drawer.Landscape;
 import fr.leomoldo.android.bunkerwar.sdk.Drawer;
 import fr.leomoldo.android.bunkerwar.sdk.GameView;
 import fr.leomoldo.android.bunkerwar.sdk.ViewCoordinates;
+import fr.leomoldo.android.bunkerwar.view.AbstractPrecisionSliderLayout;
+import fr.leomoldo.android.bunkerwar.view.AnglePrecisionSliderLayout;
+import fr.leomoldo.android.bunkerwar.view.PowerPrecisionSliderLayout;
 
-public class TwoPlayerGameActivity extends AppCompatActivity implements SeekBar.OnSeekBarChangeListener, BombshellAnimatorAsyncTask.CollisionListener {
+public class TwoPlayerGameActivity extends AppCompatActivity implements BombshellAnimatorAsyncTask.CollisionListener, AbstractPrecisionSliderLayout.PrecisionSliderLayoutListener {
 
     private final static String LOG_TAG = TwoPlayerGameActivity.class.getSimpleName();
 
@@ -43,19 +46,11 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements SeekBar.
 
     // Views :
     private GameView mGameView;
-
-    private TextView mTextViewIndicatorAnglePlayerOne;
-    private TextView mTextViewIndicatorPowerPlayerOne;
-    private TextView mTextViewIndicatorAnglePlayerTwo;
-    private TextView mTextViewIndicatorPowerPlayerTwo;
-
-    private Button mFireButtonPlayerOne;
-    private Button mFireButtonPlayerTwo;
-
-    private SeekBar mSeekBarAnglePlayerOne;
-    private SeekBar mSeekBarPowerPlayerOne;
-    private SeekBar mSeekBarAnglePlayerTwo;
-    private SeekBar mSeekBarPowerPlayerTwo;
+    private LinearLayout mLinearLayoutControls;
+    private TextView mTextViewPlayersName;
+    private Button mButtonFire;
+    private AnglePrecisionSliderLayout mAnglePrecisionSliderLayout;
+    private PowerPrecisionSliderLayout mPowerPrecisionSliderLayout;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -64,26 +59,15 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements SeekBar.
         setContentView(R.layout.activity_two_player_game);
 
         // Retrieve useful views.
-        mTextViewIndicatorAnglePlayerOne = (TextView) findViewById(R.id.textViewIndicatorAnglePlayerOne);
-        mTextViewIndicatorPowerPlayerOne = (TextView) findViewById(R.id.textViewIndicatorPowerPlayerOne);
-        mTextViewIndicatorAnglePlayerTwo = (TextView) findViewById(R.id.textViewIndicatorAnglePlayerTwo);
-        mTextViewIndicatorPowerPlayerTwo = (TextView) findViewById(R.id.textViewIndicatorPowerPlayerTwo);
-        mFireButtonPlayerOne = (Button) findViewById(R.id.buttonFirePlayerOne);
-        mFireButtonPlayerTwo = (Button) findViewById(R.id.buttonFirePlayerTwo);
-        mSeekBarAnglePlayerOne = (SeekBar) findViewById(R.id.seekBarAnglePlayerOne);
-        mSeekBarPowerPlayerOne = (SeekBar) findViewById(R.id.seekBarPowerPlayerOne);
-        mSeekBarAnglePlayerTwo = (SeekBar) findViewById(R.id.seekBarAnglePlayerTwo);
-        mSeekBarPowerPlayerTwo = (SeekBar) findViewById(R.id.seekBarPowerPlayerTwo);
+        mLinearLayoutControls = (LinearLayout) findViewById(R.id.linearLayoutControls);
+        mTextViewPlayersName = (TextView) findViewById(R.id.textView_playersName);
+        mButtonFire = (Button) findViewById(R.id.button_fire);
+        mAnglePrecisionSliderLayout = (AnglePrecisionSliderLayout) findViewById(R.id.anglePrecisionSliderLayout);
+        mPowerPrecisionSliderLayout = (PowerPrecisionSliderLayout) findViewById(R.id.powerPrecisionSliderLayout);
         mGameView = (GameView) findViewById(R.id.gameView);
 
-        mSeekBarAnglePlayerOne.setOnSeekBarChangeListener(this);
-        mSeekBarPowerPlayerOne.setOnSeekBarChangeListener(this);
-        mSeekBarAnglePlayerTwo.setOnSeekBarChangeListener(this);
-        mSeekBarPowerPlayerTwo.setOnSeekBarChangeListener(this);
-
-        // TODO Change UI visibility handling.
-        mFireButtonPlayerOne.setVisibility(View.VISIBLE);
-        mFireButtonPlayerTwo.setVisibility(View.VISIBLE);
+        mAnglePrecisionSliderLayout.setListener(this);
+        mPowerPrecisionSliderLayout.setListener(this);
 
         final View rootView = getWindow().getDecorView().getRootView();
         rootView.getViewTreeObserver().addOnGlobalLayoutListener(
@@ -153,7 +137,10 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements SeekBar.
     }
 
     @Override
-    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+    public void onValueChanged(int newValue) {
+        // TODO Implement.
+
+        /*
         Integer value = progress;
 
         switch (seekBar.getId()) {
@@ -185,16 +172,7 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements SeekBar.
                 mTextViewIndicatorPowerPlayerTwo.setText(value.toString());
                 break;
         }
-    }
-
-    @Override
-    public void onStartTrackingTouch(SeekBar seekBar) {
-
-    }
-
-    @Override
-    public void onStopTrackingTouch(SeekBar seekBar) {
-
+         */
     }
 
     public void onButtonClickedFire(View view) {
@@ -204,30 +182,25 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements SeekBar.
             return;
         }
 
-        // Check which player has clicked the button.
-        Boolean didPlayerOneFire = false;
-        if (view.getId() == R.id.buttonFirePlayerOne) {
-            didPlayerOneFire = true;
-        }
+        mLinearLayoutControls.setVisibility(View.GONE);
 
         // Update GameSequencer.
-        mGameSequencer.fireButtonPressed(didPlayerOneFire);
+        mGameSequencer.fireButtonPressed();
 
         BombshellPathComputer bombshellPathComputer;
         ArrayList<Drawer> collidableDrawers = new ArrayList<Drawer>();
         collidableDrawers.add(mLandscape);
 
         // Update UI.
-        if (didPlayerOneFire) {
-            mFireButtonPlayerOne.setVisibility(View.GONE);
-            mFireButtonPlayerTwo.setVisibility(View.GONE);
+        if (mGameSequencer.getGameState() == GameSequencer.GameState.PLAYER_ONE_FIRING) {
             bombshellPathComputer = new BombshellPathComputer(mPlayerOneBunker.getCanonPower(), mPlayerOneBunker.getGeometricalCanonAngleRadian(), mPlayerOneBunker.getViewCoordinates());
             collidableDrawers.add(mPlayerTwoBunker);
-        } else {
-            mFireButtonPlayerTwo.setVisibility(View.GONE);
-            mFireButtonPlayerOne.setVisibility(View.GONE);
+        } else if (mGameSequencer.getGameState() == GameSequencer.GameState.PLAYER_TWO_FIRING) {
             bombshellPathComputer = new BombshellPathComputer(mPlayerTwoBunker.getCanonPower(), mPlayerTwoBunker.getGeometricalCanonAngleRadian(), mPlayerTwoBunker.getViewCoordinates());
             collidableDrawers.add(mPlayerOneBunker);
+        } else {
+            // Issue...
+            return;
         }
 
         mBombshellAnimatorAsyncTask = new BombshellAnimatorAsyncTask(mGameView, collidableDrawers, this);
@@ -244,8 +217,7 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements SeekBar.
 
         if (drawer == null || drawer.equals(mLandscape)) {
             Toast.makeText(this, R.string.target_missed, Toast.LENGTH_SHORT).show();
-            mFireButtonPlayerOne.setVisibility(View.VISIBLE);
-            mFireButtonPlayerTwo.setVisibility(View.VISIBLE);
+            mLinearLayoutControls.setVisibility(View.VISIBLE);
         } else if (drawer.equals(mPlayerTwoBunker)) {
             Toast.makeText(this, R.string.player_one_won, Toast.LENGTH_LONG).show();
             mGameView.unregisterDrawer(mPlayerTwoBunker);

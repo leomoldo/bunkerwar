@@ -1,15 +1,13 @@
 <resources>
 
     <string name="app_name">BunkerWar</string>
-    <string name="title_activity_game">GameActivity</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
 
+    <string name="UI_text_player_one"> Joueur 1</string>
+    <string name="UI_text_player_two"> Joueur 2</string>
     <string name="UI_text_angle">Angle</string>
-    <string name="UI_text_power">Power</string>
-    <string name="UI_text_button_fire">Fire</string>
-    <string name="UI_text_angle_initial_value">45</string>
-    <string name="UI_text_power_initial_value">50</string>
+    <string name="UI_text_power">Puissance</string>
+    <string name="UI_text_button_fire">FEU!</string>
+
     <string name="UI_text_minus">-</string>
     <string name="UI_text_plus">+</string>
 
@@ -17,6 +15,5 @@
     <string name="target_missed">C\'est raté…</string>
     <string name="player_one_won">Victoire pour le joueur 1!</string>
     <string name="player_two_won">Victoire pour le joueur 2!</string>
-
 
 </resources>

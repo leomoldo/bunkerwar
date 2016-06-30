@@ -84,22 +84,13 @@ public class GameSequencer implements Parcelable {
 	public GameState getGameState() {
 		return mGameState;
 	}
-	
-	public void fireButtonPressed(Boolean didPlayerOneFire) {
-		
-		switch(mGameState) {
-		
+
+    public void fireButtonPressed() {
+        switch(mGameState) {
 			case PLAYER_ONE_PLAYING :
-				if (!didPlayerOneFire) {
-					// Throw exception?
-				}
 				mGameState = GameState.PLAYER_ONE_FIRING;
 				break;
-				
 			case PLAYER_TWO_PLAYING :
-				if (didPlayerOneFire) {
-					// Throw exception?
-				}
 				mGameState = GameState.PLAYER_TWO_FIRING;
 				break;
 			default:

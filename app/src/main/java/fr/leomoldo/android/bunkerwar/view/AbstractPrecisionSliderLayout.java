@@ -4,7 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.Button;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -13,9 +13,9 @@ import fr.leomoldo.android.bunkerwar.R;
 /**
  * Created by leomoldo on 29/06/2016.
  */
-public abstract class AbstractPrecisionSliderLayout extends RelativeLayout implements SeekBar.OnSeekBarChangeListener, Button.OnClickListener {
+public abstract class AbstractPrecisionSliderLayout extends LinearLayout implements SeekBar.OnSeekBarChangeListener, Button.OnClickListener {
 
-    interface PrecisionSliderLayoutListener {
+    public interface PrecisionSliderLayoutListener {
         void onValueChanged(int newValue);
     }
 
@@ -47,6 +47,9 @@ public abstract class AbstractPrecisionSliderLayout extends RelativeLayout imple
         mTextView = (TextView) findViewById(R.id.textView);
         mButtonMinus = (Button) findViewById(R.id.button_minus);
         mButtonPlus = (Button) findViewById(R.id.button_plus);
+        mSeekBar.setOnSeekBarChangeListener(this);
+        mButtonMinus.setOnClickListener(this);
+        mButtonPlus.setOnClickListener(this);
     }
 
     public void setListener(PrecisionSliderLayoutListener listener) {
@@ -59,7 +62,8 @@ public abstract class AbstractPrecisionSliderLayout extends RelativeLayout imple
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-        mTextView.setText(progress);
+        Integer newValue = progress;
+        mTextView.setText(newValue.toString());
         if (fromUser) {
             mListener.onValueChanged(progress);
         }
@@ -77,22 +81,16 @@ public abstract class AbstractPrecisionSliderLayout extends RelativeLayout imple
 
     @Override
     public void onClick(View v) {
-
         int currentValue = mSeekBar.getProgress();
-
         switch (v.getId()) {
-
             case R.id.button_minus:
                 currentValue--;
                 break;
-
             case R.id.button_plus:
                 currentValue++;
                 break;
-
             default:
         }
-
         mSeekBar.setProgress(currentValue);
         mListener.onValueChanged(currentValue);
     }
