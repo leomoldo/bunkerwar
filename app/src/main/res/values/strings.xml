@@ -5,7 +5,9 @@
     <string name="UI_text_player_one"> Joueur 1</string>
     <string name="UI_text_player_two"> Joueur 2</string>
     <string name="UI_text_angle">Angle :</string>
+    <string name="UI_text_angle_unit">°</string>
     <string name="UI_text_power">Puissance :</string>
+    <string name="UI_text_power_unit">%</string>
     <string name="UI_text_button_fire">FEU!</string>
 
     <string name="UI_text_minus">-</string>

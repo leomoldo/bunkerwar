@@ -162,7 +162,7 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
             if (mGameSequencer.getGameState() == GameSequencer.GameState.PLAYER_ONE_PLAYING) {
                 mPlayerOneBunker.setAbsoluteCanonAngle(newValue);
                 mGameView.invalidate();
-            } else if (mGameSequencer.getGameState() == GameSequencer.GameState.PLAYER_ONE_PLAYING) {
+            } else if (mGameSequencer.getGameState() == GameSequencer.GameState.PLAYER_TWO_PLAYING) {
                 mPlayerTwoBunker.setAbsoluteCanonAngle(newValue);
                 mGameView.invalidate();
             }
@@ -170,7 +170,7 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
             if (mGameSequencer.getGameState() == GameSequencer.GameState.PLAYER_ONE_PLAYING) {
                 mPlayerOneBunker.setCanonPower(newValue);
                 mGameView.invalidate();
-            } else if (mGameSequencer.getGameState() == GameSequencer.GameState.PLAYER_ONE_PLAYING) {
+            } else if (mGameSequencer.getGameState() == GameSequencer.GameState.PLAYER_TWO_PLAYING) {
                 mPlayerTwoBunker.setCanonPower(newValue);
                 mGameView.invalidate();
             }
@@ -253,8 +253,20 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
 
         if (drawer == null || drawer.equals(mLandscape)) {
             Toast.makeText(this, R.string.target_missed, Toast.LENGTH_SHORT).show();
-            mLinearLayoutControls.setVisibility(View.VISIBLE);
             mGameSequencer.bombshellMissedTarget();
+            if (mGameSequencer.getGameState() == GameSequencer.GameState.PLAYER_ONE_PLAYING) {
+                mTextViewPlayersName.setText(getString(R.string.UI_text_player_one));
+                mAnglePrecisionSliderLayout.setValue(mPlayerOneBunker.getAbsoluteCanonAngleDegrees());
+                mPowerPrecisionSliderLayout.setValue(mPlayerOneBunker.getCanonPower());
+            } else if (mGameSequencer.getGameState() == GameSequencer.GameState.PLAYER_TWO_PLAYING) {
+                mTextViewPlayersName.setText(getString(R.string.UI_text_player_two));
+                mAnglePrecisionSliderLayout.setValue(mPlayerTwoBunker.getAbsoluteCanonAngleDegrees());
+                mPowerPrecisionSliderLayout.setValue(mPlayerTwoBunker.getCanonPower());
+            } else {
+                // Issue...
+            }
+            mLinearLayoutControls.setVisibility(View.VISIBLE);
+
         } else if (drawer.equals(mPlayerTwoBunker)) {
             Toast.makeText(this, R.string.player_one_won, Toast.LENGTH_LONG).show();
             mGameView.unregisterDrawer(mPlayerTwoBunker);

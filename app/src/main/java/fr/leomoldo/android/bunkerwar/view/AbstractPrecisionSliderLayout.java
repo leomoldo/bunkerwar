@@ -22,6 +22,7 @@ public abstract class AbstractPrecisionSliderLayout extends LinearLayout impleme
     protected SeekBar mSeekBar;
     protected TextView mTextViewValue;
     protected TextView mTextViewTitle;
+    protected TextView mTextViewUnit;
     protected Button mButtonMinus;
     protected Button mButtonPlus;
 
@@ -47,6 +48,7 @@ public abstract class AbstractPrecisionSliderLayout extends LinearLayout impleme
         mSeekBar = (SeekBar) findViewById(R.id.seekBar);
         mTextViewValue = (TextView) findViewById(R.id.textViewValue);
         mTextViewTitle = (TextView) findViewById(R.id.textViewTitle);
+        mTextViewUnit = (TextView) findViewById(R.id.textViewUnit);
         mButtonMinus = (Button) findViewById(R.id.button_minus);
         mButtonPlus = (Button) findViewById(R.id.button_plus);
         mSeekBar.setOnSeekBarChangeListener(this);
