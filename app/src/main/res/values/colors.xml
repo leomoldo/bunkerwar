@@ -8,5 +8,9 @@
     <color name="black_overlay">#66000000</color>
     <color name="blue_sky">#8cc0e5</color>
     <color name="green_land_slice">#007B0C</color>
+    <color name="red_player_one">#FF0000</color>
+    <color name="red_player_one_alpha">#55FF0000</color>
+    <color name="yellow_player_two">#FFFF00</color>
+    <color name="yellow_player_two_alpha">#55FFFF00</color>
 
 </resources>

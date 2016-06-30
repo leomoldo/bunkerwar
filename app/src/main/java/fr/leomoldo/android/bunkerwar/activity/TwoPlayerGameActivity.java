@@ -1,6 +1,5 @@
 package fr.leomoldo.android.bunkerwar.activity;
 
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -93,18 +92,20 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
                         } else {
                             mGameSequencer = new GameSequencer();
                             mLandscape = new Landscape(getResources().getColor(R.color.green_land_slice));
-                            mPlayerOneBunker = new Bunker(true, Color.RED, getBunkerOneCoordinates());
-                            mPlayerTwoBunker = new Bunker(false, Color.YELLOW, getBunkerTwoCoordinates());
+                            mPlayerOneBunker = new Bunker(true, getResources().getColor(R.color.red_player_one), getBunkerOneCoordinates());
+                            mPlayerTwoBunker = new Bunker(false, getResources().getColor(R.color.yellow_player_two), getBunkerTwoCoordinates());
                         }
 
                         if (mGameSequencer.getGameState() == GameSequencer.GameState.PLAYER_ONE_PLAYING) {
                             mTextViewPlayersName.setText(getString(R.string.UI_text_player_one));
                             mAnglePrecisionSliderLayout.setValue(mPlayerOneBunker.getAbsoluteCanonAngleDegrees());
                             mPowerPrecisionSliderLayout.setValue(mPlayerOneBunker.getCanonPower());
+                            mLinearLayoutControls.setBackgroundColor(getResources().getColor(R.color.red_player_one_alpha));
                         } else if (mGameSequencer.getGameState() == GameSequencer.GameState.PLAYER_TWO_PLAYING) {
                             mTextViewPlayersName.setText(getString(R.string.UI_text_player_two));
                             mAnglePrecisionSliderLayout.setValue(mPlayerTwoBunker.getAbsoluteCanonAngleDegrees());
                             mPowerPrecisionSliderLayout.setValue(mPlayerTwoBunker.getCanonPower());
+                            mLinearLayoutControls.setBackgroundColor(getResources().getColor(R.color.yellow_player_two_alpha));
                         } else {
                             mLinearLayoutControls.setVisibility(View.GONE);
                         }
@@ -175,41 +176,6 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
                 mGameView.invalidate();
             }
         }
-
-        // TODO Clean :
-        /*
-        Integer value = progress;
-
-        switch (seekBar.getId()) {
-
-            case R.id.seekBarAnglePlayerOne:
-                if (mPlayerOneBunker != null) {
-                    mPlayerOneBunker.setAbsoluteCanonAngle(progress);
-                }
-                mGameView.invalidate();
-                mTextViewIndicatorAnglePlayerOne.setText(value.toString());
-                break;
-            case R.id.seekBarPowerPlayerOne:
-                if (mPlayerOneBunker != null) {
-                    mPlayerOneBunker.setCanonPower(progress);
-                }
-                mTextViewIndicatorPowerPlayerOne.setText(value.toString());
-                break;
-            case R.id.seekBarAnglePlayerTwo:
-                if (mPlayerTwoBunker != null) {
-                    mPlayerTwoBunker.setAbsoluteCanonAngle(progress);
-                }
-                mGameView.invalidate();
-                mTextViewIndicatorAnglePlayerTwo.setText(value.toString());
-                break;
-            case R.id.seekBarPowerPlayerTwo:
-                if (mPlayerTwoBunker != null) {
-                    mPlayerTwoBunker.setCanonPower(progress);
-                }
-                mTextViewIndicatorPowerPlayerTwo.setText(value.toString());
-                break;
-        }
-         */
     }
 
     public void onButtonClickedFire(View view) {
@@ -258,10 +224,12 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
                 mTextViewPlayersName.setText(getString(R.string.UI_text_player_one));
                 mAnglePrecisionSliderLayout.setValue(mPlayerOneBunker.getAbsoluteCanonAngleDegrees());
                 mPowerPrecisionSliderLayout.setValue(mPlayerOneBunker.getCanonPower());
+                mLinearLayoutControls.setBackgroundColor(getResources().getColor(R.color.red_player_one_alpha));
             } else if (mGameSequencer.getGameState() == GameSequencer.GameState.PLAYER_TWO_PLAYING) {
                 mTextViewPlayersName.setText(getString(R.string.UI_text_player_two));
                 mAnglePrecisionSliderLayout.setValue(mPlayerTwoBunker.getAbsoluteCanonAngleDegrees());
                 mPowerPrecisionSliderLayout.setValue(mPlayerTwoBunker.getCanonPower());
+                mLinearLayoutControls.setBackgroundColor(getResources().getColor(R.color.yellow_player_two_alpha));
             } else {
                 // Issue...
             }
