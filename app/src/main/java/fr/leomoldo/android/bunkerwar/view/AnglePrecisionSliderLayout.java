@@ -3,6 +3,8 @@ package fr.leomoldo.android.bunkerwar.view;
 import android.content.Context;
 import android.util.AttributeSet;
 
+import fr.leomoldo.android.bunkerwar.R;
+
 /**
  * Created by leomoldo on 30/06/2016.
  */
@@ -24,6 +26,7 @@ public class AnglePrecisionSliderLayout extends AbstractPrecisionSliderLayout {
     }
 
     private void init() {
+        mTextViewTitle.setText(getContext().getResources().getString(R.string.UI_text_angle));
         mSeekBar.setMax(90);
     }
 }
