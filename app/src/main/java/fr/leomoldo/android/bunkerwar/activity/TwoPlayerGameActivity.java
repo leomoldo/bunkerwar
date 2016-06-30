@@ -161,14 +161,18 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
         if (sliderLayout.equals(mAnglePrecisionSliderLayout)) {
             if (mGameSequencer.getGameState() == GameSequencer.GameState.PLAYER_ONE_PLAYING) {
                 mPlayerOneBunker.setAbsoluteCanonAngle(newValue);
+                mGameView.invalidate();
             } else if (mGameSequencer.getGameState() == GameSequencer.GameState.PLAYER_ONE_PLAYING) {
                 mPlayerTwoBunker.setAbsoluteCanonAngle(newValue);
+                mGameView.invalidate();
             }
         } else if (sliderLayout.equals(mPowerPrecisionSliderLayout)) {
             if (mGameSequencer.getGameState() == GameSequencer.GameState.PLAYER_ONE_PLAYING) {
                 mPlayerOneBunker.setCanonPower(newValue);
+                mGameView.invalidate();
             } else if (mGameSequencer.getGameState() == GameSequencer.GameState.PLAYER_ONE_PLAYING) {
                 mPlayerTwoBunker.setCanonPower(newValue);
+                mGameView.invalidate();
             }
         }
 
