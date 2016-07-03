@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/blue_sky"
-    tools:context=".activity.TwoPlayerGameActivity">
+    tools:context=".activity.TwoPlayerGameActivity"
+    android:animateLayoutChanges="true">
 
     <!-- GameView. -->
 
@@ -20,7 +21,8 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@color/grey_controls_background">
 
         <TextView
             android:id="@+id/textView_playersName"

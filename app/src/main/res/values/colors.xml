@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimary">#673928</color>
+    <color name="colorPrimaryDark">#563022</color>
+    <color name="colorAccent">#000000</color>
 
 
     <color name="black_overlay">#66000000</color>
     <color name="blue_sky">#8cc0e5</color>
     <color name="green_land_slice">#007B0C</color>
-    <color name="red_player_one">#FF0000</color>
-    <color name="red_player_one_alpha">#55FF0000</color>
-    <color name="yellow_player_two">#FFFF00</color>
-    <color name="yellow_player_two_alpha">#55FFFF00</color>
+    <color name="red_bunker">#FF0000</color>
+    <color name="yellow_bunker">#FFFF00</color>
+
+    <color name="grey_controls_background">#b3a6a6a6</color>
 
 </resources>
