@@ -1,15 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- TODO Clean unused. -->
-
-    <dimen name="UI_global_margin">10dp</dimen>
     <dimen name="button_size_standard">48dp</dimen>
     <dimen name="button_size_fire">100dp</dimen>
-    <dimen name="controls_textView_width">100dp</dimen>
-
-    <integer name="seekBar_UI_weight">20</integer>
-    <integer name="indicator_UI_weight">5</integer>
-    <integer name="textView_UI_weight">10</integer>
 
 </resources>
