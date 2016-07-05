@@ -29,7 +29,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="@string/UI_text_player_one"
+            android:text="@string/player_one"
             android:textSize="20sp"
             android:layout_margin="0dp" />
 
@@ -75,7 +75,7 @@
                 android:layout_gravity="center"
                 android:layout_margin="10dp"
                 android:onClick="onButtonClickedFire"
-                android:text="@string/UI_text_button_fire" />
+                android:text="@string/button_fire" />
 
         </LinearLayout>
 
@@ -110,7 +110,7 @@
             android:height="30dp"
             android:background="#FFFFFF"
             android:gravity="center"
-            android:text="@string/UI_text_angle_initial_value"
+            android:text="@string/angle_initial_value"
             android:textColor="#000000"
             android:textSize="20sp" />
 
@@ -123,7 +123,7 @@
             android:height="30dp"
             android:background="#FFFFFF"
             android:gravity="center"
-            android:text="@string/UI_text_angle"
+            android:text="@string/angle"
             android:textColor="#000000"
             android:textSize="20sp" />
 
@@ -136,7 +136,7 @@
             android:height="30dp"
             android:background="#FFFFFF"
             android:gravity="center"
-            android:text="@string/UI_text_angle_initial_value"
+            android:text="@string/angle_initial_value"
             android:textColor="#000000"
             android:textSize="20sp" />
 
@@ -179,7 +179,7 @@
             android:height="30dp"
             android:background="#FFFFFF"
             android:gravity="center"
-            android:text="@string/UI_text_power_initial_value"
+            android:text="@string/power_initial_value"
             android:textColor="#000000"
             android:textSize="20sp" />
 
@@ -192,7 +192,7 @@
             android:height="30dp"
             android:background="#FFFFFF"
             android:gravity="center"
-            android:text="@string/UI_text_power"
+            android:text="@string/power"
             android:textColor="#000000"
             android:textSize="20sp" />
 
@@ -205,7 +205,7 @@
             android:height="30dp"
             android:background="#FFFFFF"
             android:gravity="center"
-            android:text="@string/UI_text_power_initial_value"
+            android:text="@string/power_initial_value"
             android:textColor="#000000"
             android:textSize="20sp" />
 
@@ -230,7 +230,7 @@
         android:layout_below="@id/linearLayoutPower"
         android:layout_margin="@dimen/UI_global_margin"
         android:onClick="onButtonClickedFire"
-        android:text="@string/UI_text_button_fire"
+        android:text="@string/button_fire"
         android:visibility="visible"></Button>
 
     <Button
@@ -241,7 +241,7 @@
         android:layout_below="@id/linearLayoutPower"
         android:layout_margin="@dimen/UI_global_margin"
         android:onClick="onButtonClickedFire"
-        android:text="@string/UI_text_button_fire"
+        android:text="@string/button_fire"
         android:visibility="gone"></Button-->
 
 </RelativeLayout>

@@ -1,7 +1,9 @@
 package fr.leomoldo.android.bunkerwar.activity;
 
+import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -97,11 +99,11 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
                         }
 
                         if (mGameSequencer.getGameState() == GameSequencer.GameState.PLAYER_ONE_PLAYING) {
-                            mTextViewPlayersName.setText(getString(R.string.UI_text_player_one));
+                            mTextViewPlayersName.setText(getString(R.string.player_one));
                             mAnglePrecisionSliderLayout.setValue(mPlayerOneBunker.getAbsoluteCanonAngleDegrees());
                             mPowerPrecisionSliderLayout.setValue(mPlayerOneBunker.getCanonPower());
                         } else if (mGameSequencer.getGameState() == GameSequencer.GameState.PLAYER_TWO_PLAYING) {
-                            mTextViewPlayersName.setText(getString(R.string.UI_text_player_two));
+                            mTextViewPlayersName.setText(getString(R.string.player_two));
                             mAnglePrecisionSliderLayout.setValue(mPlayerTwoBunker.getAbsoluteCanonAngleDegrees());
                             mPowerPrecisionSliderLayout.setValue(mPlayerTwoBunker.getCanonPower());
                         } else {
@@ -151,8 +153,21 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
 
     @Override
     public void onBackPressed() {
-        // TODO Implement AlertDialog to confirm call to super.onBackPressed.
-        super.onBackPressed();
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(getString(R.string.confirm_abondon_game));
+        builder.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                TwoPlayerGameActivity.super.onBackPressed();
+            }
+        });
+        builder.setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        builder.show();
     }
 
     @Override
@@ -219,11 +234,11 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
             Toast.makeText(this, R.string.target_missed, Toast.LENGTH_SHORT).show();
             mGameSequencer.bombshellMissedTarget();
             if (mGameSequencer.getGameState() == GameSequencer.GameState.PLAYER_ONE_PLAYING) {
-                mTextViewPlayersName.setText(getString(R.string.UI_text_player_one));
+                mTextViewPlayersName.setText(getString(R.string.player_one));
                 mAnglePrecisionSliderLayout.setValue(mPlayerOneBunker.getAbsoluteCanonAngleDegrees());
                 mPowerPrecisionSliderLayout.setValue(mPlayerOneBunker.getCanonPower());
             } else if (mGameSequencer.getGameState() == GameSequencer.GameState.PLAYER_TWO_PLAYING) {
-                mTextViewPlayersName.setText(getString(R.string.UI_text_player_two));
+                mTextViewPlayersName.setText(getString(R.string.player_two));
                 mAnglePrecisionSliderLayout.setValue(mPlayerTwoBunker.getAbsoluteCanonAngleDegrees());
                 mPowerPrecisionSliderLayout.setValue(mPlayerTwoBunker.getCanonPower());
             } else {

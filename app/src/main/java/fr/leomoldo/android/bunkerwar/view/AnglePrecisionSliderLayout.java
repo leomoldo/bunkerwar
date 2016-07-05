@@ -26,8 +26,8 @@ public class AnglePrecisionSliderLayout extends AbstractPrecisionSliderLayout {
     }
 
     private void init() {
-        mTextViewTitle.setText(getContext().getResources().getString(R.string.UI_text_angle));
-        mTextViewUnit.setText(getContext().getResources().getString(R.string.UI_text_angle_unit));
+        mTextViewTitle.setText(getContext().getResources().getString(R.string.angle));
+        mTextViewUnit.setText(getContext().getResources().getString(R.string.angle_unit));
         mSeekBar.setMax(90);
     }
 }

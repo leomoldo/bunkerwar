@@ -26,8 +26,8 @@ public class PowerPrecisionSliderLayout extends AbstractPrecisionSliderLayout {
     }
 
     private void init() {
-        mTextViewTitle.setText(getContext().getResources().getString(R.string.UI_text_power));
-        mTextViewUnit.setText(getContext().getResources().getString(R.string.UI_text_power_unit));
+        mTextViewTitle.setText(getContext().getResources().getString(R.string.power));
+        mTextViewUnit.setText(getContext().getResources().getString(R.string.power_unit));
         mSeekBar.setMax(100);
     }
 }

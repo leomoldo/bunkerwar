@@ -57,7 +57,7 @@
             android:layout_width="@dimen/button_size_standard"
             android:layout_height="@dimen/button_size_standard"
             android:layout_gravity="center"
-            android:text="@string/UI_text_minus" />
+            android:text="@string/minus" />
 
         <SeekBar
             android:id="@+id/seekBar"
@@ -71,7 +71,7 @@
             android:layout_width="@dimen/button_size_standard"
             android:layout_height="@dimen/button_size_standard"
             android:layout_gravity="center"
-            android:text="@string/UI_text_plus" />
+            android:text="@string/plus" />
 
     </LinearLayout>
 

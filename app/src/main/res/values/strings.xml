@@ -2,20 +2,23 @@
 
     <string name="app_name">BunkerWar</string>
 
-    <string name="UI_text_player_one"> Joueur 1</string>
-    <string name="UI_text_player_two"> Joueur 2</string>
-    <string name="UI_text_angle">Angle :</string>
-    <string name="UI_text_angle_unit">°</string>
-    <string name="UI_text_power">Puissance :</string>
-    <string name="UI_text_power_unit">%</string>
-    <string name="UI_text_button_fire">FEU!</string>
-
-    <string name="UI_text_minus">-</string>
-    <string name="UI_text_plus">+</string>
+    <string name="yes">oui</string>
+    <string name="no">non</string>
 
     <string name="start_new_game">Nouvelle partie</string>
-    <string name="target_missed">C\'est raté…</string>
+
+    <string name="player_one"> Joueur 1</string>
+    <string name="player_two"> Joueur 2</string>
+    <string name="angle">Angle :</string>
+    <string name="angle_unit">°</string>
+    <string name="power">Puissance :</string>
+    <string name="power_unit">%</string>
+    <string name="minus">-</string>
+    <string name="plus">+</string>
+    <string name="button_fire">FEU!</string>
     <string name="player_one_won">Victoire pour le joueur 1!</string>
     <string name="player_two_won">Victoire pour le joueur 2!</string>
+    <string name="target_missed">C\'est raté…</string>
+    <string name="confirm_abondon_game">Etes vous sûr de vouloir abandonner la partie?</string>
 
 </resources>
