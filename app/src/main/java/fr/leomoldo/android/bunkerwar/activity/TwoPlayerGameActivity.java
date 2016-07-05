@@ -228,8 +228,6 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
 
         mBombshellAnimatorAsyncTask = null;
 
-        // TODO Replace Toasts by AlertDialog displaying rounds count.
-
         if (drawer == null || drawer.equals(mLandscape)) {
             Toast.makeText(this, R.string.target_missed, Toast.LENGTH_SHORT).show();
             mGameSequencer.bombshellMissedTarget();
@@ -247,12 +245,12 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
             mLinearLayoutControls.setVisibility(View.VISIBLE);
 
         } else if (drawer.equals(mPlayerTwoBunker)) {
-            Toast.makeText(this, R.string.player_one_won, Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getString(R.string.player_won) + " " + mGameSequencer.getRoundsCountPlayerOne() + " " + getString(R.string.player_rounds_count), Toast.LENGTH_LONG).show();
             mGameView.unregisterDrawer(mPlayerTwoBunker);
             mPlayerTwoBunker = null;
             mGameSequencer.bombshellDitHitBunker(false);
         } else if (drawer.equals(mPlayerOneBunker)) {
-            Toast.makeText(this, R.string.player_two_won, Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getString(R.string.player_won) + " " + mGameSequencer.getRoundsCountPlayerTwo() + " " + getString(R.string.player_rounds_count), Toast.LENGTH_LONG).show();
             mGameView.unregisterDrawer(mPlayerOneBunker);
             mPlayerOneBunker = null;
             mGameSequencer.bombshellDitHitBunker(true);
