@@ -84,18 +84,12 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
                         */
 
                         // Define layout animation.
-                        // TODO Clean.
                         ObjectAnimator animatorAppearing = ObjectAnimator.ofFloat(mLinearLayoutControls, "translationY", -mLinearLayoutControls.getHeight(), 0f);
                         ObjectAnimator animatorDisappearing = ObjectAnimator.ofFloat(mLinearLayoutControls, "translationY", 0f, -mLinearLayoutControls.getHeight());
-                        /*
-                        TranslateAnimation animationAppearing = new TranslateAnimation(0f, 0f, -mLinearLayoutControls.getHeight(), 0f);
-                        TranslateAnimation animationDisappearing = new TranslateAnimation(0f, 0f, 0f, mLinearLayoutControls.getHeight());
-                        */
                         LayoutTransition layoutTransition = new LayoutTransition();
                         layoutTransition.setAnimator(LayoutTransition.APPEARING, animatorAppearing);
                         layoutTransition.setAnimator(LayoutTransition.DISAPPEARING, animatorDisappearing);
 
-                        // LayoutAnimationController layoutAnimationController = new LayoutAnimationController(animation);
                         ((RelativeLayout) findViewById(R.id.mainRelativeLayout)).setLayoutTransition(layoutTransition);
 
 
@@ -172,6 +166,13 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
 
     @Override
     public void onBackPressed() {
+
+        if (mGameSequencer.getGameState() == GameSequencer.GameState.PLAYER_ONE_WON ||
+                mGameSequencer.getGameState() == GameSequencer.GameState.PLAYER_TWO_WON) {
+            super.onBackPressed();
+            return;
+        }
+
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(getString(R.string.confirm_abondon_game));
         builder.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
