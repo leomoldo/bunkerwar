@@ -84,9 +84,9 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
                         */
 
                         // Define layout animation.
-                        // TODO Debug and clean.
+                        // TODO Clean.
                         ObjectAnimator animatorAppearing = ObjectAnimator.ofFloat(mLinearLayoutControls, "translationY", -mLinearLayoutControls.getHeight(), 0f);
-                        ObjectAnimator animatorDisappearing = ObjectAnimator.ofFloat(mLinearLayoutControls, "translationY", 0f, mLinearLayoutControls.getHeight());
+                        ObjectAnimator animatorDisappearing = ObjectAnimator.ofFloat(mLinearLayoutControls, "translationY", 0f, -mLinearLayoutControls.getHeight());
                         /*
                         TranslateAnimation animationAppearing = new TranslateAnimation(0f, 0f, -mLinearLayoutControls.getHeight(), 0f);
                         TranslateAnimation animationDisappearing = new TranslateAnimation(0f, 0f, 0f, mLinearLayoutControls.getHeight());
