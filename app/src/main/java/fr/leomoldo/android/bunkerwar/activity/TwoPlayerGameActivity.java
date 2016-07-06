@@ -1,5 +1,7 @@
 package fr.leomoldo.android.bunkerwar.activity;
 
+import android.animation.LayoutTransition;
+import android.animation.ObjectAnimator;
 import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
@@ -9,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -79,6 +82,22 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
                         mGameView.unregisterDrawer(mPlayerOneBunker);
                         mGameView.unregisterDrawer(mPlayerTwoBunker);
                         */
+
+                        // Define layout animation.
+                        // TODO Debug and clean.
+                        ObjectAnimator animatorAppearing = ObjectAnimator.ofFloat(mLinearLayoutControls, "translationY", -mLinearLayoutControls.getHeight(), 0f);
+                        ObjectAnimator animatorDisappearing = ObjectAnimator.ofFloat(mLinearLayoutControls, "translationY", 0f, mLinearLayoutControls.getHeight());
+                        /*
+                        TranslateAnimation animationAppearing = new TranslateAnimation(0f, 0f, -mLinearLayoutControls.getHeight(), 0f);
+                        TranslateAnimation animationDisappearing = new TranslateAnimation(0f, 0f, 0f, mLinearLayoutControls.getHeight());
+                        */
+                        LayoutTransition layoutTransition = new LayoutTransition();
+                        layoutTransition.setAnimator(LayoutTransition.APPEARING, animatorAppearing);
+                        layoutTransition.setAnimator(LayoutTransition.DISAPPEARING, animatorDisappearing);
+
+                        // LayoutAnimationController layoutAnimationController = new LayoutAnimationController(animation);
+                        ((RelativeLayout) findViewById(R.id.mainRelativeLayout)).setLayoutTransition(layoutTransition);
+
 
                         // Initialize or restore game model.
                         if (savedInstanceState != null) {
