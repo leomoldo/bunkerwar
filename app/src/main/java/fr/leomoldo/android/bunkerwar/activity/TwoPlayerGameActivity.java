@@ -76,22 +76,16 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
                     @Override
                     public void onGlobalLayout() {
 
-                        // TODO Clean :
-                        /*
-                        mGameView.unregisterDrawer(mLandscape);
-                        mGameView.unregisterDrawer(mPlayerOneBunker);
-                        mGameView.unregisterDrawer(mPlayerTwoBunker);
-                        */
-
                         // Define layout animation.
                         ObjectAnimator animatorAppearing = ObjectAnimator.ofFloat(mLinearLayoutControls, "translationY", -mLinearLayoutControls.getHeight(), 0f);
                         ObjectAnimator animatorDisappearing = ObjectAnimator.ofFloat(mLinearLayoutControls, "translationY", 0f, -mLinearLayoutControls.getHeight());
                         LayoutTransition layoutTransition = new LayoutTransition();
                         layoutTransition.setAnimator(LayoutTransition.APPEARING, animatorAppearing);
                         layoutTransition.setAnimator(LayoutTransition.DISAPPEARING, animatorDisappearing);
-
                         ((RelativeLayout) findViewById(R.id.mainRelativeLayout)).setLayoutTransition(layoutTransition);
 
+                        // TODO Implement Landscape Choosing State.
+                        // mLinearLayoutControls.setVisibility(View.VISIBLE);
 
                         // Initialize or restore game model.
                         if (savedInstanceState != null) {
@@ -109,6 +103,7 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
                             mLandscape = new Landscape(getResources().getColor(R.color.green_land_slice));
                             mPlayerOneBunker = new Bunker(true, getResources().getColor(R.color.red_bunker), getBunkerOneCoordinates());
                             mPlayerTwoBunker = new Bunker(false, getResources().getColor(R.color.yellow_bunker), getBunkerTwoCoordinates());
+                            mPlayerOneBunker.setIsPlaying(true);
                         }
 
                         if (mGameSequencer.getGameState() == GameSequencer.GameState.PLAYER_ONE_PLAYING) {
@@ -167,12 +162,14 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
     @Override
     public void onBackPressed() {
 
+        // If game is over, just call super.
         if (mGameSequencer.getGameState() == GameSequencer.GameState.PLAYER_ONE_WON ||
                 mGameSequencer.getGameState() == GameSequencer.GameState.PLAYER_TWO_WON) {
             super.onBackPressed();
             return;
         }
 
+        // Else show a confirmation dialog.
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(getString(R.string.confirm_abondon_game));
         builder.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
@@ -213,32 +210,32 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
 
     public void onButtonClickedFire(View view) {
 
+        // Code armouring.
         if (mBombshellAnimatorAsyncTask != null) {
             Log.d(LOG_TAG, "There is a Bombshell flying already");
             return;
         }
 
+        // Update UI and GameSequencer.
         mLinearLayoutControls.setVisibility(View.GONE);
-
-        // Update GameSequencer.
         mGameSequencer.fireButtonPressed();
 
+        // Configure and launch Firing AsyncTask.
         BombshellPathComputer bombshellPathComputer;
         ArrayList<Drawer> collidableDrawers = new ArrayList<Drawer>();
         collidableDrawers.add(mLandscape);
-
-        // Update UI.
         if (mGameSequencer.getGameState() == GameSequencer.GameState.PLAYER_ONE_FIRING) {
+            mPlayerOneBunker.setIsPlaying(false);
             bombshellPathComputer = new BombshellPathComputer(mPlayerOneBunker.getCanonPower(), mPlayerOneBunker.getGeometricalCanonAngleRadian(), mPlayerOneBunker.getViewCoordinates());
             collidableDrawers.add(mPlayerTwoBunker);
         } else if (mGameSequencer.getGameState() == GameSequencer.GameState.PLAYER_TWO_FIRING) {
+            mPlayerTwoBunker.setIsPlaying(false);
             bombshellPathComputer = new BombshellPathComputer(mPlayerTwoBunker.getCanonPower(), mPlayerTwoBunker.getGeometricalCanonAngleRadian(), mPlayerTwoBunker.getViewCoordinates());
             collidableDrawers.add(mPlayerOneBunker);
         } else {
             // Issue...
             return;
         }
-
         mBombshellAnimatorAsyncTask = new BombshellAnimatorAsyncTask(mGameView, collidableDrawers, this);
         mBombshellAnimatorAsyncTask.execute(bombshellPathComputer);
     }
@@ -249,32 +246,40 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
         mBombshellAnimatorAsyncTask = null;
 
         if (drawer == null || drawer.equals(mLandscape)) {
+
             Toast.makeText(this, R.string.target_missed, Toast.LENGTH_SHORT).show();
             mGameSequencer.bombshellMissedTarget();
             if (mGameSequencer.getGameState() == GameSequencer.GameState.PLAYER_ONE_PLAYING) {
                 mTextViewPlayersName.setText(getString(R.string.player_one));
                 mAnglePrecisionSliderLayout.setValue(mPlayerOneBunker.getAbsoluteCanonAngleDegrees());
+                mPlayerOneBunker.setIsPlaying(true);
                 mPowerPrecisionSliderLayout.setValue(mPlayerOneBunker.getCanonPower());
             } else if (mGameSequencer.getGameState() == GameSequencer.GameState.PLAYER_TWO_PLAYING) {
                 mTextViewPlayersName.setText(getString(R.string.player_two));
                 mAnglePrecisionSliderLayout.setValue(mPlayerTwoBunker.getAbsoluteCanonAngleDegrees());
                 mPowerPrecisionSliderLayout.setValue(mPlayerTwoBunker.getCanonPower());
+                mPlayerTwoBunker.setIsPlaying(true);
             } else {
                 // Issue...
             }
             mLinearLayoutControls.setVisibility(View.VISIBLE);
 
         } else if (drawer.equals(mPlayerTwoBunker)) {
+
             Toast.makeText(this, getString(R.string.player_won) + " " + mGameSequencer.getRoundsCountPlayerOne() + " " + getString(R.string.player_rounds_count), Toast.LENGTH_LONG).show();
             mGameView.unregisterDrawer(mPlayerTwoBunker);
             mPlayerTwoBunker = null;
             mGameSequencer.bombshellDitHitBunker(false);
+
         } else if (drawer.equals(mPlayerOneBunker)) {
+
             Toast.makeText(this, getString(R.string.player_won) + " " + mGameSequencer.getRoundsCountPlayerTwo() + " " + getString(R.string.player_rounds_count), Toast.LENGTH_LONG).show();
             mGameView.unregisterDrawer(mPlayerOneBunker);
             mPlayerOneBunker = null;
             mGameSequencer.bombshellDitHitBunker(true);
         }
+
+        mGameView.invalidate();
     }
 
     private ViewCoordinates getBunkerOneCoordinates() {

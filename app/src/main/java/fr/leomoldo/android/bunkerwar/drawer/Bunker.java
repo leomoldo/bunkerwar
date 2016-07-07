@@ -11,13 +11,14 @@ import fr.leomoldo.android.bunkerwar.sdk.ViewCoordinates;
 
 public class Bunker extends Drawer implements Parcelable {
 
-	private final static Double BUNKER_CANON_LENGTH = 30.0;
-	public final static Float BUNKER_RADIUS = 17f;
-	private final static Float BUNKER_STROKE_WIDTH = 10f;
-
+    public final static float BUNKER_RADIUS = 17f;
+    private final static float BUNKER_CANON_LENGTH = 30f;
+    private final static float BUNKER_STROKE_WIDTH = 10f;
     private final static float BUNKER_HITBOX_EXPANSION_RATIO = 1.5f;
+    private final static float POWER_INDICATOR_DOTS_DISTANCE = 20f;
 
 	private Boolean mIsPlayerOne;
+    private Boolean mIsPlaying;
 
 	private Integer mAsboluteCanonAngle; // Integer between 0 and 90.
 	private Integer mCanonPower; // Integer between 0 and 100.
@@ -25,17 +26,17 @@ public class Bunker extends Drawer implements Parcelable {
 
 	public Bunker(Boolean isPlayerOne, int color, ViewCoordinates vc) {
 		mIsPlayerOne = isPlayerOne;
-		mCanonPower = 50;
+        mIsPlaying = false;
+        mCanonPower = 50;
 		mAsboluteCanonAngle = 45;
-
 		setViewCoordinates(vc);
-
         mColor = color;
         initializePaint();
     }
 
     protected Bunker(Parcel in) {
         mIsPlayerOne = in.readInt() >= 1;
+        mIsPlaying = in.readInt() >= 1;
         mAsboluteCanonAngle = in.readInt();
         mCanonPower = in.readInt();
         mColor = in.readInt();
@@ -64,6 +65,7 @@ public class Bunker extends Drawer implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(mIsPlayerOne ? 1 : 0);
+        dest.writeInt(mIsPlaying ? 1 : 0);
         dest.writeInt(mAsboluteCanonAngle);
         dest.writeInt(mCanonPower);
         dest.writeInt(mColor);
@@ -77,6 +79,10 @@ public class Bunker extends Drawer implements Parcelable {
         paint.setStrokeCap(Paint.Cap.BUTT);
         paint.setStrokeWidth(BUNKER_STROKE_WIDTH);
         setPaint(paint);
+    }
+
+    public void setIsPlaying(boolean isPlaying) {
+        mIsPlaying = isPlaying;
     }
 
 	public Integer getAbsoluteCanonAngleDegrees() {
@@ -115,10 +121,21 @@ public class Bunker extends Drawer implements Parcelable {
 		canvas.drawRect(getViewCoordinates().getX() - BUNKER_RADIUS, getViewCoordinates().getY(), getViewCoordinates().getX() + BUNKER_RADIUS, viewHeight, getPaint());
 
 		// Draw the canon of the bunker.
-		float lengthX = (float) (BUNKER_CANON_LENGTH * Math.cos(getGeometricalCanonAngleRadian()));
-		float lengthY = (float) (-BUNKER_CANON_LENGTH * Math.sin(getGeometricalCanonAngleRadian()));
-		canvas.drawLine(getViewCoordinates().getX(), getViewCoordinates().getY(), getViewCoordinates().getX() + lengthX, getViewCoordinates().getY() + lengthY, getPaint());
-	}
+        float canonLengthX = (float) (BUNKER_CANON_LENGTH * Math.cos(getGeometricalCanonAngleRadian()));
+        float canonLengthY = (float) (-BUNKER_CANON_LENGTH * Math.sin(getGeometricalCanonAngleRadian()));
+        canvas.drawLine(getViewCoordinates().getX(), getViewCoordinates().getY(), getViewCoordinates().getX() + canonLengthX, getViewCoordinates().getY() + canonLengthY, getPaint());
+
+        // Draw power indicator.
+        if (mIsPlaying) {
+            float powerIndicatorDotX;
+            float powerIndicatorDotY;
+            for (int i = 1; i <= mCanonPower / 10; i++) {
+                powerIndicatorDotX = (float) ((BUNKER_CANON_LENGTH + i * POWER_INDICATOR_DOTS_DISTANCE) * Math.cos(getGeometricalCanonAngleRadian()));
+                powerIndicatorDotY = (float) ((-BUNKER_CANON_LENGTH - +i * POWER_INDICATOR_DOTS_DISTANCE) * Math.sin(getGeometricalCanonAngleRadian()));
+                canvas.drawPoint(getViewCoordinates().getX() + powerIndicatorDotX, getViewCoordinates().getY() + powerIndicatorDotY, getPaint());
+            }
+        }
+    }
 
     @Override
     public boolean isHitByBombshell(ViewCoordinates bombshellVC, int viewWidth, int viewHeight) {

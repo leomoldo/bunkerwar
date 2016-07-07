@@ -12,7 +12,7 @@ import fr.leomoldo.android.bunkerwar.sdk.ViewCoordinates;
  */
 public class Bombshell extends Drawer {
 
-    public final static Float BOMBSHELL_RADIUS = 5f;
+    private final static float BOMBSHELL_RADIUS = 5f;
 
     public Bombshell(int color) {
         Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
