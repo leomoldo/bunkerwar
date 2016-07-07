@@ -308,7 +308,7 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
         return new ViewCoordinates(Landscape.BUNKER_POSITION_FROM_SCREEN_BORDER * landSliceWidth,
                 mGameView.getHeight()
                         - mGameView.getHeight() * Landscape.MAX_HEIGHT_RATIO_FOR_LANDSCAPE * mLandscape.getLandscapeHeightPercentage(Landscape.BUNKER_POSITION_FROM_SCREEN_BORDER)
-                        - Bunker.BUNKER_RADIUS);
+                        - Bunker.BUNKER_HEIGHT);
     }
 
     private ViewCoordinates getBunkerTwoCoordinates() {
@@ -316,6 +316,6 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
         return new ViewCoordinates(mGameView.getWidth() - landSliceWidth * Landscape.BUNKER_POSITION_FROM_SCREEN_BORDER,
                 mGameView.getHeight()
                         - mGameView.getHeight() * Landscape.MAX_HEIGHT_RATIO_FOR_LANDSCAPE * mLandscape.getLandscapeHeightPercentage(mLandscape.getNumberOfLandscapeSlices() - 1 - Landscape.BUNKER_POSITION_FROM_SCREEN_BORDER)
-                        - Bunker.BUNKER_RADIUS);
+                        - Bunker.BUNKER_HEIGHT);
     }
 }

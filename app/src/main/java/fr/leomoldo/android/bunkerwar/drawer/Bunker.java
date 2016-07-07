@@ -12,6 +12,7 @@ import fr.leomoldo.android.bunkerwar.sdk.ViewCoordinates;
 public class Bunker extends Drawer implements Parcelable {
 
     public final static float BUNKER_RADIUS = 17f;
+    public final static float BUNKER_HEIGHT = 30f;
     private final static float BUNKER_CANON_LENGTH = 30f;
     private final static float BUNKER_STROKE_WIDTH = 10f;
     private final static float BUNKER_HITBOX_EXPANSION_RATIO = 1.5f;
