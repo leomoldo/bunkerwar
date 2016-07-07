@@ -49,7 +49,7 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
 
     // Views :
     private GameView mGameView;
-    private LinearLayout mLinearLayoutChoseLandscape;
+    private LinearLayout mLinearLayoutchooseLandscape;
     private LinearLayout mLinearLayoutControls;
     private TextView mTextViewPlayersName;
     private AnglePrecisionSliderLayout mAnglePrecisionSliderLayout;
@@ -62,7 +62,7 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
         setContentView(R.layout.activity_two_player_game);
 
         // Retrieve useful views.
-        mLinearLayoutChoseLandscape = (LinearLayout) findViewById(R.id.linearLayoutChoseLandscape);
+        mLinearLayoutchooseLandscape = (LinearLayout) findViewById(R.id.linearLayoutchooseLandscape);
         mLinearLayoutControls = (LinearLayout) findViewById(R.id.linearLayoutControls);
         mTextViewPlayersName = (TextView) findViewById(R.id.textView_playersName);
         mAnglePrecisionSliderLayout = (AnglePrecisionSliderLayout) findViewById(R.id.anglePrecisionSliderLayout);
@@ -224,7 +224,7 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
         mAnglePrecisionSliderLayout.setValue(mPlayerOneBunker.getAbsoluteCanonAngleDegrees());
         mPowerPrecisionSliderLayout.setValue(mPlayerOneBunker.getCanonPower());
         mPlayerOneBunker.setIsPlaying(true);
-        mLinearLayoutChoseLandscape.setVisibility(View.GONE);
+        mLinearLayoutchooseLandscape.setVisibility(View.GONE);
         mLinearLayoutControls.setVisibility(View.VISIBLE);
         mGameView.invalidate();
     }
