@@ -39,6 +39,9 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
     private final static String BUNDLE_KEY_BUNKER_TWO = TwoPlayerGameActivity.class.getName() + ".bunkerTwo";
     private final static String BUNDLE_KEY_LANDSCAPE = TwoPlayerGameActivity.class.getName() + ".landscape";
 
+    // TODO : Make this a dimen in a xml and adapt value to screen size.
+    private final static float LAYOUT_TRANSITION_Y_TRANSLATION_OFFSET = 500f;
+
     // Model :
     private GameSequencer mGameSequencer;
     private Bunker mPlayerOneBunker;
@@ -49,7 +52,7 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
 
     // Views :
     private GameView mGameView;
-    private LinearLayout mLinearLayoutchooseLandscape;
+    private LinearLayout mLinearLayoutChooseLandscape;
     private LinearLayout mLinearLayoutControls;
     private TextView mTextViewPlayersName;
     private AnglePrecisionSliderLayout mAnglePrecisionSliderLayout;
@@ -62,12 +65,20 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
         setContentView(R.layout.activity_two_player_game);
 
         // Retrieve useful views.
-        mLinearLayoutchooseLandscape = (LinearLayout) findViewById(R.id.linearLayoutchooseLandscape);
+        mLinearLayoutChooseLandscape = (LinearLayout) findViewById(R.id.linearLayoutChooseLandscape);
         mLinearLayoutControls = (LinearLayout) findViewById(R.id.linearLayoutControls);
         mTextViewPlayersName = (TextView) findViewById(R.id.textView_playersName);
         mAnglePrecisionSliderLayout = (AnglePrecisionSliderLayout) findViewById(R.id.anglePrecisionSliderLayout);
         mPowerPrecisionSliderLayout = (PowerPrecisionSliderLayout) findViewById(R.id.powerPrecisionSliderLayout);
         mGameView = (GameView) findViewById(R.id.gameView);
+
+        // Define layout animation.
+        ObjectAnimator animatorAppearing = ObjectAnimator.ofFloat(mLinearLayoutControls, "translationY", -LAYOUT_TRANSITION_Y_TRANSLATION_OFFSET, 0f);
+        ObjectAnimator animatorDisappearing = ObjectAnimator.ofFloat(mLinearLayoutControls, "translationY", 0f, -LAYOUT_TRANSITION_Y_TRANSLATION_OFFSET);
+        LayoutTransition layoutTransition = new LayoutTransition();
+        layoutTransition.setAnimator(LayoutTransition.APPEARING, animatorAppearing);
+        layoutTransition.setAnimator(LayoutTransition.DISAPPEARING, animatorDisappearing);
+        ((RelativeLayout) findViewById(R.id.mainRelativeLayout)).setLayoutTransition(layoutTransition);
 
         mAnglePrecisionSliderLayout.setListener(this);
         mPowerPrecisionSliderLayout.setListener(this);
@@ -77,14 +88,6 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
                 new ViewTreeObserver.OnGlobalLayoutListener() {
                     @Override
                     public void onGlobalLayout() {
-
-                        // Define layout animation.
-                        ObjectAnimator animatorAppearing = ObjectAnimator.ofFloat(mLinearLayoutControls, "translationY", -mLinearLayoutControls.getHeight(), 0f);
-                        ObjectAnimator animatorDisappearing = ObjectAnimator.ofFloat(mLinearLayoutControls, "translationY", 0f, -mLinearLayoutControls.getHeight());
-                        LayoutTransition layoutTransition = new LayoutTransition();
-                        layoutTransition.setAnimator(LayoutTransition.APPEARING, animatorAppearing);
-                        layoutTransition.setAnimator(LayoutTransition.DISAPPEARING, animatorDisappearing);
-                        ((RelativeLayout) findViewById(R.id.mainRelativeLayout)).setLayoutTransition(layoutTransition);
 
                         // Initialize or restore game model.
                         if (savedInstanceState != null) {
@@ -224,7 +227,7 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
         mAnglePrecisionSliderLayout.setValue(mPlayerOneBunker.getAbsoluteCanonAngleDegrees());
         mPowerPrecisionSliderLayout.setValue(mPlayerOneBunker.getCanonPower());
         mPlayerOneBunker.setIsPlaying(true);
-        mLinearLayoutchooseLandscape.setVisibility(View.GONE);
+        mLinearLayoutChooseLandscape.setVisibility(View.GONE);
         mLinearLayoutControls.setVisibility(View.VISIBLE);
         mGameView.invalidate();
     }
