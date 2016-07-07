@@ -15,6 +15,31 @@
         android:layout_height="match_parent" />
 
     <LinearLayout
+        android:id="@+id/linearLayoutChoseLandscape"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/buttonChangeLandscape"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:onClick="onButtonClickedChangeLandscape"
+            android:text="@string/change_landscape" />
+
+        <Button
+            android:id="@+id/buttonStartPlaying"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:onClick="onButtonClickedStartPlaying"
+            android:text="@string/start_playing" />
+
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/linearLayoutControls"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -23,7 +48,7 @@
         android:layout_alignParentTop="true"
         android:background="@color/grey_controls_background"
         android:orientation="vertical"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/textView_playersName"

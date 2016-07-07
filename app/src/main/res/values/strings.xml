@@ -2,10 +2,19 @@
 
     <string name="app_name">BunkerWar</string>
 
+    <!-- General purpose. -->
+
     <string name="yes">oui</string>
     <string name="no">non</string>
 
+    <!-- MainActivity. -->
+
     <string name="start_new_game">Nouvelle partie</string>
+
+    <!-- TwoPlayerGameActivity. -->
+
+    <string name="change_landscape">Changer de terrain</string>
+    <string name="start_playing">Commencer la partie</string>
 
     <string name="player_one"> Joueur 1</string>
     <string name="player_two"> Joueur 2</string>
@@ -16,6 +25,7 @@
     <string name="minus">-</string>
     <string name="plus">+</string>
     <string name="button_fire">FEU!</string>
+
     <string name="player_won">Victoire en</string>
     <string name="player_rounds_count">tirs!</string>
     <string name="target_missed">C\'est raté…</string>

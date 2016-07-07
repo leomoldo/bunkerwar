@@ -6,6 +6,7 @@ import android.os.Parcelable;
 public class GameSequencer implements Parcelable {
 
 	public enum GameState {
+        CHOOSING_LANDSCAPE,
         PLAYER_ONE_PLAYING,
         PLAYER_TWO_PLAYING,
 		PLAYER_ONE_FIRING,
@@ -16,19 +17,21 @@ public class GameSequencer implements Parcelable {
         static GameState fromInt(int value) {
             switch (value) {
                 case 0:
-                    return PLAYER_ONE_PLAYING;
+                    return CHOOSING_LANDSCAPE;
                 case 1:
-                    return PLAYER_TWO_PLAYING;
+                    return PLAYER_ONE_PLAYING;
                 case 2:
-                    return PLAYER_ONE_FIRING;
+                    return PLAYER_TWO_PLAYING;
                 case 3:
-                    return PLAYER_TWO_FIRING;
+                    return PLAYER_ONE_FIRING;
                 case 4:
-                    return PLAYER_ONE_WON;
+                    return PLAYER_TWO_FIRING;
                 case 5:
+                    return PLAYER_ONE_WON;
+                case 6:
                     return PLAYER_TWO_WON;
                 default:
-                    return PLAYER_ONE_PLAYING;
+                    return CHOOSING_LANDSCAPE;
             }
         }
     }
@@ -38,9 +41,9 @@ public class GameSequencer implements Parcelable {
     private GameState mGameState;
 
     public GameSequencer() {
-        mRoundsCountPlayerOne = 1;
+        mRoundsCountPlayerOne = 0;
         mRoundsCountPlayerTwo = 0;
-        mGameState = GameState.PLAYER_ONE_PLAYING;
+        mGameState = GameState.CHOOSING_LANDSCAPE;
     }
 
     protected GameSequencer(Parcel in) {
@@ -84,6 +87,11 @@ public class GameSequencer implements Parcelable {
 	public GameState getGameState() {
 		return mGameState;
 	}
+
+    public void startPlaying() {
+        mGameState = GameState.PLAYER_ONE_PLAYING;
+        mRoundsCountPlayerOne++;
+    }
 
     public void fireButtonPressed() {
         switch(mGameState) {
