@@ -63,7 +63,8 @@
             android:id="@+id/seekBar"
             android:layout_width="0dp"
             android:layout_height="@dimen/button_size_standard"
-            android:layout_gravity="center"
+            android:minHeight="@dimen/button_size_standard"
+            android:maxHeight="@dimen/button_size_standard"
             android:layout_weight="1" />
 
         <Button
