@@ -3,5 +3,7 @@
 
     <dimen name="button_size_standard">48dp</dimen>
     <dimen name="button_size_fire">100dp</dimen>
+    <dimen name="button_radius">10dp</dimen>
+    <dimen name="button_padding">10dp</dimen>
 
 </resources>
