@@ -5,7 +5,7 @@
     <stroke
         android:width="2px"
         android:color="@color/colorPrimaryDark" />
-    <solid android:color="@android:color/transparent" />
+    <solid android:color="@color/colorPrimaryAlphaOverlay" />
     <corners android:radius="@dimen/button_radius" />
 
 </shape>
