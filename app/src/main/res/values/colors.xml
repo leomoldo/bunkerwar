@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#673928</color>
     <color name="colorPrimaryDark">#563022</color>
-    <color name="colorAccent">#000000</color>
+    <color name="colorAccent">#563022</color>
 
     <color name="colorPrimaryAlphaOverlay">#33673928</color>
 
@@ -12,6 +12,7 @@
     <color name="red_bunker">#FF0000</color>
     <color name="yellow_bunker">#FFFF00</color>
 
-    <color name="grey_controls_background">#b3a6a6a6</color>
+    <!-- TODO Clean. -->
+    <!--color name="grey_controls_background">#b3a6a6a6</color-->
 
 </resources>

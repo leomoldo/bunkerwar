@@ -6,6 +6,7 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:buttonStyle">@style/ButtonStyleStandard</item>
+        <item name="android:textViewStyle">@style/TextViewStyleStandard</item>
     </style>
 
     <style name="FullscreenTheme" parent="AppTheme">
@@ -23,6 +24,11 @@
     <style name="ButtonStyleStandard" parent="Widget.AppCompat.Button">
         <item name="android:background">@drawable/button_background_standard</item>
         <item name="android:padding">@dimen/button_padding</item>
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextViewStyleStandard" parent="TextAppearance.AppCompat">
         <item name="android:textColor">@color/colorPrimaryDark</item>
     </style>
 

@@ -16,8 +16,6 @@
     <string name="change_landscape">Changer de terrain</string>
     <string name="start_playing">Commencer la partie</string>
 
-    <string name="player_one"> Joueur 1</string>
-    <string name="player_two"> Joueur 2</string>
     <string name="angle">Angle :</string>
     <string name="angle_unit">°</string>
     <string name="power">Puissance :</string>

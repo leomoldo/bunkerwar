@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -54,7 +53,6 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
     private GameView mGameView;
     private LinearLayout mLinearLayoutChooseLandscape;
     private LinearLayout mLinearLayoutControls;
-    private TextView mTextViewPlayersName;
     private AnglePrecisionSliderLayout mAnglePrecisionSliderLayout;
     private PowerPrecisionSliderLayout mPowerPrecisionSliderLayout;
 
@@ -67,7 +65,6 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
         // Retrieve useful views.
         mLinearLayoutChooseLandscape = (LinearLayout) findViewById(R.id.linearLayoutChooseLandscape);
         mLinearLayoutControls = (LinearLayout) findViewById(R.id.linearLayoutControls);
-        mTextViewPlayersName = (TextView) findViewById(R.id.textView_playersName);
         mAnglePrecisionSliderLayout = (AnglePrecisionSliderLayout) findViewById(R.id.anglePrecisionSliderLayout);
         mPowerPrecisionSliderLayout = (PowerPrecisionSliderLayout) findViewById(R.id.powerPrecisionSliderLayout);
         mGameView = (GameView) findViewById(R.id.gameView);
@@ -223,7 +220,6 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
 
     public void onButtonClickedStartPlaying(View view) {
         mGameSequencer.startPlaying();
-        mTextViewPlayersName.setText(getString(R.string.player_one));
         mAnglePrecisionSliderLayout.setValue(mPlayerOneBunker.getAbsoluteCanonAngleDegrees());
         mPowerPrecisionSliderLayout.setValue(mPlayerOneBunker.getCanonPower());
         mPlayerOneBunker.setIsPlaying(true);
@@ -274,12 +270,10 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
             Toast.makeText(this, R.string.target_missed, Toast.LENGTH_SHORT).show();
             mGameSequencer.bombshellMissedTarget();
             if (mGameSequencer.getGameState() == GameSequencer.GameState.PLAYER_ONE_PLAYING) {
-                mTextViewPlayersName.setText(getString(R.string.player_one));
                 mAnglePrecisionSliderLayout.setValue(mPlayerOneBunker.getAbsoluteCanonAngleDegrees());
                 mPowerPrecisionSliderLayout.setValue(mPlayerOneBunker.getCanonPower());
                 mPlayerOneBunker.setIsPlaying(true);
             } else if (mGameSequencer.getGameState() == GameSequencer.GameState.PLAYER_TWO_PLAYING) {
-                mTextViewPlayersName.setText(getString(R.string.player_two));
                 mAnglePrecisionSliderLayout.setValue(mPlayerTwoBunker.getAbsoluteCanonAngleDegrees());
                 mPowerPrecisionSliderLayout.setValue(mPlayerTwoBunker.getCanonPower());
                 mPlayerTwoBunker.setIsPlaying(true);
