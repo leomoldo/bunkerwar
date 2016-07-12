@@ -9,15 +9,16 @@ public class BombshellPathComputer {
 	private final static float GRAVITATION_FACTOR = 490.5f;
     private final static float MAX_INITIAL_SPEED = 30.0f;
     private final static float TIME_FACTOR = 0.001f;
+    private final static float WIND_FACTOR = 0.15f;
 
 	private Double mInitialSpeedX;
 	private Double mInitialSpeedY;
 	private ViewCoordinates mCurrentCoordinates;
 	private Integer mTimeCounter = 0;
 
-    public BombshellPathComputer(Integer initialSpeed, double fireAngleRadian, ViewCoordinates initialCoordinates) {
+    public BombshellPathComputer(int initialSpeed, double fireAngleRadian, ViewCoordinates initialCoordinates, int windValue) {
         mCurrentCoordinates = initialCoordinates.clone();
-        mInitialSpeedX = initialSpeed*MAX_INITIAL_SPEED*Math.cos(fireAngleRadian) / 100;
+        mInitialSpeedX = initialSpeed*MAX_INITIAL_SPEED*Math.cos(fireAngleRadian) / 100 + windValue * WIND_FACTOR;
 		mInitialSpeedY = - initialSpeed*MAX_INITIAL_SPEED*Math.sin(fireAngleRadian) / 100;
 	}
 
