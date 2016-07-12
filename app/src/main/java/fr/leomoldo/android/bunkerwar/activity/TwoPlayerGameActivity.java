@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -37,6 +38,7 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
     private final static String BUNDLE_KEY_BUNKER_ONE = TwoPlayerGameActivity.class.getName() + ".bunkerOne";
     private final static String BUNDLE_KEY_BUNKER_TWO = TwoPlayerGameActivity.class.getName() + ".bunkerTwo";
     private final static String BUNDLE_KEY_LANDSCAPE = TwoPlayerGameActivity.class.getName() + ".landscape";
+    private final static String BUNDLE_KEY_WIND_VALUE = TwoPlayerGameActivity.class.getName() + ".windValue";
 
     // TODO : Make this a dimen in a xml and adapt value to screen size.
     private final static float LAYOUT_TRANSITION_Y_TRANSLATION_OFFSET = 500f;
@@ -46,6 +48,7 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
     private Bunker mPlayerOneBunker;
     private Bunker mPlayerTwoBunker;
     private Landscape mLandscape;
+    private Integer mWindValue; // Integer between -50 and 50.
 
     private BombshellAnimatorAsyncTask mBombshellAnimatorAsyncTask;
 
@@ -53,6 +56,8 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
     private GameView mGameView;
     private LinearLayout mLinearLayoutChooseLandscape;
     private LinearLayout mLinearLayoutControls;
+    private LinearLayout mLinearLayoutWind;
+    private TextView mTextViewWindValue;
     private AnglePrecisionSliderLayout mAnglePrecisionSliderLayout;
     private PowerPrecisionSliderLayout mPowerPrecisionSliderLayout;
 
@@ -65,6 +70,8 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
         // Retrieve useful views.
         mLinearLayoutChooseLandscape = (LinearLayout) findViewById(R.id.linearLayoutChooseLandscape);
         mLinearLayoutControls = (LinearLayout) findViewById(R.id.linearLayoutControls);
+        mLinearLayoutWind = (LinearLayout) findViewById(R.id.linearLayoutWind);
+        mTextViewWindValue = (TextView) findViewById(R.id.textViewWindValue);
         mAnglePrecisionSliderLayout = (AnglePrecisionSliderLayout) findViewById(R.id.anglePrecisionSliderLayout);
         mPowerPrecisionSliderLayout = (PowerPrecisionSliderLayout) findViewById(R.id.powerPrecisionSliderLayout);
         mGameView = (GameView) findViewById(R.id.gameView);
@@ -90,6 +97,7 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
                         if (savedInstanceState != null) {
                             mGameSequencer = savedInstanceState.getParcelable(BUNDLE_KEY_GAME_SEQUENCER);
                             mLandscape = savedInstanceState.getParcelable(BUNDLE_KEY_LANDSCAPE);
+                            mWindValue = savedInstanceState.getInt(BUNDLE_KEY_WIND_VALUE, 0);
                             if (mGameSequencer.getGameState() != GameSequencer.GameState.PLAYER_TWO_WON) {
                                 mPlayerOneBunker = savedInstanceState.getParcelable(BUNDLE_KEY_BUNKER_ONE);
                             }
@@ -100,6 +108,8 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
                         } else {
                             mGameSequencer = new GameSequencer();
                             mLandscape = new Landscape(getResources().getColor(R.color.green_land_slice));
+                            mWindValue = ((int) (Math.random() * 100)) - 50;
+                            mTextViewWindValue.setText(mWindValue.toString());
                             mPlayerOneBunker = new Bunker(true, getResources().getColor(R.color.red_bunker), getBunkerOneCoordinates());
                             mPlayerTwoBunker = new Bunker(false, getResources().getColor(R.color.yellow_bunker), getBunkerTwoCoordinates());
                         }
@@ -143,6 +153,7 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
         mGameSequencer.cancelFiring();
         outState.putParcelable(BUNDLE_KEY_GAME_SEQUENCER, mGameSequencer);
         outState.putParcelable(BUNDLE_KEY_LANDSCAPE, mLandscape);
+        outState.putInt(BUNDLE_KEY_WIND_VALUE, mWindValue);
         if (mGameSequencer.getGameState() != GameSequencer.GameState.PLAYER_TWO_WON) {
             outState.putParcelable(BUNDLE_KEY_BUNKER_ONE, mPlayerOneBunker);
         }
@@ -224,6 +235,7 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
         mPowerPrecisionSliderLayout.setValue(mPlayerOneBunker.getCanonPower());
         mPlayerOneBunker.setIsPlaying(true);
         mLinearLayoutChooseLandscape.setVisibility(View.GONE);
+        mLinearLayoutWind.setVisibility(View.VISIBLE);
         mLinearLayoutControls.setVisibility(View.VISIBLE);
         mGameView.invalidate();
     }
