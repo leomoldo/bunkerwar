@@ -21,9 +21,9 @@ public abstract class Drawer {
         mPaint = paint;
     }
 
-    public abstract void draw(Canvas canvas, @Nullable int viewWidth, int viewHeight);
+    public abstract void draw(Canvas canvas, @Nullable float viewWidth, float viewHeight);
 
-    public abstract boolean isHitByBombshell(ViewCoordinates bombshellVC, int viewWidth, int viewHeight);
+    public abstract boolean isHitByBombshell(ViewCoordinates bombshellVC, float viewWidth, float viewHeight);
 
     public void setViewCoordinates(ViewCoordinates vc) {
         mViewCoordinates = vc;

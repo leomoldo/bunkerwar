@@ -104,7 +104,7 @@ public class Landscape extends Drawer implements Parcelable {
 	}
 
     @Override
-    public void draw(Canvas canvas, int viewWidth, int viewHeight) {
+    public void draw(Canvas canvas, float viewWidth, float viewHeight) {
         for (int i = 0; i < getNumberOfLandscapeSlices(); i++) {
             canvas.drawRect(i * viewWidth / getNumberOfLandscapeSlices(),
                     viewHeight - viewHeight * MAX_HEIGHT_RATIO_FOR_LANDSCAPE * getLandscapeHeightPercentage(i),
@@ -115,7 +115,7 @@ public class Landscape extends Drawer implements Parcelable {
     }
 
     @Override
-    public boolean isHitByBombshell(ViewCoordinates bombshellVC, int viewWidth, int viewHeight) {
+    public boolean isHitByBombshell(ViewCoordinates bombshellVC, float viewWidth, float viewHeight) {
         return bombshellVC.getY() > getLandscapeHeightForX(bombshellVC.getX(), viewWidth, viewHeight);
     }
 
@@ -135,7 +135,7 @@ public class Landscape extends Drawer implements Parcelable {
 		return initialWidth;
 	}
 
-    private float getLandscapeHeightForX(float x, int viewWidth, int mViewHeight) {
+    private float getLandscapeHeightForX(float x, float viewWidth, float mViewHeight) {
         int sliceIndex = (int) (x / (viewWidth / getNumberOfLandscapeSlices()));
         return mViewHeight - mViewHeight * Landscape.MAX_HEIGHT_RATIO_FOR_LANDSCAPE * getLandscapeHeightPercentage(sliceIndex);
     }

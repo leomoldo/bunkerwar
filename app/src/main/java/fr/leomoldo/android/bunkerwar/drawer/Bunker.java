@@ -115,7 +115,7 @@ public class Bunker extends Drawer implements Parcelable {
 	}
 
 	@Override
-	public void draw(Canvas canvas, @Nullable int viewWidth, int viewHeight) {
+    public void draw(Canvas canvas, @Nullable float viewWidth, float viewHeight) {
 
 		// Draw a circle and a rectangle for the bunker.
 		canvas.drawCircle(getViewCoordinates().getX(), getViewCoordinates().getY(), BUNKER_RADIUS, getPaint());
@@ -139,7 +139,7 @@ public class Bunker extends Drawer implements Parcelable {
     }
 
     @Override
-    public boolean isHitByBombshell(ViewCoordinates bombshellVC, int viewWidth, int viewHeight) {
+    public boolean isHitByBombshell(ViewCoordinates bombshellVC, float viewWidth, float viewHeight) {
 
         double distance = Math.sqrt(
                 Math.pow(bombshellVC.getX() - getViewCoordinates().getX(), 2) +

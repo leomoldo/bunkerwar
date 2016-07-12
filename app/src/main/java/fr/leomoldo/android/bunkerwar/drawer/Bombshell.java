@@ -22,12 +22,12 @@ public class Bombshell extends Drawer {
     }
 
     @Override
-    public void draw(Canvas canvas, @Nullable int viewWidth, int viewHeight) {
+    public void draw(Canvas canvas, @Nullable float viewWidth, float viewHeight) {
         canvas.drawCircle(getViewCoordinates().getX(), getViewCoordinates().getY(), BOMBSHELL_RADIUS, getPaint());
     }
 
     @Override
-    public boolean isHitByBombshell(ViewCoordinates bombshellVC, int viewWidth, int viewHeight) {
+    public boolean isHitByBombshell(ViewCoordinates bombshellVC, float viewWidth, float viewHeight) {
         double distance = Math.sqrt(
                 Math.pow(bombshellVC.getX() - getViewCoordinates().getX(), 2) +
                         Math.pow(bombshellVC.getY() - getViewCoordinates().getY(), 2)
