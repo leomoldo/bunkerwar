@@ -256,13 +256,17 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
         BombshellPathComputer bombshellPathComputer;
         ArrayList<Drawer> collidableDrawers = new ArrayList<Drawer>();
         collidableDrawers.add(mLandscape);
+        ViewCoordinates initialVC;
+        // TODO Refactor with local variable "playingBunker" to avoid code duplication?
         if (mGameSequencer.getGameState() == GameSequencer.GameState.PLAYER_ONE_FIRING) {
             mPlayerOneBunker.setIsPlaying(false);
-            bombshellPathComputer = new BombshellPathComputer(mPlayerOneBunker.getCanonPower(), mPlayerOneBunker.getGeometricalCanonAngleRadian(), mPlayerOneBunker.getViewCoordinates(), mWindValue);
+            initialVC = new ViewCoordinates(mPlayerOneBunker.getViewCoordinates().getX() + mPlayerOneBunker.getCanonLengthX(), mPlayerOneBunker.getViewCoordinates().getY() + mPlayerOneBunker.getCanonLengthY());
+            bombshellPathComputer = new BombshellPathComputer(mPlayerOneBunker.getCanonPower(), mPlayerOneBunker.getGeometricalCanonAngleRadian(), initialVC, mWindValue);
             collidableDrawers.add(mPlayerTwoBunker);
         } else if (mGameSequencer.getGameState() == GameSequencer.GameState.PLAYER_TWO_FIRING) {
+            initialVC = new ViewCoordinates(mPlayerTwoBunker.getViewCoordinates().getX() + mPlayerTwoBunker.getCanonLengthX(), mPlayerTwoBunker.getViewCoordinates().getY() + mPlayerTwoBunker.getCanonLengthY());
             mPlayerTwoBunker.setIsPlaying(false);
-            bombshellPathComputer = new BombshellPathComputer(mPlayerTwoBunker.getCanonPower(), mPlayerTwoBunker.getGeometricalCanonAngleRadian(), mPlayerTwoBunker.getViewCoordinates(), mWindValue);
+            bombshellPathComputer = new BombshellPathComputer(mPlayerTwoBunker.getCanonPower(), mPlayerTwoBunker.getGeometricalCanonAngleRadian(), initialVC, mWindValue);
             collidableDrawers.add(mPlayerOneBunker);
         } else {
             // Issue...

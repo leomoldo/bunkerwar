@@ -13,7 +13,7 @@ public class Bunker extends Drawer implements Parcelable {
 
     public final static float BUNKER_RADIUS = 17f;
     public final static float BUNKER_HEIGHT = 30f;
-    private final static float BUNKER_CANON_LENGTH = 30f;
+    public final static float BUNKER_CANON_LENGTH = 30f;
     private final static float BUNKER_STROKE_WIDTH = 10f;
     private final static float BUNKER_HITBOX_EXPANSION_RATIO = 1.5f;
     private final static float POWER_INDICATOR_DOTS_DISTANCE = 20f;
@@ -86,8 +86,8 @@ public class Bunker extends Drawer implements Parcelable {
         mIsPlaying = isPlaying;
     }
 
-	public Integer getAbsoluteCanonAngleDegrees() {
-		return mAsboluteCanonAngle;
+    public int getAbsoluteCanonAngleDegrees() {
+        return mAsboluteCanonAngle;
 	}
 
 	public double getGeometricalCanonAngleRadian() {
@@ -101,18 +101,26 @@ public class Bunker extends Drawer implements Parcelable {
 	public void setAbsoluteCanonAngle(Integer mCanonAngle) {
 		this.mAsboluteCanonAngle = mCanonAngle;
 	}
-	
-	public Integer getCanonPower() {
-		return mCanonPower;
+
+    public int getCanonPower() {
+        return mCanonPower;
 	}
 
 	public void setCanonPower(Integer mCanonPower) {
 		this.mCanonPower = mCanonPower;
 	}
 
-	public Boolean isPlayerOne() {
-		return mIsPlayerOne;
+    public boolean isPlayerOne() {
+        return mIsPlayerOne;
 	}
+
+    public float getCanonLengthX() {
+        return (float) (BUNKER_CANON_LENGTH * Math.cos(getGeometricalCanonAngleRadian()));
+    }
+
+    public float getCanonLengthY() {
+        return (float) (-BUNKER_CANON_LENGTH * Math.sin(getGeometricalCanonAngleRadian()));
+    }
 
 	@Override
     public void draw(Canvas canvas, @Nullable float viewWidth, float viewHeight) {
@@ -122,9 +130,7 @@ public class Bunker extends Drawer implements Parcelable {
 		canvas.drawRect(getViewCoordinates().getX() - BUNKER_RADIUS, getViewCoordinates().getY(), getViewCoordinates().getX() + BUNKER_RADIUS, viewHeight, getPaint());
 
 		// Draw the canon of the bunker.
-        float canonLengthX = (float) (BUNKER_CANON_LENGTH * Math.cos(getGeometricalCanonAngleRadian()));
-        float canonLengthY = (float) (-BUNKER_CANON_LENGTH * Math.sin(getGeometricalCanonAngleRadian()));
-        canvas.drawLine(getViewCoordinates().getX(), getViewCoordinates().getY(), getViewCoordinates().getX() + canonLengthX, getViewCoordinates().getY() + canonLengthY, getPaint());
+        canvas.drawLine(getViewCoordinates().getX(), getViewCoordinates().getY(), getViewCoordinates().getX() + getCanonLengthX(), getViewCoordinates().getY() + getCanonLengthY(), getPaint());
 
         // Draw power indicator.
         if (mIsPlaying) {
