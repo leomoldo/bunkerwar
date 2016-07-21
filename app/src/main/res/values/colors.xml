@@ -1,11 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!-- TODO Clean :
     <color name="colorPrimary">#673928</color>
     <color name="colorPrimaryDark">#563022</color>
     <color name="colorAccent">#563022</color>
 
     <color name="colorPrimaryAlphaOverlay">#33673928</color>
     <color name="colorPrimaryAlphaDarkerOverlay">#96673928</color>
+    -->
+
+    <color name="colorPrimary">#000000</color>
+    <color name="colorPrimaryDark">#515151</color>
+    <color name="colorAccent">#515151</color>
+
+    <color name="colorPrimaryAlphaOverlay">#33515151</color>
+    <color name="colorPrimaryAlphaDarkerOverlay">#96515151</color>
 
     <color name="black_overlay">#66000000</color>
     <color name="blue_sky">#8cc0e5</color>
