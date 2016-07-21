@@ -108,8 +108,7 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
                         } else {
                             mGameSequencer = new GameSequencer();
                             mLandscape = new Landscape(getResources().getColor(R.color.green_land_slice));
-                            mWindValue = ((int) (Math.random() * 100)) - 50;
-                            mTextViewWindValue.setText(mWindValue.toString());
+                            changeWindValue();
                             mPlayerOneBunker = new Bunker(true, getResources().getColor(R.color.red_bunker), getBunkerOneCoordinates());
                             mPlayerTwoBunker = new Bunker(false, getResources().getColor(R.color.yellow_bunker), getBunkerTwoCoordinates());
                         }
@@ -330,5 +329,10 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
                 mGameView.getHeight()
                         - mGameView.getHeight() * Landscape.MAX_HEIGHT_RATIO_FOR_LANDSCAPE * mLandscape.getLandscapeHeightPercentage(mLandscape.getNumberOfLandscapeSlices() - 1 - Landscape.BUNKER_POSITION_FROM_SCREEN_BORDER)
                         - Bunker.BUNKER_HEIGHT);
+    }
+
+    private void changeWindValue() {
+        mWindValue = ((int) (Math.random() * 100)) - 50;
+        mTextViewWindValue.setText(mWindValue.toString());
     }
 }
