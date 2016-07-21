@@ -6,4 +6,8 @@
     <dimen name="button_radius">10dp</dimen>
     <dimen name="button_padding">10dp</dimen>
 
+    <!-- MainActivity -->
+    <dimen name="button_width_mainActivity">150dp</dimen>
+    <dimen name="button_layout_margin_mainActivity">5dp</dimen>
+
 </resources>

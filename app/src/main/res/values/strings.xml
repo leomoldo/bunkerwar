@@ -10,6 +10,9 @@
     <!-- MainActivity. -->
 
     <string name="start_new_game">Nouvelle partie</string>
+    <string name="settings">Options</string>
+    <string name="credits">Crédits</string>
+    <string name="tutorial">Tutoriel</string>
 
     <!-- TwoPlayerGameActivity. -->
 

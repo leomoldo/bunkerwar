@@ -25,4 +25,16 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, TwoPlayerGameActivity.class);
         startActivity(intent);
     }
+
+    public void onButtonClickedSettings(View view) {
+        // To be implemented.
+    }
+
+    public void onButtonClickedCredits(View view) {
+        // To be implemented.
+    }
+
+    public void onButtonClickedTutorial(View view) {
+        // To be implemented.
+    }
 }
