@@ -10,7 +10,6 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_marginRight="20dp"
-        android:background="@drawable/layout_background_wind_indicator"
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -38,19 +37,25 @@
         android:background="@drawable/layout_background_wind_indicator"
         android:orientation="horizontal">
 
-        <FrameLayout
+        <LinearLayout
             android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:gravity="right">
+            android:orientation="horizontal">
+
+            <View
+                android:id="@+id/viewPaddingPositiveWindArrows"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0" />
 
             <LinearLayout
                 android:id="@+id/linearLayoutPositiveWindArrows"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
-                android:orientation="horizontal"
-                tools:layout_width="120dp">
+                android:layout_weight="60"
+                android:orientation="horizontal">
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -79,7 +84,7 @@
 
             </LinearLayout>
 
-        </FrameLayout>
+        </LinearLayout>
 
         <ImageView
             android:id="@+id/imageViewFlag"
@@ -88,19 +93,17 @@
             android:layout_margin="5dp"
             tools:src="@drawable/flag_positive_wind" />
 
-        <FrameLayout
+        <LinearLayout
             android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:gravity="left"
             android:orientation="horizontal">
 
             <LinearLayout
                 android:id="@+id/linearLayoutNegativeWindArrows"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:gravity="left"
-                tools:layout_width="120dp">
+                android:layout_weight="60">
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -129,7 +132,13 @@
 
             </LinearLayout>
 
-        </FrameLayout>
+            <View
+                android:id="@+id/viewPaddingNegativeWindArrows"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
