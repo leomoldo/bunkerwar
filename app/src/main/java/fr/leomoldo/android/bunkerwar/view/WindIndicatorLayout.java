@@ -3,6 +3,7 @@ package fr.leomoldo.android.bunkerwar.view;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -39,18 +40,18 @@ public class WindIndicatorLayout extends LinearLayout {
     public void displayWindValue(int windValue) {
         mTextViewWindValue.setText(String.valueOf(windValue));
         if (windValue < 0) {
-            mLinearLayoutPositiveWindArrows.setLayoutParams(new LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT));
-            mLinearLayoutNegativeWindArrows.setLayoutParams(new LayoutParams(getIndicatorViewLengthForValue(windValue), ViewGroup.LayoutParams.MATCH_PARENT));
+            mLinearLayoutPositiveWindArrows.setLayoutParams(new FrameLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT));
+            mLinearLayoutNegativeWindArrows.setLayoutParams(new FrameLayout.LayoutParams(getIndicatorViewLengthForValue(windValue), ViewGroup.LayoutParams.MATCH_PARENT));
             mImageViewFlag.setImageResource(R.drawable.arrow_negative_wind);
         } else {
-            mLinearLayoutNegativeWindArrows.setLayoutParams(new LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT));
-            mLinearLayoutPositiveWindArrows.setLayoutParams(new LayoutParams(getIndicatorViewLengthForValue(windValue), ViewGroup.LayoutParams.MATCH_PARENT));
+            mLinearLayoutNegativeWindArrows.setLayoutParams(new FrameLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT));
+            mLinearLayoutPositiveWindArrows.setLayoutParams(new FrameLayout.LayoutParams(getIndicatorViewLengthForValue(windValue), ViewGroup.LayoutParams.MATCH_PARENT));
             mImageViewFlag.setImageResource(R.drawable.arrow_positive_wind);
         }
     }
 
     private void init() {
-        inflate(getContext(), R.layout.layout_precision_slider, this);
+        inflate(getContext(), R.layout.layout_wind_indicator, this);
         mTextViewWindValue = (TextView) findViewById(R.id.textViewWindValue);
         mLinearLayoutPositiveWindArrows = (LinearLayout) findViewById(R.id.linearLayoutPositiveWindArrows);
         mLinearLayoutNegativeWindArrows = (LinearLayout) findViewById(R.id.linearLayoutNegativeWindArrows);
