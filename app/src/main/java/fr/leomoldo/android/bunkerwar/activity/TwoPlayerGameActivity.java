@@ -296,6 +296,8 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
             }
             mLinearLayoutControls.setVisibility(View.VISIBLE);
 
+            changeWindValue();
+
         } else if (drawer.equals(mPlayerTwoBunker)) {
 
             Toast.makeText(this, getString(R.string.player_won) + " " + mGameSequencer.getRoundsCountPlayerOne() + " " + getString(R.string.player_rounds_count), Toast.LENGTH_LONG).show();
