@@ -3,7 +3,9 @@ package fr.leomoldo.android.bunkerwar.activity;
 import android.animation.LayoutTransition;
 import android.animation.ObjectAnimator;
 import android.content.DialogInterface;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.media.SoundPool;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -63,6 +65,10 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
 
     // Audio :
     private MediaPlayer mMediaPlayerSoundtrack;
+    private SoundPool mSoundPool;
+    private int mSoundIdFire;
+    private int mSoundIdMissed;
+    private int mSoundIdBunkerHit;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -150,16 +156,33 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
 
     @Override
     protected void onStart() {
+
         super.onStart();
+
         mMediaPlayerSoundtrack = MediaPlayer.create(this, R.raw.soundtrack_game);
         mMediaPlayerSoundtrack.setLooping(true);
         mMediaPlayerSoundtrack.start();
+
+        if (android.os.Build.VERSION.SDK_INT < 21) {
+            mSoundPool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
+        } else {
+            SoundPool.Builder builder = new SoundPool.Builder();
+            mSoundPool = builder.build();
+        }
+        mSoundIdFire = mSoundPool.load(this, R.raw.fire, 1);
+        mSoundIdMissed = mSoundPool.load(this, R.raw.missed, 1);
+        mSoundIdBunkerHit = mSoundPool.load(this, R.raw.bunker_hit, 1);
     }
 
     @Override
     protected void onStop() {
+
         mMediaPlayerSoundtrack.release();
         mMediaPlayerSoundtrack = null;
+
+        mSoundPool.release();
+        mSoundPool = null;
+
         super.onStop();
     }
 
@@ -265,6 +288,9 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
             return;
         }
 
+        // Play sound effect.
+        mSoundPool.play(mSoundIdFire, 1f, 1f, 0, 0, 1f);
+
         // Update UI and GameSequencer.
         mLinearLayoutControls.setVisibility(View.GONE);
         mGameSequencer.fireButtonPressed();
@@ -300,6 +326,8 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
 
         if (drawer == null || drawer.equals(mLandscape)) {
 
+            mSoundPool.play(mSoundIdMissed, 1f, 1f, 0, 0, 1f);
+
             Toast.makeText(this, R.string.target_missed, Toast.LENGTH_SHORT).show();
             mGameSequencer.bombshellMissedTarget();
             if (mGameSequencer.getGameState() == GameSequencer.GameState.PLAYER_ONE_PLAYING) {
@@ -319,6 +347,7 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
 
         } else if (drawer.equals(mPlayerTwoBunker)) {
 
+            mSoundPool.play(mSoundIdBunkerHit, 1f, 1f, 0, 0, 1f);
             Toast.makeText(this, getString(R.string.player_won) + " " + mGameSequencer.getRoundsCountPlayerOne() + " " + getString(R.string.player_rounds_count), Toast.LENGTH_LONG).show();
             mGameView.unregisterDrawer(mPlayerTwoBunker);
             mPlayerTwoBunker = null;
@@ -326,6 +355,7 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
 
         } else if (drawer.equals(mPlayerOneBunker)) {
 
+            mSoundPool.play(mSoundIdBunkerHit, 1f, 1f, 0, 0, 1f);
             Toast.makeText(this, getString(R.string.player_won) + " " + mGameSequencer.getRoundsCountPlayerTwo() + " " + getString(R.string.player_rounds_count), Toast.LENGTH_LONG).show();
             mGameView.unregisterDrawer(mPlayerOneBunker);
             mPlayerOneBunker = null;
