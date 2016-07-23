@@ -1,6 +1,7 @@
 package fr.leomoldo.android.bunkerwar.activity;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -14,11 +15,29 @@ public class MainActivity extends AppCompatActivity {
 
     private final static String LOG_TAG = MainActivity.class.getSimpleName();
 
+    // Audio :
+    private MediaPlayer mMediaPlayerSoundtrack;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mMediaPlayerSoundtrack = MediaPlayer.create(this, R.raw.soundtrack_menu);
+        mMediaPlayerSoundtrack.setLooping(true);
+        mMediaPlayerSoundtrack.start();
+    }
+
+    @Override
+    protected void onStop() {
+        mMediaPlayerSoundtrack.release();
+        mMediaPlayerSoundtrack = null;
+        super.onStop();
     }
 
     public void onButtonClickedStartNewGame(View view) {

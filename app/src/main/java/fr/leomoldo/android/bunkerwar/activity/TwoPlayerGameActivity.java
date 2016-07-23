@@ -3,6 +3,7 @@ package fr.leomoldo.android.bunkerwar.activity;
 import android.animation.LayoutTransition;
 import android.animation.ObjectAnimator;
 import android.content.DialogInterface;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -59,6 +60,9 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
     private WindIndicatorLayout mWindIndicatorLayout;
     private AnglePrecisionSliderLayout mAnglePrecisionSliderLayout;
     private PowerPrecisionSliderLayout mPowerPrecisionSliderLayout;
+
+    // Audio :
+    private MediaPlayer mMediaPlayerSoundtrack;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -142,6 +146,21 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
                         }
                     }
                 });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mMediaPlayerSoundtrack = MediaPlayer.create(this, R.raw.soundtrack_game);
+        mMediaPlayerSoundtrack.setLooping(true);
+        mMediaPlayerSoundtrack.start();
+    }
+
+    @Override
+    protected void onStop() {
+        mMediaPlayerSoundtrack.release();
+        mMediaPlayerSoundtrack = null;
+        super.onStop();
     }
 
     @Override
