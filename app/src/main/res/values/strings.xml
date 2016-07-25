@@ -33,5 +33,6 @@
     <string name="player_rounds_count">tirs !</string>
     <string name="target_missed">C\'est raté…</string>
     <string name="confirm_abondon_game">Etes vous sûr de vouloir abandonner la partie ?</string>
+    <string name="back_to_menu">Revenir au menu</string>
 
 </resources>

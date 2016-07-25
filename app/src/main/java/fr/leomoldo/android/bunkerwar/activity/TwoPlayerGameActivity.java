@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -64,6 +65,8 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
     private WindIndicatorLayout mWindIndicatorLayout;
     private AnglePrecisionSliderLayout mAnglePrecisionSliderLayout;
     private PowerPrecisionSliderLayout mPowerPrecisionSliderLayout;
+    private LinearLayout mLinearLayoutVictory;
+    private TextView mTextViewVictory;
 
     // Audio :
     private MediaPlayer mMediaPlayerSoundtrack;
@@ -84,6 +87,8 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
         mWindIndicatorLayout = (WindIndicatorLayout) findViewById(R.id.layoutWindIndicator);
         mAnglePrecisionSliderLayout = (AnglePrecisionSliderLayout) findViewById(R.id.anglePrecisionSliderLayout);
         mPowerPrecisionSliderLayout = (PowerPrecisionSliderLayout) findViewById(R.id.powerPrecisionSliderLayout);
+        mLinearLayoutVictory = (LinearLayout) findViewById(R.id.linearLayoutVictory);
+        mTextViewVictory = (TextView) findViewById(R.id.textViewVictory);
         mGameView = (GameView) findViewById(R.id.gameView);
 
         // Define layout animation.
@@ -323,6 +328,10 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
         mBombshellAnimatorAsyncTask.execute(bombshellPathComputer);
     }
 
+    public void onButtonClickedBackToMenu(View view) {
+        super.onBackPressed();
+    }
+
     @Override
     public void onDrawerHit(Drawer drawer) {
 
@@ -352,7 +361,10 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
         } else if (drawer.equals(mPlayerTwoBunker)) {
 
             mSoundPool.play(mSoundIdBunkerHit, 1f, 1f, 0, 0, 1f);
-            Toast.makeText(this, getString(R.string.player_won) + " " + mGameSequencer.getRoundsCountPlayerOne() + " " + getString(R.string.player_rounds_count), Toast.LENGTH_LONG).show();
+            String victoryForPlayerOne = getString(R.string.player_won) + " " + mGameSequencer.getRoundsCountPlayerOne() + " " + getString(R.string.player_rounds_count);
+            mTextViewVictory.setText(victoryForPlayerOne);
+            mWindIndicatorLayout.setVisibility(View.GONE);
+            mLinearLayoutVictory.setVisibility(View.VISIBLE);
             mGameView.unregisterDrawer(mPlayerTwoBunker);
             mPlayerTwoBunker = null;
             mGameSequencer.bombshellDitHitBunker(false);
@@ -361,6 +373,10 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
 
             mSoundPool.play(mSoundIdBunkerHit, 1f, 1f, 0, 0, 1f);
             Toast.makeText(this, getString(R.string.player_won) + " " + mGameSequencer.getRoundsCountPlayerTwo() + " " + getString(R.string.player_rounds_count), Toast.LENGTH_LONG).show();
+            String victoryForPlayerTwo = getString(R.string.player_won) + " " + mGameSequencer.getRoundsCountPlayerTwo() + " " + getString(R.string.player_rounds_count);
+            mTextViewVictory.setText(victoryForPlayerTwo);
+            mWindIndicatorLayout.setVisibility(View.GONE);
+            mLinearLayoutVictory.setVisibility(View.VISIBLE);
             mGameView.unregisterDrawer(mPlayerOneBunker);
             mPlayerOneBunker = null;
             mGameSequencer.bombshellDitHitBunker(true);
@@ -389,4 +405,6 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
         mWindValue = ((int) (Math.random() * 100)) - 50;
         mWindIndicatorLayout.displayWindValue(mWindValue);
     }
+
+
 }
