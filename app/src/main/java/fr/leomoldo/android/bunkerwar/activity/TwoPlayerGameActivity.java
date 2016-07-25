@@ -46,6 +46,8 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
     // TODO : Make this a dimen in a xml and adapt value to screen size.
     private final static float LAYOUT_TRANSITION_Y_TRANSLATION_OFFSET = 500f;
 
+    private final static int INVALID_WIND_VALUE = -42000;
+
     // Model :
     private GameSequencer mGameSequencer;
     private Bunker mPlayerOneBunker;
@@ -105,7 +107,7 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
                         if (savedInstanceState != null) {
                             mGameSequencer = savedInstanceState.getParcelable(BUNDLE_KEY_GAME_SEQUENCER);
                             mLandscape = savedInstanceState.getParcelable(BUNDLE_KEY_LANDSCAPE);
-                            mWindValue = savedInstanceState.getInt(BUNDLE_KEY_WIND_VALUE, 0);
+                            mWindValue = savedInstanceState.getInt(BUNDLE_KEY_WIND_VALUE, INVALID_WIND_VALUE);
                             if (mGameSequencer.getGameState() != GameSequencer.GameState.PLAYER_TWO_WON) {
                                 mPlayerOneBunker = savedInstanceState.getParcelable(BUNDLE_KEY_BUNKER_ONE);
                             }
@@ -191,7 +193,9 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
         mGameSequencer.cancelFiring();
         outState.putParcelable(BUNDLE_KEY_GAME_SEQUENCER, mGameSequencer);
         outState.putParcelable(BUNDLE_KEY_LANDSCAPE, mLandscape);
-        outState.putInt(BUNDLE_KEY_WIND_VALUE, mWindValue);
+        if (mWindValue != null) {
+            outState.putInt(BUNDLE_KEY_WIND_VALUE, mWindValue);
+        }
         if (mGameSequencer.getGameState() != GameSequencer.GameState.PLAYER_TWO_WON) {
             outState.putParcelable(BUNDLE_KEY_BUNKER_ONE, mPlayerOneBunker);
         }

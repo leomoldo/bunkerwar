@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity implements AudioManager.OnAu
 
     // Audio :
     private MediaPlayer mMediaPlayerSoundtrack;
+    private boolean mShouldPlaySoundtrack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements AudioManager.OnAu
     @Override
     protected void onStart() {
         super.onStart();
+        mShouldPlaySoundtrack = true;
         AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         int result = audioManager.requestAudioFocus(this, AudioManager.STREAM_MUSIC,
                 AudioManager.AUDIOFOCUS_GAIN);
@@ -45,32 +47,43 @@ public class MainActivity extends AppCompatActivity implements AudioManager.OnAu
     @Override
     protected void onStop() {
         stopPlayingSoundtrack();
+        mShouldPlaySoundtrack = false;
         super.onStop();
     }
 
+    @Override
+    protected void onDestroy() {
+
+        mMediaPlayerSoundtrack.release();
+        mMediaPlayerSoundtrack = null;
+
+        super.onDestroy();
+    }
+
     private void startPlayingSoundtrack() {
-        if (mMediaPlayerSoundtrack == null) {
+        // TODO Clean.
+        //if (mMediaPlayerSoundtrack == null) {
             mMediaPlayerSoundtrack = MediaPlayer.create(this, R.raw.soundtrack_menu);
             mMediaPlayerSoundtrack.setLooping(true);
-        }
-        if (!mMediaPlayerSoundtrack.isPlaying()) {
+        //}
+        // if (!mMediaPlayerSoundtrack.isPlaying()) {
             mMediaPlayerSoundtrack.start();
-        }
+        // }
     }
 
     private void stopPlayingSoundtrack() {
-        if (mMediaPlayerSoundtrack.isPlaying()) {
+        if (mMediaPlayerSoundtrack != null && mMediaPlayerSoundtrack.isPlaying()) {
             mMediaPlayerSoundtrack.stop();
         }
-        mMediaPlayerSoundtrack.release();
-        mMediaPlayerSoundtrack = null;
     }
 
     public void onAudioFocusChange(int focusChange) {
         switch (focusChange) {
             case AudioManager.AUDIOFOCUS_GAIN:
-                startPlayingSoundtrack();
-                mMediaPlayerSoundtrack.setVolume(SOUNDTRACK_VOLUME, SOUNDTRACK_VOLUME);
+                if (mShouldPlaySoundtrack) {
+                    startPlayingSoundtrack();
+                    mMediaPlayerSoundtrack.setVolume(SOUNDTRACK_VOLUME, SOUNDTRACK_VOLUME);
+                }
                 break;
 
             case AudioManager.AUDIOFOCUS_LOSS:
@@ -78,18 +91,13 @@ public class MainActivity extends AppCompatActivity implements AudioManager.OnAu
                 break;
 
             case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
-                // Lost focus for a short time, but we have to stop
-                // playback. We don't release the media player because playback
-                // is likely to resume
-                if (mMediaPlayerSoundtrack.isPlaying()) {
+                if (mMediaPlayerSoundtrack != null && mMediaPlayerSoundtrack.isPlaying()) {
                     mMediaPlayerSoundtrack.pause();
                 }
                 break;
 
             case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
-                // Lost focus for a short time, but it's ok to keep playing
-                // at an attenuated level
-                if (mMediaPlayerSoundtrack.isPlaying()) {
+                if (mMediaPlayerSoundtrack != null && mMediaPlayerSoundtrack.isPlaying()) {
                     mMediaPlayerSoundtrack.setVolume(SOUNDTRACK_DUCKING_VOLUME, SOUNDTRACK_DUCKING_VOLUME);
                 }
                 break;
