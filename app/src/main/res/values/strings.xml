@@ -9,10 +9,15 @@
 
     <!-- MainActivity. -->
 
+    <string name="subtitle">Une bataille de canon qui se joue à deux</string>
     <string name="start_new_game">Nouvelle partie</string>
     <string name="settings">Options</string>
     <string name="credits">Crédits</string>
-    <string name="tutorial">Tutoriel</string>
+
+    <string name="settings_change_wind_at_every_turn">Changer la puissance et la direction du vent à chaque tour</string>
+    <string name="settings_change_wind_details">La puissance et la direction du vent sont aléatoires.
+        Si cette case est désactivée, le vent restera constant pendant toute la partie.
+        Dans le case contraire, il change à chaque tour.</string>
 
     <!-- TwoPlayerGameActivity. -->
 

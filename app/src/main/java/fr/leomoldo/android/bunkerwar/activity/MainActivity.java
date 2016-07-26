@@ -7,6 +7,7 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.RelativeLayout;
 
 import fr.leomoldo.android.bunkerwar.R;
 
@@ -24,11 +25,19 @@ public class MainActivity extends AppCompatActivity implements AudioManager.OnAu
     private MediaPlayer mMediaPlayerSoundtrack;
     private boolean mShouldPlaySoundtrack;
 
+    // Views :
+    private RelativeLayout mRelativeLayoutSettings;
+    private RelativeLayout mRelativeLayoutCredits;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
+        mRelativeLayoutSettings = (RelativeLayout) findViewById(R.id.relativeLayoutSettings);
+        mRelativeLayoutCredits = (RelativeLayout) findViewById(R.id.relativeLayoutCredits);
+
+        // TODO Initialize settings checkbox from SharedPreferences.
     }
 
     @Override
@@ -63,11 +72,11 @@ public class MainActivity extends AppCompatActivity implements AudioManager.OnAu
     private void startPlayingSoundtrack() {
         // TODO Clean.
         //if (mMediaPlayerSoundtrack == null) {
-            mMediaPlayerSoundtrack = MediaPlayer.create(this, R.raw.soundtrack_menu);
-            mMediaPlayerSoundtrack.setLooping(true);
+        mMediaPlayerSoundtrack = MediaPlayer.create(this, R.raw.soundtrack_menu);
+        mMediaPlayerSoundtrack.setLooping(true);
         //}
         // if (!mMediaPlayerSoundtrack.isPlaying()) {
-            mMediaPlayerSoundtrack.start();
+        mMediaPlayerSoundtrack.start();
         // }
     }
 
@@ -111,10 +120,22 @@ public class MainActivity extends AppCompatActivity implements AudioManager.OnAu
     }
 
     public void onButtonClickedSettings(View view) {
-        // To be implemented.
+        mRelativeLayoutSettings.setVisibility(View.VISIBLE);
     }
 
     public void onButtonClickedCredits(View view) {
-        // To be implemented.
+        mRelativeLayoutCredits.setVisibility(View.VISIBLE);
+    }
+
+    public void onButtonClickedCloseSettings(View view) {
+        mRelativeLayoutSettings.setVisibility(View.GONE);
+    }
+
+    public void onButtonClickedCloseCredits(View view) {
+        mRelativeLayoutCredits.setVisibility(View.GONE);
+    }
+
+    public void onCheckboxClickedSettingsWindChange(View view) {
+        // TODO Implement.
     }
 }
