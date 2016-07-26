@@ -2,11 +2,13 @@ package fr.leomoldo.android.bunkerwar.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.RelativeLayout;
 
 import fr.leomoldo.android.bunkerwar.R;
@@ -28,6 +30,7 @@ public class MainActivity extends AppCompatActivity implements AudioManager.OnAu
     // Views :
     private RelativeLayout mRelativeLayoutSettings;
     private RelativeLayout mRelativeLayoutCredits;
+    private CheckBox mCheckBoxSettingsWindChange;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,8 +39,10 @@ public class MainActivity extends AppCompatActivity implements AudioManager.OnAu
         setContentView(R.layout.activity_main);
         mRelativeLayoutSettings = (RelativeLayout) findViewById(R.id.relativeLayoutSettings);
         mRelativeLayoutCredits = (RelativeLayout) findViewById(R.id.relativeLayoutCredits);
+        mCheckBoxSettingsWindChange = (CheckBox) findViewById(R.id.checkBox_settings_windChange);
 
-        // TODO Initialize settings checkbox from SharedPreferences.
+        boolean shouldChangeWindAtEveryTurn = getPreferences(Context.MODE_PRIVATE).getBoolean(getString(R.string.shared_preferences_key_wind_change), true);
+        mCheckBoxSettingsWindChange.setChecked(shouldChangeWindAtEveryTurn);
     }
 
     @Override
@@ -136,6 +141,13 @@ public class MainActivity extends AppCompatActivity implements AudioManager.OnAu
     }
 
     public void onCheckboxClickedSettingsWindChange(View view) {
-        // TODO Implement.
+        boolean shouldChangeWindAtEveryTurn = false;
+        if (mCheckBoxSettingsWindChange.isChecked()) {
+            shouldChangeWindAtEveryTurn = true;
+        }
+        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putBoolean(getString(R.string.shared_preferences_key_wind_change), shouldChangeWindAtEveryTurn);
+        editor.apply();
     }
 }

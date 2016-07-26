@@ -1,6 +1,10 @@
 <resources>
 
+    <!-- App Name. -->
     <string name="app_name">BunkerWar</string>
+
+    <!-- Keys. -->
+    <string name="shared_preferences_key_wind_change">SHARED_PREFERENCES_KEY_WIND_CHANGE</string>
 
     <!-- General purpose. -->
 
