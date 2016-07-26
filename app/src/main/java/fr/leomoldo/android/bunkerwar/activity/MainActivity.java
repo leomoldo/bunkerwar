@@ -117,8 +117,4 @@ public class MainActivity extends AppCompatActivity implements AudioManager.OnAu
     public void onButtonClickedCredits(View view) {
         // To be implemented.
     }
-
-    public void onButtonClickedTutorial(View view) {
-        // To be implemented.
-    }
 }

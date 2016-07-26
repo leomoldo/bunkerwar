@@ -25,48 +25,36 @@
         android:layout_alignParentBottom="true"
         android:layout_below="@id/textViewTitle"
         android:gravity="bottom"
-        android:orientation="horizontal"
-        android:paddingBottom="80dp">
+        android:orientation="vertical"
+        android:paddingBottom="80dp"
+        android:layout_marginLeft="20dp">
+
+        <Button
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:onClick="onButtonClickedStartNewGame"
+            android:layout_marginBottom="10dp"
+            android:text="@string/start_new_game" />
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="horizontal">
 
             <Button
-                android:layout_width="@dimen/button_width_mainActivity"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/button_layout_margin_mainActivity"
-                android:onClick="onButtonClickedStartNewGame"
-                android:text="@string/start_new_game" />
-
-            <Button
-                android:layout_width="@dimen/button_width_mainActivity"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/button_layout_margin_mainActivity"
-                android:onClick="onButtonClickedSettings"
-                android:text="@string/settings" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <Button
-                android:layout_width="@dimen/button_width_mainActivity"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/button_layout_margin_mainActivity"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
                 android:onClick="onButtonClickedCredits"
                 android:text="@string/credits" />
 
             <Button
-                android:layout_width="@dimen/button_width_mainActivity"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/button_layout_margin_mainActivity"
-                android:onClick="onButtonClickedTutorial"
-                android:text="@string/tutorial" />
+                android:layout_weight="1"
+                android:onClick="onButtonClickedSettings"
+                android:text="@string/settings" />
         </LinearLayout>
 
     </LinearLayout>
