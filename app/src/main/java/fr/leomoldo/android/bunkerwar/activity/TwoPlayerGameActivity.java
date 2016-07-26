@@ -364,7 +364,7 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
         } else if (drawer.equals(mPlayerTwoBunker)) {
 
             mSoundPool.play(mSoundIdBunkerHit, 1f, 1f, 0, 0, 1f);
-            String victoryForPlayerOne = getString(R.string.player_won) + " " + mGameSequencer.getRoundsCountPlayerOne() + " " + getString(R.string.player_rounds_count);
+            String victoryForPlayerOne = getString(R.string.player_one) + " " + getString(R.string.player_won) + " " + mGameSequencer.getRoundsCountPlayerOne() + " " + getString(R.string.player_rounds_count);
             mTextViewVictory.setText(victoryForPlayerOne);
             mWindIndicatorLayout.setVisibility(View.GONE);
             mLinearLayoutVictory.setVisibility(View.VISIBLE);
@@ -375,8 +375,7 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
         } else if (drawer.equals(mPlayerOneBunker)) {
 
             mSoundPool.play(mSoundIdBunkerHit, 1f, 1f, 0, 0, 1f);
-            Toast.makeText(this, getString(R.string.player_won) + " " + mGameSequencer.getRoundsCountPlayerTwo() + " " + getString(R.string.player_rounds_count), Toast.LENGTH_LONG).show();
-            String victoryForPlayerTwo = getString(R.string.player_won) + " " + mGameSequencer.getRoundsCountPlayerTwo() + " " + getString(R.string.player_rounds_count);
+            String victoryForPlayerTwo = getString(R.string.player_two) + " " + getString(R.string.player_won) + " " + mGameSequencer.getRoundsCountPlayerTwo() + " " + getString(R.string.player_rounds_count);
             mTextViewVictory.setText(victoryForPlayerTwo);
             mWindIndicatorLayout.setVisibility(View.GONE);
             mLinearLayoutVictory.setVisibility(View.VISIBLE);

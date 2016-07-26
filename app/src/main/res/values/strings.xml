@@ -39,7 +39,9 @@
     <string name="plus">+</string>
     <string name="button_fire">FEU !</string>
 
-    <string name="player_won">Victoire en</string>
+    <string name="player_one">Joueur 1</string>
+    <string name="player_two">Joueur 2</string>
+    <string name="player_won">gagne en</string>
     <string name="player_rounds_count">tirs !</string>
     <string name="target_missed">C\'est raté…</string>
     <string name="confirm_abondon_game">Etes vous sûr de vouloir abandonner la partie ?</string>
