@@ -2,6 +2,7 @@ package fr.leomoldo.android.bunkerwar.activity;
 
 import android.animation.LayoutTransition;
 import android.animation.ObjectAnimator;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -356,7 +357,9 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
             }
             mLinearLayoutControls.setVisibility(View.VISIBLE);
 
-            changeWindValue();
+            if (getSharedPreferences(getString(R.string.shared_preferences_name), Context.MODE_PRIVATE).getBoolean(getString(R.string.shared_preferences_key_wind_change), true)) {
+                changeWindValue();
+            }
 
         } else if (drawer.equals(mPlayerTwoBunker)) {
 

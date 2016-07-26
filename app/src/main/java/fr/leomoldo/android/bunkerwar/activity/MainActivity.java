@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import fr.leomoldo.android.bunkerwar.R;
@@ -28,6 +29,7 @@ public class MainActivity extends AppCompatActivity implements AudioManager.OnAu
     private boolean mShouldPlaySoundtrack;
 
     // Views :
+    private LinearLayout mLinearLayoutButtons;
     private RelativeLayout mRelativeLayoutSettings;
     private RelativeLayout mRelativeLayoutCredits;
     private CheckBox mCheckBoxSettingsWindChange;
@@ -37,11 +39,12 @@ public class MainActivity extends AppCompatActivity implements AudioManager.OnAu
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
+        mLinearLayoutButtons = (LinearLayout) findViewById(R.id.linearLayoutButtons);
         mRelativeLayoutSettings = (RelativeLayout) findViewById(R.id.relativeLayoutSettings);
         mRelativeLayoutCredits = (RelativeLayout) findViewById(R.id.relativeLayoutCredits);
         mCheckBoxSettingsWindChange = (CheckBox) findViewById(R.id.checkBox_settings_windChange);
 
-        boolean shouldChangeWindAtEveryTurn = getPreferences(Context.MODE_PRIVATE).getBoolean(getString(R.string.shared_preferences_key_wind_change), true);
+        boolean shouldChangeWindAtEveryTurn = getSharedPreferences(getString(R.string.shared_preferences_name), Context.MODE_PRIVATE).getBoolean(getString(R.string.shared_preferences_key_wind_change), true);
         mCheckBoxSettingsWindChange.setChecked(shouldChangeWindAtEveryTurn);
     }
 
@@ -126,17 +129,21 @@ public class MainActivity extends AppCompatActivity implements AudioManager.OnAu
 
     public void onButtonClickedSettings(View view) {
         mRelativeLayoutSettings.setVisibility(View.VISIBLE);
+        mLinearLayoutButtons.setVisibility(View.GONE);
     }
 
     public void onButtonClickedCredits(View view) {
         mRelativeLayoutCredits.setVisibility(View.VISIBLE);
+        mLinearLayoutButtons.setVisibility(View.GONE);
     }
 
     public void onButtonClickedCloseSettings(View view) {
+        mLinearLayoutButtons.setVisibility(View.VISIBLE);
         mRelativeLayoutSettings.setVisibility(View.GONE);
     }
 
     public void onButtonClickedCloseCredits(View view) {
+        mLinearLayoutButtons.setVisibility(View.VISIBLE);
         mRelativeLayoutCredits.setVisibility(View.GONE);
     }
 
@@ -145,9 +152,9 @@ public class MainActivity extends AppCompatActivity implements AudioManager.OnAu
         if (mCheckBoxSettingsWindChange.isChecked()) {
             shouldChangeWindAtEveryTurn = true;
         }
-        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences sharedPref = getSharedPreferences(getString(R.string.shared_preferences_name), Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putBoolean(getString(R.string.shared_preferences_key_wind_change), shouldChangeWindAtEveryTurn);
-        editor.apply();
+        editor.commit();
     }
 }
