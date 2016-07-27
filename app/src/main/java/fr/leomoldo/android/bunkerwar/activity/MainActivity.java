@@ -71,9 +71,10 @@ public class MainActivity extends AppCompatActivity implements AudioManager.OnAu
     @Override
     protected void onDestroy() {
 
-        mMediaPlayerSoundtrack.release();
-        mMediaPlayerSoundtrack = null;
-
+        if (mMediaPlayerSoundtrack != null) {
+            mMediaPlayerSoundtrack.release();
+            mMediaPlayerSoundtrack = null;
+        }
         super.onDestroy();
     }
 
