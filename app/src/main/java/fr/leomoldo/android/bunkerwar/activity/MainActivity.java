@@ -79,14 +79,9 @@ public class MainActivity extends AppCompatActivity implements AudioManager.OnAu
     }
 
     private void startPlayingSoundtrack() {
-        // TODO Clean.
-        //if (mMediaPlayerSoundtrack == null) {
         mMediaPlayerSoundtrack = MediaPlayer.create(this, R.raw.soundtrack_menu);
         mMediaPlayerSoundtrack.setLooping(true);
-        //}
-        // if (!mMediaPlayerSoundtrack.isPlaying()) {
         mMediaPlayerSoundtrack.start();
-        // }
     }
 
     private void stopPlayingSoundtrack() {
