@@ -78,18 +78,6 @@ public class MainActivity extends AppCompatActivity implements AudioManager.OnAu
         super.onDestroy();
     }
 
-    private void startPlayingSoundtrack() {
-        mMediaPlayerSoundtrack = MediaPlayer.create(this, R.raw.soundtrack_menu);
-        mMediaPlayerSoundtrack.setLooping(true);
-        mMediaPlayerSoundtrack.start();
-    }
-
-    private void stopPlayingSoundtrack() {
-        if (mMediaPlayerSoundtrack != null && mMediaPlayerSoundtrack.isPlaying()) {
-            mMediaPlayerSoundtrack.stop();
-        }
-    }
-
     public void onAudioFocusChange(int focusChange) {
         switch (focusChange) {
             case AudioManager.AUDIOFOCUS_GAIN:
@@ -152,5 +140,17 @@ public class MainActivity extends AppCompatActivity implements AudioManager.OnAu
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putBoolean(getString(R.string.shared_preferences_key_wind_change), shouldChangeWindAtEveryTurn);
         editor.commit();
+    }
+
+    private void startPlayingSoundtrack() {
+        mMediaPlayerSoundtrack = MediaPlayer.create(this, R.raw.soundtrack_menu);
+        mMediaPlayerSoundtrack.setLooping(true);
+        mMediaPlayerSoundtrack.start();
+    }
+
+    private void stopPlayingSoundtrack() {
+        if (mMediaPlayerSoundtrack != null && mMediaPlayerSoundtrack.isPlaying()) {
+            mMediaPlayerSoundtrack.stop();
+        }
     }
 }
