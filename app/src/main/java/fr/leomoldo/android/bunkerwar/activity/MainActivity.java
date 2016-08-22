@@ -56,18 +56,14 @@ public class MainActivity extends AppCompatActivity implements AudioManager.OnAu
         int result = audioManager.requestAudioFocus(this, AudioManager.STREAM_MUSIC,
                 AudioManager.AUDIOFOCUS_GAIN);
 
-        // TODO Clean.
-        /*
         if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
             startPlayingSoundtrack();
         }
-        */
     }
 
     @Override
     protected void onStop() {
-        // TODO Clean.
-        // stopPlayingSoundtrack();
+        stopPlayingSoundtrack();
         mShouldPlaySoundtrack = false;
         super.onStop();
     }
@@ -147,9 +143,11 @@ public class MainActivity extends AppCompatActivity implements AudioManager.OnAu
     }
 
     private void startPlayingSoundtrack() {
-        mMediaPlayerSoundtrack = MediaPlayer.create(this, R.raw.soundtrack_menu);
-        mMediaPlayerSoundtrack.setLooping(true);
-        mMediaPlayerSoundtrack.start();
+        if (mMediaPlayerSoundtrack == null || !mMediaPlayerSoundtrack.isPlaying()) {
+            mMediaPlayerSoundtrack = MediaPlayer.create(this, R.raw.soundtrack_menu);
+            mMediaPlayerSoundtrack.setLooping(true);
+            mMediaPlayerSoundtrack.start();
+        }
     }
 
     private void stopPlayingSoundtrack() {
