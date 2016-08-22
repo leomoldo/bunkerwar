@@ -177,9 +177,12 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
         int result = audioManager.requestAudioFocus(this, AudioManager.STREAM_MUSIC,
                 AudioManager.AUDIOFOCUS_GAIN);
 
+        // TODO Clean.
+        /*
         if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
             startPlayingSoundtrack();
         }
+        */
 
         if (android.os.Build.VERSION.SDK_INT < 21) {
             mSoundPool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
@@ -195,7 +198,8 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
     @Override
     protected void onStop() {
 
-        stopPlayingSoundtrack();
+        // TODO Clean.
+        // stopPlayingSoundtrack();
         mShouldPlaySoundtrack = false;
 
         mSoundPool.release();

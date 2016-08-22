@@ -56,14 +56,18 @@ public class MainActivity extends AppCompatActivity implements AudioManager.OnAu
         int result = audioManager.requestAudioFocus(this, AudioManager.STREAM_MUSIC,
                 AudioManager.AUDIOFOCUS_GAIN);
 
+        // TODO Clean.
+        /*
         if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
             startPlayingSoundtrack();
         }
+        */
     }
 
     @Override
     protected void onStop() {
-        stopPlayingSoundtrack();
+        // TODO Clean.
+        // stopPlayingSoundtrack();
         mShouldPlaySoundtrack = false;
         super.onStop();
     }
