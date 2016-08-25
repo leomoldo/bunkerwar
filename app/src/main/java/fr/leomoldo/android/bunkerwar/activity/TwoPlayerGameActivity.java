@@ -114,6 +114,9 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
                     @Override
                     public void onGlobalLayout() {
 
+                        Log.d(LOG_TAG, "View width onGlobalLayout: " + findViewById(android.R.id.content).getWidth());
+                        Log.d(LOG_TAG, "View height onGlobalLayout: " + findViewById(android.R.id.content).getHeight());
+
                         // Initialize or restore game model.
                         if (savedInstanceState != null) {
                             mGameSequencer = savedInstanceState.getParcelable(BUNDLE_KEY_GAME_SEQUENCER);
