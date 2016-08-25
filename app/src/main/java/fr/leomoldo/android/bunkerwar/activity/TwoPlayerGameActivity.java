@@ -54,12 +54,17 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
 
     private final static int INVALID_WIND_VALUE = -42000;
 
+    // View width for a Nexus 4, which was use for testing.
+    private final static float SCREEN_WIDTH_REFERENCE_FOR_SHOOTING_POWER = 1196;
+
     // Model :
     private GameSequencer mGameSequencer;
     private Bunker mPlayerOneBunker;
     private Bunker mPlayerTwoBunker;
     private Landscape mLandscape;
     private Integer mWindValue; // Integer between -50 and 50.
+
+    private float mScreenWidthShotPowerFactor;
 
     private BombshellAnimatorAsyncTask mBombshellAnimatorAsyncTask;
 
@@ -116,6 +121,9 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
 
                         Log.d(LOG_TAG, "View width onGlobalLayout: " + findViewById(android.R.id.content).getWidth());
                         Log.d(LOG_TAG, "View height onGlobalLayout: " + findViewById(android.R.id.content).getHeight());
+
+                        // Determine screen width factor to adapt shooting power.
+                        mScreenWidthShotPowerFactor = findViewById(android.R.id.content).getWidth() / SCREEN_WIDTH_REFERENCE_FOR_SHOOTING_POWER;
 
                         // Initialize or restore game model.
                         if (savedInstanceState != null) {
@@ -359,12 +367,12 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
         if (mGameSequencer.getGameState() == GameSequencer.GameState.PLAYER_ONE_FIRING) {
             mPlayerOneBunker.setIsPlaying(false);
             initialVC = new ViewCoordinates(mPlayerOneBunker.getViewCoordinates().getX() + mPlayerOneBunker.getCanonLengthX(), mPlayerOneBunker.getViewCoordinates().getY() + mPlayerOneBunker.getCanonLengthY());
-            bombshellPathComputer = new BombshellPathComputer(mPlayerOneBunker.getCanonPower(), mPlayerOneBunker.getGeometricalCanonAngleRadian(), initialVC, mWindValue);
+            bombshellPathComputer = new BombshellPathComputer(mPlayerOneBunker.getCanonPower(), mPlayerOneBunker.getGeometricalCanonAngleRadian(), initialVC, mWindValue, mScreenWidthShotPowerFactor);
             collidableDrawers.add(mPlayerTwoBunker);
         } else if (mGameSequencer.getGameState() == GameSequencer.GameState.PLAYER_TWO_FIRING) {
             initialVC = new ViewCoordinates(mPlayerTwoBunker.getViewCoordinates().getX() + mPlayerTwoBunker.getCanonLengthX(), mPlayerTwoBunker.getViewCoordinates().getY() + mPlayerTwoBunker.getCanonLengthY());
             mPlayerTwoBunker.setIsPlaying(false);
-            bombshellPathComputer = new BombshellPathComputer(mPlayerTwoBunker.getCanonPower(), mPlayerTwoBunker.getGeometricalCanonAngleRadian(), initialVC, mWindValue);
+            bombshellPathComputer = new BombshellPathComputer(mPlayerTwoBunker.getCanonPower(), mPlayerTwoBunker.getGeometricalCanonAngleRadian(), initialVC, mWindValue, mScreenWidthShotPowerFactor);
             collidableDrawers.add(mPlayerOneBunker);
         } else {
             // Issue...

@@ -16,10 +16,10 @@ public class BombshellPathComputer {
 	private ViewCoordinates mCurrentCoordinates;
 	private Integer mTimeCounter = 0;
 
-    public BombshellPathComputer(int initialSpeed, double fireAngleRadian, ViewCoordinates initialCoordinates, int windValue) {
+    public BombshellPathComputer(int initialSpeed, double fireAngleRadian, ViewCoordinates initialCoordinates, int windValue, float screenWidthShootingPowerFactor) {
         mCurrentCoordinates = initialCoordinates.clone();
-        mInitialSpeedX = initialSpeed*MAX_INITIAL_SPEED*Math.cos(fireAngleRadian) / 100 + windValue * WIND_FACTOR;
-		mInitialSpeedY = - initialSpeed*MAX_INITIAL_SPEED*Math.sin(fireAngleRadian) / 100;
+        mInitialSpeedX = screenWidthShootingPowerFactor * (initialSpeed * MAX_INITIAL_SPEED * Math.cos(fireAngleRadian) / 100 + windValue * WIND_FACTOR);
+        mInitialSpeedY = - initialSpeed*MAX_INITIAL_SPEED*Math.sin(fireAngleRadian) / 100;
 	}
 
     public void incrementCoordinates() {
