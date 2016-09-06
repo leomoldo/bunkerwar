@@ -24,6 +24,23 @@
         Si cette case est désactivée, le vent restera constant pendant toute la partie.
         Dans le case contraire, il change à chaque tour.</string>
 
+    <string name="credits_app_version">v</string>
+    <string name="credits_leo_01">Game design, code et musique par</string>
+    <string name="credits_leo_02">Léo Molczadzki</string>
+    <string name="credits_link_pulsarjericho">http://pulsarjericho.com</string>
+    <string name="credits_elodie_01">Graphismes par</string>
+    <string name="credits_elodie_02">Elodie Marceau</string>
+    <string name="credits_link_elodie">https://elodiemarceau.wordpress.com/</string>
+    <string name="credits_samples_01">Des samples de</string>
+    <string name="credits_samples_02">Jeremy Sykes</string>
+    <string name="credits_samples_03">ont été utilisés pour les effets sonores.</string>
+    <string name="credits_samples_04">Voir ses samples sur freesound.org</string>
+    <string name="credits_link_samples_01">http://www.sharesynth.com/</string>
+    <string name="credits_link_samples_02">http://freesound.org/people/jeremysykes/</string>
+    <string name="credits_source_code">Code source</string>
+    <!-- TODO Update : -->
+    <string name="credits_link_source_code">https://github.com/leomoldo</string>
+
     <!-- TwoPlayerGameActivity. -->
 
     <string name="change_landscape">Changer de terrain</string>

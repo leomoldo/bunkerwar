@@ -91,7 +91,7 @@
         </LinearLayout>
 
         <Button
-            android:id="@+id/button_fire"
+            android:id="@+id/buttonFire"
             android:layout_width="@dimen/button_size_fire"
             android:layout_height="@dimen/button_size_fire"
             android:layout_gravity="center"

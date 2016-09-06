@@ -49,8 +49,8 @@ public abstract class AbstractPrecisionSliderLayout extends LinearLayout impleme
         mTextViewValue = (TextView) findViewById(R.id.textViewValue);
         mTextViewTitle = (TextView) findViewById(R.id.textViewTitle);
         mTextViewUnit = (TextView) findViewById(R.id.textViewUnit);
-        mButtonMinus = (Button) findViewById(R.id.button_minus);
-        mButtonPlus = (Button) findViewById(R.id.button_plus);
+        mButtonMinus = (Button) findViewById(R.id.buttonMinus);
+        mButtonPlus = (Button) findViewById(R.id.buttonPlus);
         mSeekBar.setOnSeekBarChangeListener(this);
         mButtonMinus.setOnClickListener(this);
         mButtonPlus.setOnClickListener(this);
@@ -87,10 +87,10 @@ public abstract class AbstractPrecisionSliderLayout extends LinearLayout impleme
     public void onClick(View v) {
         int currentValue = mSeekBar.getProgress();
         switch (v.getId()) {
-            case R.id.button_minus:
+            case R.id.buttonMinus:
                 currentValue--;
                 break;
-            case R.id.button_plus:
+            case R.id.buttonPlus:
                 currentValue++;
                 break;
             default:

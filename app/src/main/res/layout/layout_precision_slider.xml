@@ -53,7 +53,7 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/button_minus"
+            android:id="@+id/buttonMinus"
             android:layout_width="@dimen/button_size_standard"
             android:layout_height="@dimen/button_size_standard"
             android:layout_gravity="center"
@@ -68,7 +68,7 @@
             android:layout_weight="1" />
 
         <Button
-            android:id="@+id/button_plus"
+            android:id="@+id/buttonPlus"
             android:layout_width="@dimen/button_size_standard"
             android:layout_height="@dimen/button_size_standard"
             android:layout_gravity="center"
