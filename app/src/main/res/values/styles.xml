@@ -31,4 +31,12 @@
         <item name="android:textColor">@color/colorPrimaryDark</item>
     </style>
 
+    <style name="ButtonLinkStyle" parent="Widget.AppCompat.Button">
+        <item name="android:textColor">@color/blue_link</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:padding">0dp</item>
+        <item name="android:layout_marginLeft">5dp</item>
+        <item name="android:layout_marginRight">5dp</item>
+    </style>
+
 </resources>

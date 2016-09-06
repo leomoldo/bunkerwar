@@ -23,6 +23,7 @@
     <color name="green_land_slice">#007B0C</color>
     <color name="red_bunker">#FF0000</color>
     <color name="yellow_bunker">#FFFF00</color>
+    <color name="blue_link">#0000EE</color>
 
     <!-- TODO Clean. -->
     <!--color name="grey_controls_background">#b3a6a6a6</color-->
