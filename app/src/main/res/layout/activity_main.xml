@@ -75,6 +75,9 @@
 
     </LinearLayout>
 
+
+    <!-- SETTINGS -->
+
     <RelativeLayout
         android:id="@+id/relativeLayoutSettings"
         android:layout_width="match_parent"
@@ -135,6 +138,9 @@
 
     </RelativeLayout>
 
+
+    <!-- CREDITS -->
+
     <RelativeLayout
         android:id="@+id/relativeLayoutCredits"
         android:layout_width="match_parent"
@@ -142,7 +148,7 @@
         android:layout_margin="10dp"
         android:background="@android:color/white"
         android:visibility="gone"
-        tools:visibility="gone">
+        tools:visibility="visible">
 
         <ImageButton
             android:id="@+id/buttonCloseCredits"
@@ -176,8 +182,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="10dp">
+                android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -196,16 +201,21 @@
                     style="@style/ButtonLinkStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="50dp"
                     android:text="@string/credits_source_code" />
 
             </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorPrimaryAlphaDarkerOverlay"/>
 
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="10dp">
+                android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -224,8 +234,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="10dp">
+                android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -240,6 +249,11 @@
                     android:layout_height="wrap_content"
                     android:text="@string/credits_elodie_02" />
             </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorPrimaryAlphaDarkerOverlay"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
