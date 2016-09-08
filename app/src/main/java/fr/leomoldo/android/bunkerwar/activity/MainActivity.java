@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -49,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements AudioManager.OnAu
         boolean shouldChangeWindAtEveryTurn = getSharedPreferences(getString(R.string.shared_preferences_name), Context.MODE_PRIVATE).getBoolean(getString(R.string.shared_preferences_key_wind_change), true);
         mCheckBoxSettingsWindChange.setChecked(shouldChangeWindAtEveryTurn);
 
-        // Display app version in the credits screen.
+        // Display app version on the credits screen.
         TextView textViewAppVersion = (TextView) findViewById(R.id.textViewCreditsAppVersion);
         String appVersionString;
         try {
@@ -141,6 +142,30 @@ public class MainActivity extends AppCompatActivity implements AudioManager.OnAu
     public void onButtonClickedCloseCredits(View view) {
         mLinearLayoutButtons.setVisibility(View.VISIBLE);
         mRelativeLayoutCredits.setVisibility(View.GONE);
+    }
+
+    public void onButtonClickedCreditsWebLink(View view) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        switch (view.getId()) {
+            case R.id.buttonLinkSourceCode:
+                intent.setData(Uri.parse(getString(R.string.credits_link_source_code)));
+                break;
+            case R.id.buttonLinkLeo:
+                intent.setData(Uri.parse(getString(R.string.credits_link_pulsarjericho)));
+                break;
+            case R.id.buttonLinkElodie:
+                intent.setData(Uri.parse(getString(R.string.credits_link_elodie)));
+                break;
+            case R.id.buttonLinkSamples01:
+                intent.setData(Uri.parse(getString(R.string.credits_link_samples_01)));
+                break;
+            case R.id.buttonLinkSamples02:
+                intent.setData(Uri.parse(getString(R.string.credits_link_samples_02)));
+                break;
+            default:
+                return;
+        }
+        startActivity(intent);
     }
 
     public void onCheckboxClickedSettingsWindChange(View view) {
