@@ -3,6 +3,7 @@ package fr.leomoldo.android.bunkerwar.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import fr.leomoldo.android.bunkerwar.R;
 
@@ -46,6 +48,16 @@ public class MainActivity extends AppCompatActivity implements AudioManager.OnAu
 
         boolean shouldChangeWindAtEveryTurn = getSharedPreferences(getString(R.string.shared_preferences_name), Context.MODE_PRIVATE).getBoolean(getString(R.string.shared_preferences_key_wind_change), true);
         mCheckBoxSettingsWindChange.setChecked(shouldChangeWindAtEveryTurn);
+
+        // Display app version in the credits screen.
+        TextView textViewAppVersion = (TextView) findViewById(R.id.textViewCreditsAppVersion);
+        String appVersionString;
+        try {
+            appVersionString = getPackageManager().getPackageInfo(getPackageResourcePath(), 0).versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            appVersionString = "";
+        }
+        textViewAppVersion.setText(appVersionString);
     }
 
     @Override
