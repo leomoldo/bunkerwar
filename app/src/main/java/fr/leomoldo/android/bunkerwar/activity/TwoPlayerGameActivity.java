@@ -417,7 +417,12 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
         } else if (drawer.equals(mPlayerTwoBunker)) {
 
             mSoundPool.play(mSoundIdBunkerHit, SOUND_EFFECTS_VOLUME, SOUND_EFFECTS_VOLUME, 0, 0, 1f);
-            String victoryForPlayerOne = getString(R.string.player_one) + " " + getString(R.string.player_won) + " " + mGameSequencer.getRoundsCountPlayerOne() + " " + getString(R.string.player_rounds_count);
+            String victoryForPlayerOne;
+            if (mGameSequencer.getRoundsCountPlayerOne() == 1) {
+                victoryForPlayerOne = getString(R.string.player_one) + " " + getString(R.string.player_won) + " " + mGameSequencer.getRoundsCountPlayerOne() + " " + getString(R.string.player_rounds_count_singular);
+            } else {
+                victoryForPlayerOne = getString(R.string.player_one) + " " + getString(R.string.player_won) + " " + mGameSequencer.getRoundsCountPlayerOne() + " " + getString(R.string.player_rounds_count_plural);
+            }
             mTextViewVictory.setText(victoryForPlayerOne);
             mWindIndicatorLayout.setVisibility(View.GONE);
             mLinearLayoutVictory.setVisibility(View.VISIBLE);
@@ -428,7 +433,12 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
         } else if (drawer.equals(mPlayerOneBunker)) {
 
             mSoundPool.play(mSoundIdBunkerHit, SOUND_EFFECTS_VOLUME, SOUND_EFFECTS_VOLUME, 0, 0, 1f);
-            String victoryForPlayerTwo = getString(R.string.player_two) + " " + getString(R.string.player_won) + " " + mGameSequencer.getRoundsCountPlayerTwo() + " " + getString(R.string.player_rounds_count);
+            String victoryForPlayerTwo;
+            if (mGameSequencer.getRoundsCountPlayerTwo() == 1) {
+                victoryForPlayerTwo = getString(R.string.player_two) + " " + getString(R.string.player_won) + " " + mGameSequencer.getRoundsCountPlayerTwo() + " " + getString(R.string.player_rounds_count_singular);
+            } else {
+                victoryForPlayerTwo = getString(R.string.player_two) + " " + getString(R.string.player_won) + " " + mGameSequencer.getRoundsCountPlayerTwo() + " " + getString(R.string.player_rounds_count_plural);
+            }
             mTextViewVictory.setText(victoryForPlayerTwo);
             mWindIndicatorLayout.setVisibility(View.GONE);
             mLinearLayoutVictory.setVisibility(View.VISIBLE);

@@ -1,0 +1,50 @@
+<resources>
+
+    <!-- General purpose. -->
+
+    <string name="yes">oui</string>
+    <string name="no">non</string>
+
+    <!-- MainActivity. -->
+
+    <string name="subtitle">Une bataille de canon qui se joue à deux</string>
+    <string name="start_new_game">Nouvelle partie</string>
+    <string name="settings">Options</string>
+    <string name="credits">Crédits</string>
+
+    <string name="settings_change_wind_at_every_turn">Changer la puissance et la direction du vent à chaque tour</string>
+    <string name="settings_change_wind_details">La puissance et la direction du vent sont aléatoires.
+        Si cette case est désactivée, le vent restera constant pendant toute la partie.
+        Dans le case contraire, il change après chaque tir.</string>
+
+    <string name="credits_leo_01">Game design, code et musique par</string>
+    <string name="credits_leo_02">Léo Molczadzki</string>
+    <string name="credits_elodie_01">Graphismes par</string>
+    <string name="credits_elodie_02">Elodie Marceau</string>
+    <string name="credits_samples_01">Des samples de</string>
+    <string name="credits_samples_02">Jeremy Sykes</string>
+    <string name="credits_samples_03">ont été utilisés pour les effets sonores.</string>
+    <string name="credits_samples_04">Ecouter ses samples sur freesound.org</string>
+    <string name="credits_source_code">Voir le code source</string>
+
+    <!-- TwoPlayerGameActivity. -->
+
+    <string name="change_landscape">Changer de terrain</string>
+    <string name="start_playing">Commencer la partie</string>
+
+    <string name="wind">Vent :</string>
+
+    <string name="angle">Angle :</string>
+    <string name="power">Puissance :</string>
+    <string name="button_fire">FEU !</string>
+
+    <string name="player_one">Joueur 1</string>
+    <string name="player_two">Joueur 2</string>
+    <string name="player_won">gagne en</string>
+    <string name="player_rounds_count_plural">tirs !</string>
+    <string name="player_rounds_count_singular">tir !</string>
+    <string name="target_missed">C\'est raté…</string>
+    <string name="confirm_abondon_game">Etes vous sûr de vouloir abandonner la partie ?</string>
+    <string name="back_to_menu">Revenir au menu</string>
+
+</resources>
