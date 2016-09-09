@@ -19,7 +19,8 @@ public class BombshellAnimatorAsyncTask extends AsyncTask<BombshellPathComputer,
 
     private static final String LOG_TAG = BombshellAnimatorAsyncTask.class.getSimpleName();
 
-    private final static int ITERATION_WAITING_TIME = 10;
+    // TODO Clean.
+    // private final static int ITERATION_WAITING_TIME = 10;
 
     private GameView mGameView;
     private int mViewHeight;
@@ -27,13 +28,15 @@ public class BombshellAnimatorAsyncTask extends AsyncTask<BombshellPathComputer,
     private Bombshell mBombshell;
     private ArrayList<Drawer> mCollidableDrawers;
     private CollisionListener mCollisionListener;
+    private int mIterationWaitingTime;
 
-    public BombshellAnimatorAsyncTask(GameView gameView, ArrayList<Drawer> collidableDrawers, CollisionListener collisionListener) {
+    public BombshellAnimatorAsyncTask(GameView gameView, ArrayList<Drawer> collidableDrawers, CollisionListener collisionListener, int iterationWaitingTime) {
         mGameView = gameView;
         mViewHeight = mGameView.getHeight();
         mViewWidth = mGameView.getWidth();
         mCollidableDrawers = collidableDrawers;
         mCollisionListener = collisionListener;
+        mIterationWaitingTime = iterationWaitingTime;
 
         mBombshell = new Bombshell(Color.BLACK);
         // mBombshell.setViewCoordinates(new ViewCoordinates(-2*Bombshell.BOMBSHELL_RADIUS, -2*Bombshell.BOMBSHELL_RADIUS));
@@ -64,7 +67,7 @@ public class BombshellAnimatorAsyncTask extends AsyncTask<BombshellPathComputer,
             */
 
             try {
-                Thread.sleep(ITERATION_WAITING_TIME);
+                Thread.sleep(mIterationWaitingTime);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

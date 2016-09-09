@@ -85,7 +85,7 @@
         android:layout_margin="10dp"
         android:background="@android:color/white"
         android:visibility="gone"
-        tools:visibility="gone">
+        tools:visibility="visible">
 
         <ImageButton
             android:id="@+id/buttonCloseSettings"
@@ -110,7 +110,7 @@
             android:textSize="24sp" />
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_below="@id/buttonCloseSettings"
             android:layout_margin="20dp"
@@ -123,7 +123,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:onClick="onCheckboxClickedSettingsWindChange"
-                android:text="@string/settings_change_wind_at_every_turn"
+                android:text="@string/settings_change_wind"
                 android:textStyle="bold" />
 
             <TextView
@@ -133,6 +133,20 @@
                 android:textColor="@android:color/black"
                 android:textStyle="italic" />
 
+            <SeekBar
+                android:id="@+id/seekBar_settings_gameSpeed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:text="@string/settings_game_speed"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/settings_game_speed_details"
+                android:textColor="@android:color/black"
+                android:textStyle="italic" />
 
         </LinearLayout>
 
@@ -148,7 +162,7 @@
         android:layout_margin="10dp"
         android:background="@android:color/white"
         android:visibility="gone"
-        tools:visibility="visible">
+        tools:visibility="gone">
 
         <ImageButton
             android:id="@+id/buttonCloseCredits"

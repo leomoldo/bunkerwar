@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import fr.leomoldo.android.bunkerwar.BuildConfig;
@@ -20,7 +21,7 @@ import fr.leomoldo.android.bunkerwar.R;
 /**
  * Created by leomoldo on 08/06/2016.
  */
-public class MainActivity extends AppCompatActivity implements AudioManager.OnAudioFocusChangeListener {
+public class MainActivity extends AppCompatActivity implements AudioManager.OnAudioFocusChangeListener, SeekBar.OnSeekBarChangeListener {
 
     private final static String LOG_TAG = MainActivity.class.getSimpleName();
 
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity implements AudioManager.OnAu
     private RelativeLayout mRelativeLayoutSettings;
     private RelativeLayout mRelativeLayoutCredits;
     private CheckBox mCheckBoxSettingsWindChange;
+    private SeekBar mSeekBarSettingsGameSpeed;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +48,10 @@ public class MainActivity extends AppCompatActivity implements AudioManager.OnAu
         mRelativeLayoutSettings = (RelativeLayout) findViewById(R.id.relativeLayoutSettings);
         mRelativeLayoutCredits = (RelativeLayout) findViewById(R.id.relativeLayoutCredits);
         mCheckBoxSettingsWindChange = (CheckBox) findViewById(R.id.checkBox_settings_windChange);
+        mSeekBarSettingsGameSpeed = (SeekBar) findViewById(R.id.seekBar_settings_gameSpeed);
+        mSeekBarSettingsGameSpeed.setMax(100);
+        mSeekBarSettingsGameSpeed.setOnSeekBarChangeListener(this);
+        // TODO Initialize SeekBar value from SharedPreferences.
 
         boolean shouldChangeWindAtEveryTurn = getSharedPreferences(getString(R.string.shared_preferences_name), Context.MODE_PRIVATE).getBoolean(getString(R.string.shared_preferences_key_wind_change), true);
         mCheckBoxSettingsWindChange.setChecked(shouldChangeWindAtEveryTurn);
@@ -172,6 +178,21 @@ public class MainActivity extends AppCompatActivity implements AudioManager.OnAu
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putBoolean(getString(R.string.shared_preferences_key_wind_change), shouldChangeWindAtEveryTurn);
         editor.commit();
+    }
+
+    @Override
+    public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+        // TODO Save value in sharedPreferences.
+    }
+
+    @Override
+    public void onStartTrackingTouch(SeekBar seekBar) {
+
+    }
+
+    @Override
+    public void onStopTrackingTouch(SeekBar seekBar) {
+
     }
 
     private void startPlayingSoundtrack() {

@@ -65,6 +65,7 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
     private Integer mWindValue; // Integer between -50 and 50.
 
     private float mScreenWidthShotPowerFactor;
+    private int mGameSpeed;
 
     private BombshellAnimatorAsyncTask mBombshellAnimatorAsyncTask;
 
@@ -112,6 +113,9 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
 
         mAnglePrecisionSliderLayout.setListener(this);
         mPowerPrecisionSliderLayout.setListener(this);
+
+        // TODO Read GameSpeed Value from SharedPreferences.
+        mGameSpeed = 100;
 
         final View rootView = getWindow().getDecorView().getRootView();
         rootView.getViewTreeObserver().addOnGlobalLayoutListener(
@@ -378,7 +382,7 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
             // Issue...
             return;
         }
-        mBombshellAnimatorAsyncTask = new BombshellAnimatorAsyncTask(mGameView, collidableDrawers, this);
+        mBombshellAnimatorAsyncTask = new BombshellAnimatorAsyncTask(mGameView, collidableDrawers, this, mGameSpeed);
         mBombshellAnimatorAsyncTask.execute(bombshellPathComputer);
     }
 

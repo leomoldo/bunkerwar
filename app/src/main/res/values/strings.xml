@@ -19,11 +19,13 @@
     <string name="settings">Settings</string>
     <string name="credits">Credits</string>
 
-    <string name="settings_change_wind_at_every_turn">Change wind\'s power and direction in every turn</string>
+    <string name="settings_change_wind">Change wind\'s power and direction in every turn</string>
     <string name="settings_change_wind_details">
         Wind\'s power and direction are random.
         If this box is unchecked, the wind will be constant during the whole playing time.
         If not, it will change after every shot.</string>
+    <string name="settings_game_speed">Game speed</string>
+    <string name="settings_game_speed_details">Tweak this parameter if the bombshell speed is too high.</string>
 
     <string name="credits_app_version">v</string>
     <string name="credits_leo_01">Game design, code and music by</string>

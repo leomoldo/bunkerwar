@@ -12,10 +12,12 @@
     <string name="settings">Options</string>
     <string name="credits">Crédits</string>
 
-    <string name="settings_change_wind_at_every_turn">Changer la puissance et la direction du vent à chaque tour</string>
+    <string name="settings_change_wind">Changer la puissance et la direction du vent à chaque tour</string>
     <string name="settings_change_wind_details">La puissance et la direction du vent sont aléatoires.
         Si cette case est désactivée, le vent restera constant pendant toute la partie.
         Dans le case contraire, il change après chaque tir.</string>
+    <string name="settings_game_speed">Vitesse du jeu</string>
+    <string name="settings_game_speed_details">Changer cette valeur si l\'obus est trop rapide.</string>
 
     <string name="credits_leo_01">Game design, code et musique par</string>
     <string name="credits_leo_02">Léo Molczadzki</string>
