@@ -17,11 +17,18 @@ import fr.leomoldo.android.bunkerwar.sdk.ViewCoordinates;
  */
 public class BombshellAnimatorAsyncTask extends AsyncTask<BombshellPathComputer, ViewCoordinates, Drawer> {
 
+    public interface CollisionListener {
+
+        void onDrawerHit(Drawer drawer);
+
+    }
+
     private static final String LOG_TAG = BombshellAnimatorAsyncTask.class.getSimpleName();
 
     // TODO Clean.
     // private final static int ITERATION_WAITING_TIME = 10;
     public final static int MAX_GAME_SPEED = 100;
+    private final static int MAX_ITERATION_TIME = 51;
 
     private GameView mGameView;
     private int mViewHeight;
@@ -31,13 +38,13 @@ public class BombshellAnimatorAsyncTask extends AsyncTask<BombshellPathComputer,
     private CollisionListener mCollisionListener;
     private int mIterationWaitingTime;
 
-    public BombshellAnimatorAsyncTask(GameView gameView, ArrayList<Drawer> collidableDrawers, CollisionListener collisionListener, int iterationWaitingTime) {
+    public BombshellAnimatorAsyncTask(GameView gameView, ArrayList<Drawer> collidableDrawers, CollisionListener collisionListener, int gameSpeed) {
         mGameView = gameView;
         mViewHeight = mGameView.getHeight();
         mViewWidth = mGameView.getWidth();
         mCollidableDrawers = collidableDrawers;
         mCollisionListener = collisionListener;
-        mIterationWaitingTime = iterationWaitingTime;
+        mIterationWaitingTime = getIterationTimeFromGameSpeed(gameSpeed);
 
         mBombshell = new Bombshell(Color.BLACK);
         // mBombshell.setViewCoordinates(new ViewCoordinates(-2*Bombshell.BOMBSHELL_RADIUS, -2*Bombshell.BOMBSHELL_RADIUS));
@@ -123,10 +130,12 @@ public class BombshellAnimatorAsyncTask extends AsyncTask<BombshellPathComputer,
     }
     */
 
-    public interface CollisionListener {
-
-        void onDrawerHit(Drawer drawer);
-
+    // TODO Good candidate for a unit test.
+    private int getIterationTimeFromGameSpeed(int gameSpeed) {
+        float percentage = 1 - ((float) gameSpeed) / 100f;
+        int iterationTime = (int) ((MAX_ITERATION_TIME - 1) * percentage);
+        iterationTime++; // Iteration time must be at least 1 ms.
+        return iterationTime;
     }
 
 }

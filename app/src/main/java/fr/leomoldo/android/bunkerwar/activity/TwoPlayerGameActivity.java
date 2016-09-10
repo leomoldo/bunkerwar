@@ -111,11 +111,12 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
         layoutTransition.setAnimator(LayoutTransition.DISAPPEARING, animatorDisappearing);
         ((RelativeLayout) findViewById(R.id.mainRelativeLayout)).setLayoutTransition(layoutTransition);
 
+        // Set Listeners.
         mAnglePrecisionSliderLayout.setListener(this);
         mPowerPrecisionSliderLayout.setListener(this);
 
-        // TODO Read GameSpeed Value from SharedPreferences.
-        mGameSpeed = 100;
+        // Read GameSpeed Value from SharedPreferences.
+        mGameSpeed = getSharedPreferences(getString(R.string.shared_preferences_name), Context.MODE_PRIVATE).getInt(getString(R.string.shared_preferences_key_game_speed), BombshellAnimatorAsyncTask.MAX_GAME_SPEED);
 
         final View rootView = getWindow().getDecorView().getRootView();
         rootView.getViewTreeObserver().addOnGlobalLayoutListener(
