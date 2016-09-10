@@ -97,7 +97,6 @@
             android:onClick="onButtonClickedCloseSettings"
             android:src="@drawable/close_cross" />
 
-        <!-- TODO Extract style? -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -110,7 +109,7 @@
             android:textSize="24sp" />
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/buttonCloseSettings"
             android:layout_margin="20dp"
@@ -118,7 +117,7 @@
             android:orientation="vertical">
 
             <CheckBox
-                android:id="@+id/checkBox_settings_windChange"
+                android:id="@+id/checkBoxSettingsWindChange"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
@@ -129,21 +128,59 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
                 android:text="@string/settings_change_wind_details"
                 android:textColor="@android:color/black"
                 android:textStyle="italic" />
 
-            <SeekBar
-                android:id="@+id/seekBar_settings_gameSpeed"
-                android:layout_width="wrap_content"
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="25dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="25dp"
+                android:background="@color/colorPrimaryAlphaDarkerOverlay" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:text="@string/settings_game_speed"
-                android:textStyle="bold" />
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="5dp"
+                    android:text="@string/settings_game_speed"
+                    android:textColor="@android:color/black"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/textViewSettingsGameSpeed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textStyle="bold"
+                    tools:text="100" />
+
+                <SeekBar
+                    android:id="@+id/seekBarSettingsGameSpeed"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="10dp"
+                    android:text="@string/settings_game_speed"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
                 android:text="@string/settings_game_speed_details"
                 android:textColor="@android:color/black"
                 android:textStyle="italic" />
@@ -232,7 +269,6 @@
                     android:layout_height="1dp"
                     android:layout_margin="10dp"
                     android:background="@color/colorPrimaryAlphaDarkerOverlay" />
-
 
                 <LinearLayout
                     android:layout_width="wrap_content"

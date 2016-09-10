@@ -21,6 +21,7 @@ public class BombshellAnimatorAsyncTask extends AsyncTask<BombshellPathComputer,
 
     // TODO Clean.
     // private final static int ITERATION_WAITING_TIME = 10;
+    public final static int MAX_GAME_SPEED = 100;
 
     private GameView mGameView;
     private int mViewHeight;

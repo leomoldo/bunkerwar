@@ -6,6 +6,7 @@
     <!-- Keys. -->
     <string name="shared_preferences_name">SHARED_PREFERENCES</string>
     <string name="shared_preferences_key_wind_change">SHARED_PREFERENCES_KEY_WIND_CHANGE</string>
+    <string name="shared_preferences_key_game_speed">SHARED_PREFERENCES_KEY_GAME_SPEED</string>
 
     <!-- General purpose. -->
 
@@ -24,7 +25,7 @@
         Wind\'s power and direction are random.
         If this box is unchecked, the wind will be constant during the whole playing time.
         If not, it will change after every shot.</string>
-    <string name="settings_game_speed">Game speed</string>
+    <string name="settings_game_speed">Game speed :</string>
     <string name="settings_game_speed_details">Tweak this parameter if the bombshell speed is too high.</string>
 
     <string name="credits_app_version">v</string>

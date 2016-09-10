@@ -15,6 +15,7 @@ import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import fr.leomoldo.android.bunkerwar.BombshellAnimatorAsyncTask;
 import fr.leomoldo.android.bunkerwar.BuildConfig;
 import fr.leomoldo.android.bunkerwar.R;
 
@@ -38,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements AudioManager.OnAu
     private RelativeLayout mRelativeLayoutCredits;
     private CheckBox mCheckBoxSettingsWindChange;
     private SeekBar mSeekBarSettingsGameSpeed;
+    private TextView mTextViewSettingsGameSpeed;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,14 +49,20 @@ public class MainActivity extends AppCompatActivity implements AudioManager.OnAu
         mLinearLayoutButtons = (LinearLayout) findViewById(R.id.linearLayoutButtons);
         mRelativeLayoutSettings = (RelativeLayout) findViewById(R.id.relativeLayoutSettings);
         mRelativeLayoutCredits = (RelativeLayout) findViewById(R.id.relativeLayoutCredits);
-        mCheckBoxSettingsWindChange = (CheckBox) findViewById(R.id.checkBox_settings_windChange);
-        mSeekBarSettingsGameSpeed = (SeekBar) findViewById(R.id.seekBar_settings_gameSpeed);
+        mCheckBoxSettingsWindChange = (CheckBox) findViewById(R.id.checkBoxSettingsWindChange);
+        mSeekBarSettingsGameSpeed = (SeekBar) findViewById(R.id.seekBarSettingsGameSpeed);
         mSeekBarSettingsGameSpeed.setMax(100);
         mSeekBarSettingsGameSpeed.setOnSeekBarChangeListener(this);
-        // TODO Initialize SeekBar value from SharedPreferences.
+        mTextViewSettingsGameSpeed = (TextView) findViewById(R.id.textViewSettingsGameSpeed);
 
-        boolean shouldChangeWindAtEveryTurn = getSharedPreferences(getString(R.string.shared_preferences_name), Context.MODE_PRIVATE).getBoolean(getString(R.string.shared_preferences_key_wind_change), true);
+        // Retrieve SharedPreferences.
+        SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.shared_preferences_name), Context.MODE_PRIVATE);
+        int gameSpeedValue = sharedPreferences.getInt(getString(R.string.shared_preferences_key_game_speed), BombshellAnimatorAsyncTask.MAX_GAME_SPEED);
+        boolean shouldChangeWindAtEveryTurn = sharedPreferences.getBoolean(getString(R.string.shared_preferences_key_wind_change), true);
         mCheckBoxSettingsWindChange.setChecked(shouldChangeWindAtEveryTurn);
+        mSeekBarSettingsGameSpeed.setProgress(gameSpeedValue);
+        // TODO Clean.
+        // mTextViewSettingsGameSpeed.setText(String.valueOf(gameSpeedValue));
 
         // Display app version on the credits screen.
         TextView textViewAppVersion = (TextView) findViewById(R.id.textViewCreditsAppVersion);
@@ -181,8 +189,12 @@ public class MainActivity extends AppCompatActivity implements AudioManager.OnAu
     }
 
     @Override
-    public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-        // TODO Save value in sharedPreferences.
+    public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
+        mTextViewSettingsGameSpeed.setText(String.valueOf(progress));
+        SharedPreferences sharedPref = getSharedPreferences(getString(R.string.shared_preferences_name), Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putInt(getString(R.string.shared_preferences_key_game_speed), progress);
+        editor.commit();
     }
 
     @Override
