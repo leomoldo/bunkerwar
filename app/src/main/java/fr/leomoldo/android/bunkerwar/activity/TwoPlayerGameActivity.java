@@ -54,7 +54,7 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
 
     private final static int INVALID_WIND_VALUE = -42000;
 
-    // View width for a Nexus 4, which was use for testing.
+    // View width for a Nexus 4, which was used for testing.
     private final static float SCREEN_WIDTH_REFERENCE_FOR_SHOOTING_POWER = 1196;
 
     // Model :
@@ -350,9 +350,7 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
 
     public void onButtonClickedFire(View view) {
 
-        // Code armouring.
         if (mBombshellAnimatorAsyncTask != null) {
-            Log.d(LOG_TAG, "There is a Bombshell flying already");
             return;
         }
 
@@ -403,6 +401,7 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
 
         if (drawer == null || drawer.equals(mLandscape)) {
 
+            // TODO Code armouring : crashes if activity is stopped.
             mSoundPool.play(mSoundIdMissed, SOUND_EFFECTS_VOLUME, SOUND_EFFECTS_VOLUME, 0, 0, 1f);
 
             Toast.makeText(this, R.string.target_missed, Toast.LENGTH_SHORT).show();
@@ -416,7 +415,7 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
                 mPowerPrecisionSliderLayout.setValue(mPlayerTwoBunker.getCanonPower());
                 mPlayerTwoBunker.setIsPlaying(true);
             } else {
-                // Issue...
+                Log.e(LOG_TAG, "GameSequencer game state issue : no bunker currently playing.");
             }
             mLinearLayoutControls.setVisibility(View.VISIBLE);
 
