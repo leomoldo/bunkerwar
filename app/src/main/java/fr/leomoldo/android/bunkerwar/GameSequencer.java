@@ -2,6 +2,7 @@ package fr.leomoldo.android.bunkerwar;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 public class GameSequencer implements Parcelable {
 
@@ -35,6 +36,8 @@ public class GameSequencer implements Parcelable {
             }
         }
     }
+
+    private final static String LOG_TAG = GameSequencer.class.getSimpleName();
 
     private Integer mRoundsCountPlayerOne;
     private Integer mRoundsCountPlayerTwo;
@@ -122,7 +125,7 @@ public class GameSequencer implements Parcelable {
             mGameState = GameState.PLAYER_ONE_PLAYING;
             mRoundsCountPlayerOne++;
         } else {
-            // Issue...
+            Log.e(LOG_TAG, "GameSequencer state error : no Bunker currently firing.");
         }
     }
 
