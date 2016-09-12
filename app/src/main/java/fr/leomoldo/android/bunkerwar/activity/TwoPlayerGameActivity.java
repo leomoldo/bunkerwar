@@ -368,21 +368,26 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
         ArrayList<Drawer> collidableDrawers = new ArrayList<Drawer>();
         collidableDrawers.add(mLandscape);
         ViewCoordinates initialVC;
-        // TODO Refactor with local variable "playingBunker" and "targetBunker" to avoid code duplication?
+
+        Bunker firingBunker;
+        Bunker targetBunker;
+
         if (mGameSequencer.getGameState() == GameSequencer.GameState.PLAYER_ONE_FIRING) {
-            mPlayerOneBunker.setIsPlaying(false);
-            initialVC = new ViewCoordinates(mPlayerOneBunker.getViewCoordinates().getX() + mPlayerOneBunker.getCanonLengthX(), mPlayerOneBunker.getViewCoordinates().getY() + mPlayerOneBunker.getCanonLengthY());
-            bombshellPathComputer = new BombshellPathComputer(mPlayerOneBunker.getCanonPower(), mPlayerOneBunker.getGeometricalCanonAngleRadian(), initialVC, mWindValue, mScreenWidthShotPowerFactor);
-            collidableDrawers.add(mPlayerTwoBunker);
+            firingBunker = mPlayerOneBunker;
+            targetBunker = mPlayerTwoBunker;
         } else if (mGameSequencer.getGameState() == GameSequencer.GameState.PLAYER_TWO_FIRING) {
-            initialVC = new ViewCoordinates(mPlayerTwoBunker.getViewCoordinates().getX() + mPlayerTwoBunker.getCanonLengthX(), mPlayerTwoBunker.getViewCoordinates().getY() + mPlayerTwoBunker.getCanonLengthY());
-            mPlayerTwoBunker.setIsPlaying(false);
-            bombshellPathComputer = new BombshellPathComputer(mPlayerTwoBunker.getCanonPower(), mPlayerTwoBunker.getGeometricalCanonAngleRadian(), initialVC, mWindValue, mScreenWidthShotPowerFactor);
-            collidableDrawers.add(mPlayerOneBunker);
+            firingBunker = mPlayerTwoBunker;
+            targetBunker = mPlayerOneBunker;
         } else {
-            // Issue...
+            Log.e(LOG_TAG, "Game Sequencer state error.");
             return;
         }
+
+        firingBunker.setIsPlaying(false);
+        initialVC = new ViewCoordinates(firingBunker.getViewCoordinates().getX() + firingBunker.getCanonLengthX(), firingBunker.getViewCoordinates().getY() + firingBunker.getCanonLengthY());
+        bombshellPathComputer = new BombshellPathComputer(firingBunker.getCanonPower(), firingBunker.getGeometricalCanonAngleRadian(), initialVC, mWindValue, mScreenWidthShotPowerFactor);
+        collidableDrawers.add(targetBunker);
+
         mBombshellAnimatorAsyncTask = new BombshellAnimatorAsyncTask(mGameView, collidableDrawers, this, mGameSpeed);
         mBombshellAnimatorAsyncTask.execute(bombshellPathComputer);
     }
