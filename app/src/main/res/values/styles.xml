@@ -17,7 +17,7 @@
     </style>
 
     <style name="FullscreenActionBarStyle" parent="Widget.AppCompat.ActionBar">
-        <item name="android:background">@color/black_overlay</item>
+        <item name="android:background">@color/black_overlay_for_action_bar</item>
     </style>
 
     <style name="ButtonStyleStandard" parent="Widget.AppCompat.Button">

@@ -14,11 +14,7 @@ import fr.leomoldo.android.bunkerwar.R;
  */
 public class WindIndicatorLayout extends LinearLayout {
 
-    private final static int SIZE_OF_ARROW_IMAGE_VIEW = 24;
-
     private TextView mTextViewWindValue;
-    private LinearLayout mLinearLayoutPositiveWindArrows;
-    private LinearLayout mLinearLayoutNegativeWindArrows;
     private View mViewPaddingPositiveWindArrows;
     private View mViewPaddingNegativeWindArrows;
     private ImageView mImageViewFlag;
@@ -41,8 +37,6 @@ public class WindIndicatorLayout extends LinearLayout {
     private void init() {
         inflate(getContext(), R.layout.layout_wind_indicator, this);
         mTextViewWindValue = (TextView) findViewById(R.id.textViewWindValue);
-        mLinearLayoutPositiveWindArrows = (LinearLayout) findViewById(R.id.linearLayoutPositiveWindArrows);
-        mLinearLayoutNegativeWindArrows = (LinearLayout) findViewById(R.id.linearLayoutNegativeWindArrows);
         mViewPaddingPositiveWindArrows = findViewById(R.id.viewPaddingPositiveWindArrows);
         mViewPaddingNegativeWindArrows = findViewById(R.id.viewPaddingNegativeWindArrows);
         mImageViewFlag = (ImageView) findViewById(R.id.imageViewFlag);
@@ -53,37 +47,23 @@ public class WindIndicatorLayout extends LinearLayout {
         if (windValue < 0) {
             mViewPaddingNegativeWindArrows.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, getPaddingWeightForWindValue(windValue)));
             mViewPaddingPositiveWindArrows.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, Integer.MAX_VALUE));
-            // TODO Clean.
-            /*
-            mLinearLayoutPositiveWindArrows.setLayoutParams(new FrameLayout.LayoutParams(0, FrameLayout.LayoutParams.WRAP_CONTENT));
-            mLinearLayoutNegativeWindArrows.setLayoutParams(new FrameLayout.LayoutParams(getIndicatorViewLengthForValue(windValue), FrameLayout.LayoutParams.WRAP_CONTENT));
-            */
             mImageViewFlag.setImageResource(R.drawable.flag_negative_wind);
         } else {
             mViewPaddingPositiveWindArrows.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, getPaddingWeightForWindValue(windValue)));
             mViewPaddingNegativeWindArrows.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, Integer.MAX_VALUE));
-            // TODO Clean.
-            /*
-            mLinearLayoutNegativeWindArrows.setLayoutParams(new FrameLayout.LayoutParams(0, FrameLayout.LayoutParams.WRAP_CONTENT));
-            mLinearLayoutPositiveWindArrows.setLayoutParams(new FrameLayout.LayoutParams(getIndicatorViewLengthForValue(windValue), FrameLayout.LayoutParams.WRAP_CONTENT));
-            */
             mImageViewFlag.setImageResource(R.drawable.flag_positive_wind);
         }
     }
 
-    // TODO Clean.
-    private int getIndicatorViewLengthForValue(int value) {
-        if (value == 0) {
-            return 0;
-        }
-        int numberOfArrowsToBeShown = Math.abs(value) / 10;
-        if (numberOfArrowsToBeShown < 5) {
-            numberOfArrowsToBeShown++;
-        }
-        return numberOfArrowsToBeShown * SIZE_OF_ARROW_IMAGE_VIEW;
-    }
-
-    // TODO Comment.
+    // To display graphically wind values, two horizontal linear_layouts are used (respectively for
+    // positive and negative values).
+    // Each one is 120dp wide, contains a padding view + a horizontal linear_layout of 5 images of
+    // an arrow (showing the wind's direction).
+    // The arrows linear_layout have a fixed layout_weight of 60 (which is a convenient value for
+    // dividing an integer).
+    // The following method gives us the layout_weight value we have to set to the padding view to
+    // hide or show a number of arrows according to the absolute wind's value (0 to 50 negative
+    // or positive).
     private int getPaddingWeightForWindValue(int value) {
         value = Math.abs(value);
         if (value == 0) {

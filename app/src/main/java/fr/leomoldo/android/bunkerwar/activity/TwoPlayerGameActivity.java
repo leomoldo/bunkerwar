@@ -49,7 +49,7 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
     private final static float SOUNDTRACK_DUCKING_VOLUME = 0.5f;
     private final static float SOUND_EFFECTS_VOLUME = 0.5f;
 
-    // TODO : Make this a dimen in a xml and adapt value to screen size.
+    // TODO : Make this a dimen in a xml and adapt value to screen size (test with tablet emulator).
     private final static float LAYOUT_TRANSITION_Y_TRANSLATION_OFFSET = 500f;
 
     private final static int INVALID_WIND_VALUE = -42000;
@@ -149,7 +149,7 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
                             mPlayerTwoBunker = new Bunker(false, getResources().getColor(R.color.yellow_bunker), getBunkerTwoCoordinates());
                         }
 
-                        // TODO Clean.
+                        // TODO Clean if not necessary (re-test).
                         /*
                         if (mGameSequencer.getGameState() == GameSequencer.GameState.PLAYER_ONE_PLAYING) {
                             mTextViewPlayersName.setText(getString(R.string.player_one));
@@ -368,7 +368,7 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
         ArrayList<Drawer> collidableDrawers = new ArrayList<Drawer>();
         collidableDrawers.add(mLandscape);
         ViewCoordinates initialVC;
-        // TODO Refactor with local variable "playingBunker" to avoid code duplication?
+        // TODO Refactor with local variable "playingBunker" and "targetBunker" to avoid code duplication?
         if (mGameSequencer.getGameState() == GameSequencer.GameState.PLAYER_ONE_FIRING) {
             mPlayerOneBunker.setIsPlaying(false);
             initialVC = new ViewCoordinates(mPlayerOneBunker.getViewCoordinates().getX() + mPlayerOneBunker.getCanonLengthX(), mPlayerOneBunker.getViewCoordinates().getY() + mPlayerOneBunker.getCanonLengthY());

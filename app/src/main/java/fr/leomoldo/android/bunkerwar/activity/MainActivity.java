@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements AudioManager.OnAu
         boolean shouldChangeWindAtEveryTurn = sharedPreferences.getBoolean(getString(R.string.shared_preferences_key_wind_change), true);
         mCheckBoxSettingsWindChange.setChecked(shouldChangeWindAtEveryTurn);
         mSeekBarSettingsGameSpeed.setProgress(gameSpeedValue);
-        // TODO Clean.
+        // TODO Clean if not necessary (test).
         // mTextViewSettingsGameSpeed.setText(String.valueOf(gameSpeedValue));
 
         // Display app version on the credits screen.
