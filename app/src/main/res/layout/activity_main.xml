@@ -290,10 +290,12 @@
                         android:text="@string/credits_leo_02" />
                 </LinearLayout>
 
+                <!-- TODO Make this credit section visible as soon as final graphic design is integrated. -->
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:visibility="gone">
 
                     <TextView
                         android:layout_width="wrap_content"
