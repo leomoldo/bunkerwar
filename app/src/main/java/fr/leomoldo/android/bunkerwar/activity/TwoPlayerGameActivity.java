@@ -47,7 +47,8 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
 
     private final static float SOUNDTRACK_VOLUME = 1.0f;
     private final static float SOUNDTRACK_DUCKING_VOLUME = 0.5f;
-    private final static float SOUND_EFFECTS_VOLUME = 0.5f;
+    private final static float SOUND_EFFECTS_VOLUME = 0.2f;
+    private final static float SOUND_EFFECTS_BUTTONS_VOLUME = 0.15f;
 
     // TODO : Make this a dimen in a xml and adapt value to screen size (test with tablet emulator).
     private final static float LAYOUT_TRANSITION_Y_TRANSLATION_OFFSET = 500f;
@@ -84,6 +85,8 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
     private int mSoundIdFire;
     private int mSoundIdMissed;
     private int mSoundIdBunkerHit;
+    private int mSoundIdButtonHigh;
+    private int mSoundIdButtonLow;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -204,6 +207,8 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
         mSoundIdFire = mSoundPool.load(this, R.raw.fire, 1);
         mSoundIdMissed = mSoundPool.load(this, R.raw.missed, 1);
         mSoundIdBunkerHit = mSoundPool.load(this, R.raw.bunker_hit, 1);
+        mSoundIdButtonHigh = mSoundPool.load(this, R.raw.button_high, 1);
+        mSoundIdButtonLow = mSoundPool.load(this, R.raw.button_low, 1);
     }
 
     @Override
@@ -263,13 +268,14 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
         builder.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                mSoundPool.play(mSoundIdButtonHigh, SOUND_EFFECTS_BUTTONS_VOLUME, SOUND_EFFECTS_BUTTONS_VOLUME, 0, 0,  1f);
                 TwoPlayerGameActivity.super.onBackPressed();
             }
         });
         builder.setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
+                mSoundPool.play(mSoundIdButtonLow, SOUND_EFFECTS_BUTTONS_VOLUME, SOUND_EFFECTS_BUTTONS_VOLUME, 0, 0,  1f);
             }
         });
         builder.show();
@@ -304,7 +310,10 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
     }
 
     @Override
-    public void onValueChanged(AbstractPrecisionSliderLayout sliderLayout, int newValue) {
+    public void onValueChanged(AbstractPrecisionSliderLayout sliderLayout, int newValue, boolean fromButton) {
+        if (fromButton) {
+            mSoundPool.play(mSoundIdButtonLow, SOUND_EFFECTS_BUTTONS_VOLUME, SOUND_EFFECTS_BUTTONS_VOLUME, 0, 0, 1f);
+        }
         if (sliderLayout.equals(mAnglePrecisionSliderLayout)) {
             if (mGameSequencer.getGameState() == GameSequencer.GameState.PLAYER_ONE_PLAYING) {
                 mPlayerOneBunker.setAbsoluteCanonAngle(newValue);
@@ -325,6 +334,7 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
     }
 
     public void onButtonClickedChangeLandscape(View view) {
+        mSoundPool.play(mSoundIdButtonLow, SOUND_EFFECTS_BUTTONS_VOLUME, SOUND_EFFECTS_BUTTONS_VOLUME, 0, 0, 1f);
         mGameView.unregisterDrawer(mLandscape);
         mLandscape = new Landscape(getResources().getColor(R.color.green_land_slice));
         mGameView.registerDrawer(mLandscape);
@@ -334,6 +344,7 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
     }
 
     public void onButtonClickedStartPlaying(View view) {
+        mSoundPool.play(mSoundIdButtonHigh, SOUND_EFFECTS_BUTTONS_VOLUME, SOUND_EFFECTS_BUTTONS_VOLUME, 0, 0, 1f);
         mWindIndicatorLayout.setVisibility(View.VISIBLE);
         changeWindValue();
         mGameSequencer.startPlaying();
@@ -389,6 +400,7 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
     }
 
     public void onButtonClickedBackToMenu(View view) {
+        mSoundPool.play(mSoundIdButtonHigh, SOUND_EFFECTS_BUTTONS_VOLUME, SOUND_EFFECTS_BUTTONS_VOLUME, 0, 0, 1f);
         super.onBackPressed();
     }
 
@@ -398,10 +410,9 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
         mBombshellAnimatorAsyncTask = null;
 
         if (drawer == null || drawer.equals(mLandscape)) {
-
-            // TODO Code armouring : crashes if activity is stopped.
-            mSoundPool.play(mSoundIdMissed, SOUND_EFFECTS_VOLUME, SOUND_EFFECTS_VOLUME, 0, 0, 1f);
-
+            if (mShouldPlaySoundtrack) {
+                mSoundPool.play(mSoundIdMissed, SOUND_EFFECTS_VOLUME, SOUND_EFFECTS_VOLUME, 0, 0, 1f);
+            }
             Toast.makeText(this, R.string.target_missed, Toast.LENGTH_SHORT).show();
             mGameSequencer.bombshellMissedTarget();
             if (mGameSequencer.getGameState() == GameSequencer.GameState.PLAYER_ONE_PLAYING) {

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.media.SoundPool;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -28,10 +29,14 @@ public class MainActivity extends AppCompatActivity implements AudioManager.OnAu
 
     private final static float SOUNDTRACK_VOLUME = 1.0f;
     private final static float SOUNDTRACK_DUCKING_VOLUME = 0.5f;
+    private final static float SOUND_EFFECTS_BUTTONS_VOLUME = 0.15f;
 
     // Audio :
     private MediaPlayer mMediaPlayerSoundtrack;
     private boolean mShouldPlaySoundtrack;
+    private SoundPool mSoundPool;
+    private int mSoundIdButtonHigh;
+    private int mSoundIdButtonLow;
 
     // Views :
     private LinearLayout mLinearLayoutButtons;
@@ -81,12 +86,23 @@ public class MainActivity extends AppCompatActivity implements AudioManager.OnAu
         if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
             startPlayingSoundtrack();
         }
+
+        if (android.os.Build.VERSION.SDK_INT < 21) {
+            mSoundPool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
+        } else {
+            SoundPool.Builder builder = new SoundPool.Builder();
+            mSoundPool = builder.build();
+        }
+        mSoundIdButtonHigh = mSoundPool.load(this, R.raw.button_high, 1);
+        mSoundIdButtonLow = mSoundPool.load(this, R.raw.button_low, 1);
     }
 
     @Override
     protected void onStop() {
         stopPlayingSoundtrack();
         mShouldPlaySoundtrack = false;
+        mSoundPool.release();
+        mSoundPool = null;
         super.onStop();
     }
 
@@ -129,26 +145,31 @@ public class MainActivity extends AppCompatActivity implements AudioManager.OnAu
 
 
     public void onButtonClickedStartNewGame(View view) {
+        mSoundPool.play(mSoundIdButtonHigh, SOUND_EFFECTS_BUTTONS_VOLUME, SOUND_EFFECTS_BUTTONS_VOLUME, 0, 0, 1f);
         Intent intent = new Intent(this, TwoPlayerGameActivity.class);
         startActivity(intent);
     }
 
     public void onButtonClickedSettings(View view) {
+        mSoundPool.play(mSoundIdButtonLow, SOUND_EFFECTS_BUTTONS_VOLUME, SOUND_EFFECTS_BUTTONS_VOLUME, 0, 0, 1f);
         mRelativeLayoutSettings.setVisibility(View.VISIBLE);
         mLinearLayoutButtons.setVisibility(View.GONE);
     }
 
     public void onButtonClickedCredits(View view) {
+        mSoundPool.play(mSoundIdButtonLow, SOUND_EFFECTS_BUTTONS_VOLUME, SOUND_EFFECTS_BUTTONS_VOLUME, 0, 0, 1f);
         mRelativeLayoutCredits.setVisibility(View.VISIBLE);
         mLinearLayoutButtons.setVisibility(View.GONE);
     }
 
     public void onButtonClickedCloseSettings(View view) {
+        mSoundPool.play(mSoundIdButtonHigh, SOUND_EFFECTS_BUTTONS_VOLUME, SOUND_EFFECTS_BUTTONS_VOLUME, 0, 0, 1f);
         mLinearLayoutButtons.setVisibility(View.VISIBLE);
         mRelativeLayoutSettings.setVisibility(View.GONE);
     }
 
     public void onButtonClickedCloseCredits(View view) {
+        mSoundPool.play(mSoundIdButtonHigh, SOUND_EFFECTS_BUTTONS_VOLUME, SOUND_EFFECTS_BUTTONS_VOLUME, 0, 0, 1f);
         mLinearLayoutButtons.setVisibility(View.VISIBLE);
         mRelativeLayoutCredits.setVisibility(View.GONE);
     }
@@ -178,6 +199,7 @@ public class MainActivity extends AppCompatActivity implements AudioManager.OnAu
     }
 
     public void onCheckboxClickedSettingsWindChange(View view) {
+        mSoundPool.play(mSoundIdButtonLow, SOUND_EFFECTS_BUTTONS_VOLUME, SOUND_EFFECTS_BUTTONS_VOLUME, 0, 0, 1f);
         boolean shouldChangeWindAtEveryTurn = false;
         if (mCheckBoxSettingsWindChange.isChecked()) {
             shouldChangeWindAtEveryTurn = true;
