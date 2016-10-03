@@ -52,8 +52,6 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
     // TODO : Make this a dimen in a xml and adapt value to screen size (test with tablet emulator).
     private final static float LAYOUT_TRANSITION_Y_TRANSLATION_OFFSET = 500f;
 
-    private final static int INVALID_WIND_VALUE = -42000;
-
     // View width for a Nexus 4, which was used for testing.
     private final static float SCREEN_WIDTH_REFERENCE_FOR_SHOOTING_POWER = 1196;
 
@@ -134,7 +132,7 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
                         if (savedInstanceState != null) {
                             mGameSequencer = savedInstanceState.getParcelable(BUNDLE_KEY_GAME_SEQUENCER);
                             mLandscape = savedInstanceState.getParcelable(BUNDLE_KEY_LANDSCAPE);
-                            mWindValue = savedInstanceState.getInt(BUNDLE_KEY_WIND_VALUE, INVALID_WIND_VALUE);
+                            mWindValue = savedInstanceState.getInt(BUNDLE_KEY_WIND_VALUE, 0);
                             if (mGameSequencer.getGameState() != GameSequencer.GameState.PLAYER_TWO_WON) {
                                 mPlayerOneBunker = savedInstanceState.getParcelable(BUNDLE_KEY_BUNKER_ONE);
                             }
