@@ -50,7 +50,7 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
     private final static float SOUND_EFFECTS_VOLUME = 0.2f;
     private final static float SOUND_EFFECTS_BUTTONS_VOLUME = 0.15f;
 
-    // TODO : Make this a dimen in a xml and adapt value to screen size (test with tablet emulator).
+    // Empirical value corresponding to the approximate height of mLinearLayoutControls + some margin.
     private final static float LAYOUT_TRANSITION_Y_TRANSLATION_OFFSET = 500f;
 
     // View width for a Nexus 4, which was used for testing.
