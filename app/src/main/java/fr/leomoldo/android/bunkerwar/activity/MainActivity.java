@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements AudioManager.OnAu
         boolean shouldChangeWindAtEveryTurn = sharedPreferences.getBoolean(getString(R.string.shared_preferences_key_wind_change), true);
         mCheckBoxSettingsWindChange.setChecked(shouldChangeWindAtEveryTurn);
         mSeekBarSettingsGameSpeed.setProgress(gameSpeedValue);
-        // TODO Clean if not necessary (test).
+        // TODO Not necessary because mTextViewSettingsGameSpeed is updated onProgressChange. Test that it works like that and clean.
         // mTextViewSettingsGameSpeed.setText(String.valueOf(gameSpeedValue));
 
         // Display app version on the credits screen.
@@ -211,7 +211,7 @@ public class MainActivity extends AppCompatActivity implements AudioManager.OnAu
     }
 
     @Override
-    public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
+    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
         mTextViewSettingsGameSpeed.setText(String.valueOf(progress));
         SharedPreferences sharedPref = getSharedPreferences(getString(R.string.shared_preferences_name), Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
