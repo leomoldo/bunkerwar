@@ -23,17 +23,14 @@ public class Landscape extends Drawer implements Parcelable {
     private int mColor;
 
     public Landscape(int color) {
-
         mLandscapeHeights = new ArrayList<Integer>(calculateFinalLandscapeWidth(INITIAL_LANDSCAPE_WIDTH, NUMBER_OF_INTERPOLATION_ITERATIONS));
         Random random = new Random();
         for (int i = 0; i < INITIAL_LANDSCAPE_WIDTH; i++) {
             mLandscapeHeights.add(i, random.nextInt(MAX_HEIGHT_VALUE));
         }
-
         for (int i = 0; i < NUMBER_OF_INTERPOLATION_ITERATIONS; i++) {
             interpolateHeightsArrayList(mLandscapeHeights);
         }
-
         mColor = color;
         initializePaint();
     }

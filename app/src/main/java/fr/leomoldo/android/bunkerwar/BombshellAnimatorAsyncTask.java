@@ -59,14 +59,12 @@ public class BombshellAnimatorAsyncTask extends AsyncTask<BombshellPathComputer,
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
             // Check if a collidable drawer was hit.
             for (Drawer drawer : mCollidableDrawers) {
                 if (drawer.isHitByBombshell(bombshellPathComputers[0].getCurrentCoordinates(), mViewWidth, mViewHeight)) {
                     return drawer;
                 }
             }
-
             // Check if bombshell did leave the screen from the right of left hand side (+ bottom but is it really useful?).
             if (bombshellPathComputers[0].getCurrentCoordinates().getY() > mViewHeight ||
                     bombshellPathComputers[0].getCurrentCoordinates().getX() > mViewWidth ||

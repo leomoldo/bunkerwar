@@ -49,8 +49,8 @@ public class MainActivity extends AppCompatActivity implements AudioManager.OnAu
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_main);
+        // Retrieve and initialize useful views.
         mLinearLayoutButtons = (LinearLayout) findViewById(R.id.linearLayoutButtons);
         mRelativeLayoutSettings = (RelativeLayout) findViewById(R.id.relativeLayoutSettings);
         mRelativeLayoutCredits = (RelativeLayout) findViewById(R.id.relativeLayoutCredits);
@@ -59,13 +59,13 @@ public class MainActivity extends AppCompatActivity implements AudioManager.OnAu
         mSeekBarSettingsGameSpeed.setMax(100);
         mSeekBarSettingsGameSpeed.setOnSeekBarChangeListener(this);
         mTextViewSettingsGameSpeed = (TextView) findViewById(R.id.textViewSettingsGameSpeed);
-
         // Retrieve SharedPreferences.
         SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.shared_preferences_name), Context.MODE_PRIVATE);
         int gameSpeedValue = sharedPreferences.getInt(getString(R.string.shared_preferences_key_game_speed), BombshellAnimatorAsyncTask.MAX_GAME_SPEED / 2);
         boolean shouldChangeWindAtEveryTurn = sharedPreferences.getBoolean(getString(R.string.shared_preferences_key_wind_change), true);
         mCheckBoxSettingsWindChange.setChecked(shouldChangeWindAtEveryTurn);
         mSeekBarSettingsGameSpeed.setProgress(gameSpeedValue);
+
         // TODO Not necessary because mTextViewSettingsGameSpeed is updated onProgressChange. Test that it works like that and clean.
         // mTextViewSettingsGameSpeed.setText(String.valueOf(gameSpeedValue));
 
@@ -82,11 +82,9 @@ public class MainActivity extends AppCompatActivity implements AudioManager.OnAu
         AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         int result = audioManager.requestAudioFocus(this, AudioManager.STREAM_MUSIC,
                 AudioManager.AUDIOFOCUS_GAIN);
-
         if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
             startPlayingSoundtrack();
         }
-
         if (android.os.Build.VERSION.SDK_INT < 21) {
             mSoundPool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
         } else {
@@ -108,7 +106,6 @@ public class MainActivity extends AppCompatActivity implements AudioManager.OnAu
 
     @Override
     protected void onDestroy() {
-
         if (mMediaPlayerSoundtrack != null) {
             mMediaPlayerSoundtrack.release();
             mMediaPlayerSoundtrack = null;
@@ -124,17 +121,14 @@ public class MainActivity extends AppCompatActivity implements AudioManager.OnAu
                     mMediaPlayerSoundtrack.setVolume(SOUNDTRACK_VOLUME, SOUNDTRACK_VOLUME);
                 }
                 break;
-
             case AudioManager.AUDIOFOCUS_LOSS:
                 stopPlayingSoundtrack();
                 break;
-
             case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
                 if (mMediaPlayerSoundtrack != null && mMediaPlayerSoundtrack.isPlaying()) {
                     mMediaPlayerSoundtrack.pause();
                 }
                 break;
-
             case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
                 if (mMediaPlayerSoundtrack != null && mMediaPlayerSoundtrack.isPlaying()) {
                     mMediaPlayerSoundtrack.setVolume(SOUNDTRACK_DUCKING_VOLUME, SOUNDTRACK_DUCKING_VOLUME);

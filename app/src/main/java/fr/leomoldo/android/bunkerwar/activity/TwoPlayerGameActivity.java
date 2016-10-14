@@ -91,9 +91,7 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_two_player_game);
-
         // Retrieve useful views.
         mLinearLayoutChooseLandscape = (LinearLayout) findViewById(R.id.linearLayoutChooseLandscape);
         mLinearLayoutControls = (LinearLayout) findViewById(R.id.linearLayoutControls);
@@ -103,7 +101,6 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
         mLinearLayoutVictory = (LinearLayout) findViewById(R.id.linearLayoutVictory);
         mTextViewVictory = (TextView) findViewById(R.id.textViewVictory);
         mGameView = (GameView) findViewById(R.id.gameView);
-
         // Define layout animation.
         ObjectAnimator animatorAppearing = ObjectAnimator.ofFloat(mLinearLayoutControls, "translationY", -LAYOUT_TRANSITION_Y_TRANSLATION_OFFSET, 0f);
         ObjectAnimator animatorDisappearing = ObjectAnimator.ofFloat(mLinearLayoutControls, "translationY", 0f, -LAYOUT_TRANSITION_Y_TRANSLATION_OFFSET);
@@ -111,26 +108,20 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
         layoutTransition.setAnimator(LayoutTransition.APPEARING, animatorAppearing);
         layoutTransition.setAnimator(LayoutTransition.DISAPPEARING, animatorDisappearing);
         ((RelativeLayout) findViewById(R.id.mainRelativeLayout)).setLayoutTransition(layoutTransition);
-
         // Set Listeners.
         mAnglePrecisionSliderLayout.setListener(this);
         mPowerPrecisionSliderLayout.setListener(this);
-
         // Read GameSpeed Value from SharedPreferences.
         mGameSpeed = getSharedPreferences(getString(R.string.shared_preferences_name), Context.MODE_PRIVATE).getInt(getString(R.string.shared_preferences_key_game_speed), BombshellAnimatorAsyncTask.MAX_GAME_SPEED / 2);
-
         final View rootView = getWindow().getDecorView().getRootView();
         rootView.getViewTreeObserver().addOnGlobalLayoutListener(
                 new ViewTreeObserver.OnGlobalLayoutListener() {
                     @Override
                     public void onGlobalLayout() {
-
                         Log.d(LOG_TAG, "View width onGlobalLayout: " + findViewById(android.R.id.content).getWidth());
                         Log.d(LOG_TAG, "View height onGlobalLayout: " + findViewById(android.R.id.content).getHeight());
-
                         // Determine screen width factor to adapt shooting power.
                         mScreenWidthShotPowerFactor = findViewById(android.R.id.content).getWidth() / SCREEN_WIDTH_REFERENCE_FOR_SHOOTING_POWER;
-
                         // Initialize or restore game model.
                         if (savedInstanceState != null) {
                             mGameSequencer = savedInstanceState.getParcelable(BUNDLE_KEY_GAME_SEQUENCER);
@@ -142,7 +133,6 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
                             if (mGameSequencer.getGameState() != GameSequencer.GameState.PLAYER_ONE_WON) {
                                 mPlayerTwoBunker = savedInstanceState.getParcelable(BUNDLE_KEY_BUNKER_TWO);
                             }
-
                         } else {
                             mGameSequencer = new GameSequencer();
                             mLandscape = new Landscape(getResources().getColor(R.color.green_land_slice));
@@ -174,7 +164,6 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
                         }
                         mGameView.registerDrawer(mLandscape);
                         mGameView.invalidate();
-
                         if (Build.VERSION.SDK_INT < 16) {
                             rootView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
                         } else {
@@ -186,18 +175,14 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
 
     @Override
     protected void onStart() {
-
         super.onStart();
-
         mShouldPlaySoundtrack = true;
         AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         int result = audioManager.requestAudioFocus(this, AudioManager.STREAM_MUSIC,
                 AudioManager.AUDIOFOCUS_GAIN);
-
         if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
             startPlayingSoundtrack();
         }
-
         if (android.os.Build.VERSION.SDK_INT < 21) {
             mSoundPool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
         } else {
@@ -213,13 +198,10 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
 
     @Override
     protected void onStop() {
-
         stopPlayingSoundtrack();
         mShouldPlaySoundtrack = false;
-
         mSoundPool.release();
         mSoundPool = null;
-
         super.onStop();
     }
 
@@ -254,28 +236,26 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
 
     @Override
     public void onBackPressed() {
-
         // If game is over, just call super.
         if (mGameSequencer.getGameState() == GameSequencer.GameState.PLAYER_ONE_WON ||
                 mGameSequencer.getGameState() == GameSequencer.GameState.PLAYER_TWO_WON) {
             super.onBackPressed();
             return;
         }
-
         // Else show a confirmation dialog.
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(getString(R.string.confirm_abondon_game));
         builder.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                mSoundPool.play(mSoundIdButtonHigh, SOUND_EFFECTS_BUTTONS_VOLUME, SOUND_EFFECTS_BUTTONS_VOLUME, 0, 0,  1f);
+                mSoundPool.play(mSoundIdButtonHigh, SOUND_EFFECTS_BUTTONS_VOLUME, SOUND_EFFECTS_BUTTONS_VOLUME, 0, 0, 1f);
                 TwoPlayerGameActivity.super.onBackPressed();
             }
         });
         builder.setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                mSoundPool.play(mSoundIdButtonLow, SOUND_EFFECTS_BUTTONS_VOLUME, SOUND_EFFECTS_BUTTONS_VOLUME, 0, 0,  1f);
+                mSoundPool.play(mSoundIdButtonLow, SOUND_EFFECTS_BUTTONS_VOLUME, SOUND_EFFECTS_BUTTONS_VOLUME, 0, 0, 1f);
             }
         });
         builder.show();
@@ -290,7 +270,6 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
                     mMediaPlayerSoundtrack.setVolume(SOUNDTRACK_VOLUME, SOUNDTRACK_VOLUME);
                 }
                 break;
-
             case AudioManager.AUDIOFOCUS_LOSS:
                 stopPlayingSoundtrack();
                 break;
@@ -300,7 +279,6 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
                     mMediaPlayerSoundtrack.pause();
                 }
                 break;
-
             case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
                 if (mMediaPlayerSoundtrack != null && mMediaPlayerSoundtrack.isPlaying()) {
                     mMediaPlayerSoundtrack.setVolume(SOUNDTRACK_DUCKING_VOLUME, SOUNDTRACK_DUCKING_VOLUME);
@@ -358,27 +336,21 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
     }
 
     public void onButtonClickedFire(View view) {
-
         if (mBombshellAnimatorAsyncTask != null) {
             return;
         }
-
         // Play sound effect.
         mSoundPool.play(mSoundIdFire, SOUND_EFFECTS_VOLUME, SOUND_EFFECTS_VOLUME, 0, 0, 1f);
-
         // Update UI and GameSequencer.
         mLinearLayoutControls.setVisibility(View.GONE);
         mGameSequencer.fireButtonPressed();
-
         // Configure and launch Firing AsyncTask.
         BombshellPathComputer bombshellPathComputer;
         ArrayList<Drawer> collidableDrawers = new ArrayList<Drawer>();
         collidableDrawers.add(mLandscape);
         ViewCoordinates initialVC;
-
         Bunker firingBunker;
         Bunker targetBunker;
-
         if (mGameSequencer.getGameState() == GameSequencer.GameState.PLAYER_ONE_FIRING) {
             firingBunker = mPlayerOneBunker;
             targetBunker = mPlayerTwoBunker;
@@ -389,12 +361,10 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
             Log.e(LOG_TAG, "Game Sequencer state error.");
             return;
         }
-
         firingBunker.setIsPlaying(false);
         initialVC = new ViewCoordinates(firingBunker.getViewCoordinates().getX() + firingBunker.getCanonLengthX(), firingBunker.getViewCoordinates().getY() + firingBunker.getCanonLengthY());
         bombshellPathComputer = new BombshellPathComputer(firingBunker.getCanonPower(), firingBunker.getGeometricalCanonAngleRadian(), initialVC, mWindValue, mScreenWidthShotPowerFactor);
         collidableDrawers.add(targetBunker);
-
         mBombshellAnimatorAsyncTask = new BombshellAnimatorAsyncTask(mGameView, collidableDrawers, this, mGameSpeed);
         mBombshellAnimatorAsyncTask.execute(bombshellPathComputer);
     }
@@ -406,9 +376,7 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
 
     @Override
     public void onDrawerHit(Drawer drawer) {
-
         mBombshellAnimatorAsyncTask = null;
-
         if (drawer == null || drawer.equals(mLandscape)) {
             if (mShouldPlaySoundtrack) {
                 mSoundPool.play(mSoundIdMissed, SOUND_EFFECTS_VOLUME, SOUND_EFFECTS_VOLUME, 0, 0, 1f);
@@ -431,9 +399,7 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
             if (getSharedPreferences(getString(R.string.shared_preferences_name), Context.MODE_PRIVATE).getBoolean(getString(R.string.shared_preferences_key_wind_change), true)) {
                 changeWindValue();
             }
-
         } else if (drawer.equals(mPlayerTwoBunker)) {
-
             mSoundPool.play(mSoundIdBunkerHit, SOUND_EFFECTS_VOLUME, SOUND_EFFECTS_VOLUME, 0, 0, 1f);
             String victoryForPlayerOne;
             if (mGameSequencer.getRoundsCountPlayerOne() == 1) {
@@ -447,9 +413,7 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
             mGameView.unregisterDrawer(mPlayerTwoBunker);
             mPlayerTwoBunker = null;
             mGameSequencer.bombshellDitHitBunker(false);
-
         } else if (drawer.equals(mPlayerOneBunker)) {
-
             mSoundPool.play(mSoundIdBunkerHit, SOUND_EFFECTS_VOLUME, SOUND_EFFECTS_VOLUME, 0, 0, 1f);
             String victoryForPlayerTwo;
             if (mGameSequencer.getRoundsCountPlayerTwo() == 1) {
@@ -464,7 +428,6 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
             mPlayerOneBunker = null;
             mGameSequencer.bombshellDitHitBunker(true);
         }
-
         mGameView.invalidate();
     }
 

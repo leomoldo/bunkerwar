@@ -18,19 +18,19 @@ public class Bunker extends Drawer implements Parcelable {
     private final static float BUNKER_HITBOX_EXPANSION_RATIO = 1.5f;
     private final static float POWER_INDICATOR_DOTS_DISTANCE = 20f;
 
-	private Boolean mIsPlayerOne;
+    private Boolean mIsPlayerOne;
     private Boolean mIsPlaying;
 
-	private Integer mAsboluteCanonAngle; // Integer between 0 and 90.
-	private Integer mCanonPower; // Integer between 0 and 100.
+    private Integer mAsboluteCanonAngle; // Integer between 0 and 90.
+    private Integer mCanonPower; // Integer between 0 and 100.
     private int mColor;
 
-	public Bunker(Boolean isPlayerOne, int color, ViewCoordinates vc) {
-		mIsPlayerOne = isPlayerOne;
+    public Bunker(Boolean isPlayerOne, int color, ViewCoordinates vc) {
+        mIsPlayerOne = isPlayerOne;
         mIsPlaying = false;
         mCanonPower = 50;
-		mAsboluteCanonAngle = 45;
-		setViewCoordinates(vc);
+        mAsboluteCanonAngle = 45;
+        setViewCoordinates(vc);
         mColor = color;
         initializePaint();
     }
@@ -88,31 +88,31 @@ public class Bunker extends Drawer implements Parcelable {
 
     public int getAbsoluteCanonAngleDegrees() {
         return mAsboluteCanonAngle;
-	}
+    }
 
-	public double getGeometricalCanonAngleRadian() {
-		double angle = ((double) mAsboluteCanonAngle) * Math.PI / 180.0;
-		if (!mIsPlayerOne) {
-			angle = Math.PI - angle;
-		}
-		return angle;
-	}
+    public double getGeometricalCanonAngleRadian() {
+        double angle = ((double) mAsboluteCanonAngle) * Math.PI / 180.0;
+        if (!mIsPlayerOne) {
+            angle = Math.PI - angle;
+        }
+        return angle;
+    }
 
-	public void setAbsoluteCanonAngle(Integer mCanonAngle) {
-		this.mAsboluteCanonAngle = mCanonAngle;
-	}
+    public void setAbsoluteCanonAngle(Integer mCanonAngle) {
+        this.mAsboluteCanonAngle = mCanonAngle;
+    }
 
     public int getCanonPower() {
         return mCanonPower;
-	}
+    }
 
-	public void setCanonPower(Integer mCanonPower) {
-		this.mCanonPower = mCanonPower;
-	}
+    public void setCanonPower(Integer mCanonPower) {
+        this.mCanonPower = mCanonPower;
+    }
 
     public boolean isPlayerOne() {
         return mIsPlayerOne;
-	}
+    }
 
     public float getCanonLengthX() {
         return (float) (BUNKER_CANON_LENGTH * Math.cos(getGeometricalCanonAngleRadian()));
@@ -122,16 +122,13 @@ public class Bunker extends Drawer implements Parcelable {
         return (float) (-BUNKER_CANON_LENGTH * Math.sin(getGeometricalCanonAngleRadian()));
     }
 
-	@Override
+    @Override
     public void draw(Canvas canvas, @Nullable float viewWidth, float viewHeight) {
-
-		// Draw a circle and a rectangle for the bunker.
-		canvas.drawCircle(getViewCoordinates().getX(), getViewCoordinates().getY(), BUNKER_RADIUS, getPaint());
-		canvas.drawRect(getViewCoordinates().getX() - BUNKER_RADIUS, getViewCoordinates().getY(), getViewCoordinates().getX() + BUNKER_RADIUS, viewHeight, getPaint());
-
-		// Draw the canon of the bunker.
+        // Draw a circle and a rectangle for the bunker.
+        canvas.drawCircle(getViewCoordinates().getX(), getViewCoordinates().getY(), BUNKER_RADIUS, getPaint());
+        canvas.drawRect(getViewCoordinates().getX() - BUNKER_RADIUS, getViewCoordinates().getY(), getViewCoordinates().getX() + BUNKER_RADIUS, viewHeight, getPaint());
+        // Draw the canon of the bunker.
         canvas.drawLine(getViewCoordinates().getX(), getViewCoordinates().getY(), getViewCoordinates().getX() + getCanonLengthX(), getViewCoordinates().getY() + getCanonLengthY(), getPaint());
-
         // Draw power indicator.
         if (mIsPlaying) {
             float powerIndicatorDotX;
@@ -146,7 +143,6 @@ public class Bunker extends Drawer implements Parcelable {
 
     @Override
     public boolean isHitByBombshell(ViewCoordinates bombshellVC, float viewWidth, float viewHeight) {
-
         double distance = Math.sqrt(
                 Math.pow(bombshellVC.getX() - getViewCoordinates().getX(), 2) +
                         Math.pow(bombshellVC.getY() - getViewCoordinates().getY(), 2)
