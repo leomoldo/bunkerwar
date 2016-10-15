@@ -89,14 +89,12 @@ public class BombshellAnimatorAsyncTask extends AsyncTask<BombshellPathComputer,
         mCollisionListener.onDrawerHit(drawer);
     }
 
-    // TODO Clean if not necessary (re-test).
+    // TODO Unnecessary, remove :
     /*
     @Override
     protected void onCancelled(Drawer drawer) {
-        super.onCancelled(drawer);
         mGameView.unregisterDrawer(mBombshell);
-        mGameView.invalidate();
-        mCollisionListener.onDrawerHit(drawer);
+        super.onCancelled(drawer);
     }
     */
 
