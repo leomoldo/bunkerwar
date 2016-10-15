@@ -46,7 +46,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginTop="10dp"
         android:visibility="gone"
-        tools:visibility="visible" />
+        tools:visibility="gone" />
 
 
     <LinearLayout
@@ -108,7 +108,7 @@
         android:gravity="center"
         android:orientation="vertical"
         android:visibility="gone"
-        tools:visibility="visible">
+        tools:visibility="gone">
 
         <TextView
             android:id="@+id/textViewVictory"

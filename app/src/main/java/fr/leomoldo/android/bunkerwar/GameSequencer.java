@@ -131,7 +131,7 @@ public class GameSequencer implements Parcelable {
 
     public void cancelFiring() {
         if (mGameState == GameState.PLAYER_ONE_FIRING) {
-            mGameState = GameState.PLAYER_ONE_FIRING;
+            mGameState = GameState.PLAYER_ONE_PLAYING;
         } else if (mGameState == GameState.PLAYER_TWO_FIRING) {
             mGameState = GameState.PLAYER_TWO_PLAYING;
         }
