@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements AudioManager.OnAu
         mTextViewSettingsGameSpeed = (TextView) findViewById(R.id.textViewSettingsGameSpeed);
         // Retrieve SharedPreferences.
         SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.shared_preferences_name), Context.MODE_PRIVATE);
-        int gameSpeedValue = sharedPreferences.getInt(getString(R.string.shared_preferences_key_game_speed), BombshellAnimatorAsyncTask.MAX_GAME_SPEED / 2);
+        int gameSpeedValue = sharedPreferences.getInt(getString(R.string.shared_preferences_key_game_speed), BombshellAnimatorAsyncTask.DEFAULT_GAME_SPEED);
         boolean shouldChangeWindAtEveryTurn = sharedPreferences.getBoolean(getString(R.string.shared_preferences_key_wind_change), true);
         mCheckBoxSettingsWindChange.setChecked(shouldChangeWindAtEveryTurn);
         mSeekBarSettingsGameSpeed.setProgress(gameSpeedValue);

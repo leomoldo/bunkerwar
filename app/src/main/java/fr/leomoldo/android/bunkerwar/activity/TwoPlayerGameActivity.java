@@ -117,7 +117,7 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
         mAnglePrecisionSliderLayout.setListener(this);
         mPowerPrecisionSliderLayout.setListener(this);
         // Read GameSpeed Value from SharedPreferences.
-        mGameSpeed = getSharedPreferences(getString(R.string.shared_preferences_name), Context.MODE_PRIVATE).getInt(getString(R.string.shared_preferences_key_game_speed), BombshellAnimatorAsyncTask.MAX_GAME_SPEED / 2);
+        mGameSpeed = getSharedPreferences(getString(R.string.shared_preferences_name), Context.MODE_PRIVATE).getInt(getString(R.string.shared_preferences_key_game_speed), BombshellAnimatorAsyncTask.DEFAULT_GAME_SPEED);
         // Initialize or restore game model.
         if (savedInstanceState != null) {
             mGameSequencer = savedInstanceState.getParcelable(BUNDLE_KEY_GAME_SEQUENCER);

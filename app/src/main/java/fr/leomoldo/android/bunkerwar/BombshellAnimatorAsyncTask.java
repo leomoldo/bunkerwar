@@ -25,6 +25,7 @@ public class BombshellAnimatorAsyncTask extends AsyncTask<BombshellPathComputer,
     private static final String LOG_TAG = BombshellAnimatorAsyncTask.class.getSimpleName();
 
     public final static int MAX_GAME_SPEED = 100;
+    public final static int DEFAULT_GAME_SPEED = MAX_GAME_SPEED;
     private final static int MAX_ITERATION_TIME = 51;
 
     private GameView mGameView;
