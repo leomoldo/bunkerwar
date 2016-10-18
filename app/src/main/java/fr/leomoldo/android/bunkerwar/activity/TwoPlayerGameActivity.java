@@ -104,7 +104,7 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
         mTextViewVictory = (TextView) findViewById(R.id.textViewVictory);
         mGameView = (GameView) findViewById(R.id.gameView);
         // Define layout animation.
-        // TODO Cool transition effect, but was causing bugs with view visibility dynamic settings (in onStop).
+        // TODO Cool transition effect, but was causing bugs with view visibility dynamic settings (in onStop). Try to find workaround?
         /*
         ObjectAnimator animatorAppearing = ObjectAnimator.ofFloat(mLinearLayoutControls, "translationY", -LAYOUT_TRANSITION_Y_TRANSLATION_OFFSET, 0f);
         ObjectAnimator animatorDisappearing = ObjectAnimator.ofFloat(mLinearLayoutControls, "translationY", 0f, -LAYOUT_TRANSITION_Y_TRANSLATION_OFFSET);
