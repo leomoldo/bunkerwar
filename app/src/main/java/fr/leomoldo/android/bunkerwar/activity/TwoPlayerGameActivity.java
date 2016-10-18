@@ -63,6 +63,7 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
     private Bunker mPlayerTwoBunker;
     private Landscape mLandscape;
     private Integer mWindValue; // Integer between -50 and 50.
+    private String mVictoryString = "";
 
     private float mScreenWidthShotPowerFactor;
     private int mGameSpeed;
@@ -81,7 +82,7 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
 
     // Audio :
     private MediaPlayer mMediaPlayerSoundtrack;
-    private boolean mShouldPlaySoundtrack;
+    private boolean mIsActivityStarted;
     private SoundPool mSoundPool;
     private int mSoundIdFire;
     private int mSoundIdMissed;
@@ -103,17 +104,72 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
         mTextViewVictory = (TextView) findViewById(R.id.textViewVictory);
         mGameView = (GameView) findViewById(R.id.gameView);
         // Define layout animation.
+        // TODO Cool transition effect, but was causing bugs with view visibility dynamic settings (in onStop).
+        /*
         ObjectAnimator animatorAppearing = ObjectAnimator.ofFloat(mLinearLayoutControls, "translationY", -LAYOUT_TRANSITION_Y_TRANSLATION_OFFSET, 0f);
         ObjectAnimator animatorDisappearing = ObjectAnimator.ofFloat(mLinearLayoutControls, "translationY", 0f, -LAYOUT_TRANSITION_Y_TRANSLATION_OFFSET);
         LayoutTransition layoutTransition = new LayoutTransition();
         layoutTransition.setAnimator(LayoutTransition.APPEARING, animatorAppearing);
         layoutTransition.setAnimator(LayoutTransition.DISAPPEARING, animatorDisappearing);
         ((RelativeLayout) findViewById(R.id.mainRelativeLayout)).setLayoutTransition(layoutTransition);
+        */
         // Set Listeners.
         mAnglePrecisionSliderLayout.setListener(this);
         mPowerPrecisionSliderLayout.setListener(this);
         // Read GameSpeed Value from SharedPreferences.
         mGameSpeed = getSharedPreferences(getString(R.string.shared_preferences_name), Context.MODE_PRIVATE).getInt(getString(R.string.shared_preferences_key_game_speed), BombshellAnimatorAsyncTask.MAX_GAME_SPEED / 2);
+        // Initialize or restore game model.
+        if (savedInstanceState != null) {
+            mGameSequencer = savedInstanceState.getParcelable(BUNDLE_KEY_GAME_SEQUENCER);
+            mLandscape = savedInstanceState.getParcelable(BUNDLE_KEY_LANDSCAPE);
+            mWindValue = savedInstanceState.getInt(BUNDLE_KEY_WIND_VALUE, 0);
+            mVictoryString = savedInstanceState.getString(BUNDLE_KEY_VICTORY_STRING);
+            if (mGameSequencer.getGameState() != GameSequencer.GameState.PLAYER_TWO_WON) {
+                mPlayerOneBunker = savedInstanceState.getParcelable(BUNDLE_KEY_BUNKER_ONE);
+            }
+            if (mGameSequencer.getGameState() != GameSequencer.GameState.PLAYER_ONE_WON) {
+                mPlayerTwoBunker = savedInstanceState.getParcelable(BUNDLE_KEY_BUNKER_TWO);
+            }
+            // Restore Views.
+            switch (mGameSequencer.getGameState()) {
+                case CHOOSING_LANDSCAPE:
+                    mLinearLayoutChooseLandscape.setVisibility(View.VISIBLE);
+                    mWindIndicatorLayout.setVisibility(View.GONE);
+                    mLinearLayoutControls.setVisibility(View.GONE);
+                    mLinearLayoutVictory.setVisibility(View.GONE);
+                    break;
+                case PLAYER_ONE_PLAYING:
+                case PLAYER_TWO_PLAYING:
+                    mLinearLayoutChooseLandscape.setVisibility(View.GONE);
+                    mWindIndicatorLayout.setVisibility(View.VISIBLE);
+                    mWindIndicatorLayout.displayWindValue(mWindValue);
+                    mLinearLayoutControls.setVisibility(View.VISIBLE);
+                    mLinearLayoutVictory.setVisibility(View.GONE);
+                    break;
+                case PLAYER_ONE_FIRING:
+                case PLAYER_TWO_FIRING:
+                    mLinearLayoutChooseLandscape.setVisibility(View.GONE);
+                    mWindIndicatorLayout.setVisibility(View.VISIBLE);
+                    mWindIndicatorLayout.displayWindValue(mWindValue);
+                    mLinearLayoutControls.setVisibility(View.GONE);
+                    mLinearLayoutVictory.setVisibility(View.GONE);
+                    break;
+                case PLAYER_ONE_WON:
+                case PLAYER_TWO_WON:
+                    mLinearLayoutChooseLandscape.setVisibility(View.GONE);
+                    mWindIndicatorLayout.setVisibility(View.GONE);
+                    mLinearLayoutControls.setVisibility(View.GONE);
+                    mLinearLayoutVictory.setVisibility(View.VISIBLE);
+                    break;
+                default:
+            }
+        } else {
+            mGameSequencer = new GameSequencer();
+            mLandscape = new Landscape(getResources().getColor(R.color.green_land_slice));
+            mPlayerOneBunker = new Bunker(true, getResources().getColor(R.color.red_bunker), getBunkerOneCoordinates());
+            mPlayerTwoBunker = new Bunker(false, getResources().getColor(R.color.yellow_bunker), getBunkerTwoCoordinates());
+        }
+        // Initialize GameView onGlobalLayout.
         final View rootView = getWindow().getDecorView().getRootView();
         rootView.getViewTreeObserver().addOnGlobalLayoutListener(
                 new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -122,43 +178,14 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
                         Log.d(LOG_TAG, "View width onGlobalLayout: " + findViewById(android.R.id.content).getWidth());
                         Log.d(LOG_TAG, "View height onGlobalLayout: " + findViewById(android.R.id.content).getHeight());
                         // Determine screen width factor to adapt shooting power.
-                        String victoryString = "";
                         mScreenWidthShotPowerFactor = findViewById(android.R.id.content).getWidth() / SCREEN_WIDTH_REFERENCE_FOR_SHOOTING_POWER;
-                        // Initialize or restore game model.
-                        if (savedInstanceState != null) {
-                            mGameSequencer = savedInstanceState.getParcelable(BUNDLE_KEY_GAME_SEQUENCER);
-                            mLandscape = savedInstanceState.getParcelable(BUNDLE_KEY_LANDSCAPE);
-                            mWindValue = savedInstanceState.getInt(BUNDLE_KEY_WIND_VALUE, 0);
-                            victoryString = savedInstanceState.getString(BUNDLE_KEY_VICTORY_STRING);
-                            if (mGameSequencer.getGameState() != GameSequencer.GameState.PLAYER_TWO_WON) {
-                                mPlayerOneBunker = savedInstanceState.getParcelable(BUNDLE_KEY_BUNKER_ONE);
-                            }
-                            if (mGameSequencer.getGameState() != GameSequencer.GameState.PLAYER_ONE_WON) {
-                                mPlayerTwoBunker = savedInstanceState.getParcelable(BUNDLE_KEY_BUNKER_TWO);
-                            }
-                        } else {
-                            mGameSequencer = new GameSequencer();
-                            mLandscape = new Landscape(getResources().getColor(R.color.green_land_slice));
-                            mPlayerOneBunker = new Bunker(true, getResources().getColor(R.color.red_bunker), getBunkerOneCoordinates());
-                            mPlayerTwoBunker = new Bunker(false, getResources().getColor(R.color.yellow_bunker), getBunkerTwoCoordinates());
-                        }
-                        // Restore layout state.
-                        if (mGameSequencer.getGameState() != GameSequencer.GameState.CHOOSING_LANDSCAPE) {
-                            mLinearLayoutChooseLandscape.setVisibility(View.GONE);
-                        }
-                        if (mGameSequencer.getGameState() == GameSequencer.GameState.PLAYER_ONE_PLAYING || mGameSequencer.getGameState() == GameSequencer.GameState.PLAYER_TWO_PLAYING) {
-                            mWindIndicatorLayout.setVisibility(View.VISIBLE);
-                            mWindIndicatorLayout.displayWindValue(mWindValue);
-                            mLinearLayoutControls.setVisibility(View.VISIBLE);
-                        } else if (mGameSequencer.getGameState() == GameSequencer.GameState.PLAYER_ONE_WON || mGameSequencer.getGameState() == GameSequencer.GameState.PLAYER_TWO_WON) {
-                            mTextViewVictory.setText(victoryString);
-                            mLinearLayoutVictory.setVisibility(View.VISIBLE);
-                        }
                         // Initialize GameView.
                         if (mPlayerOneBunker != null) {
+                            mPlayerOneBunker.setViewCoordinates(getBunkerOneCoordinates());
                             mGameView.registerDrawer(mPlayerOneBunker);
                         }
                         if (mPlayerTwoBunker != null) {
+                            mPlayerTwoBunker.setViewCoordinates(getBunkerTwoCoordinates());
                             mGameView.registerDrawer(mPlayerTwoBunker);
                         }
                         mGameView.registerDrawer(mLandscape);
@@ -175,7 +202,8 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
     @Override
     protected void onStart() {
         super.onStart();
-        mShouldPlaySoundtrack = true;
+        mIsActivityStarted = true;
+        // Initialize audio.
         AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         int result = audioManager.requestAudioFocus(this, AudioManager.STREAM_MUSIC,
                 AudioManager.AUDIOFOCUS_GAIN);
@@ -197,24 +225,29 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
 
     @Override
     protected void onStop() {
+        // Cancel firing.
+        if (mBombshellAnimatorAsyncTask != null) {
+            mBombshellAnimatorAsyncTask.cancel(true);
+            mBombshellAnimatorAsyncTask = null;
+        }
+        if (mGameSequencer.getGameState() == GameSequencer.GameState.PLAYER_ONE_FIRING) {
+            mPlayerOneBunker.setIsPlaying(true);
+            mLinearLayoutControls.setVisibility(View.VISIBLE);
+        } else if (mGameSequencer.getGameState() == GameSequencer.GameState.PLAYER_TWO_FIRING) {
+            mPlayerTwoBunker.setIsPlaying(true);
+            mLinearLayoutControls.setVisibility(View.VISIBLE);
+        }
+        mGameSequencer.cancelFiring();
+        // Release audio resources.
         stopPlayingSoundtrack();
-        mShouldPlaySoundtrack = false;
         mSoundPool.release();
         mSoundPool = null;
+        mIsActivityStarted = false;
         super.onStop();
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        // Reset Bunker to playing state if it was firing.
-        if (mGameSequencer.getGameState() == GameSequencer.GameState.PLAYER_ONE_FIRING) {
-            mPlayerOneBunker.setIsPlaying(true);
-        } else if (mGameSequencer.getGameState() == GameSequencer.GameState.PLAYER_TWO_FIRING) {
-            mPlayerTwoBunker.setIsPlaying(true);
-        }
-        // Cancel firing for GameSequencer.
-        mGameSequencer.cancelFiring();
-        // Save what's necessary.
         outState.putParcelable(BUNDLE_KEY_GAME_SEQUENCER, mGameSequencer);
         outState.putParcelable(BUNDLE_KEY_LANDSCAPE, mLandscape);
         if (mWindValue != null) {
@@ -233,9 +266,6 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
 
     @Override
     protected void onDestroy() {
-        if (mBombshellAnimatorAsyncTask != null) {
-            mBombshellAnimatorAsyncTask.cancel(true);
-        }
         if (mMediaPlayerSoundtrack != null) {
             mMediaPlayerSoundtrack.release();
             mMediaPlayerSoundtrack = null;
@@ -274,7 +304,7 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
     public void onAudioFocusChange(int focusChange) {
         switch (focusChange) {
             case AudioManager.AUDIOFOCUS_GAIN:
-                if (mShouldPlaySoundtrack) {
+                if (mIsActivityStarted) {
                     startPlayingSoundtrack();
                     mMediaPlayerSoundtrack.setVolume(SOUNDTRACK_VOLUME, SOUNDTRACK_VOLUME);
                 }
@@ -386,10 +416,11 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
     @Override
     public void onDrawerHit(Drawer drawer) {
         mBombshellAnimatorAsyncTask = null;
+        if (!mIsActivityStarted) {
+            return;
+        }
         if (drawer == null || drawer.equals(mLandscape)) {
-            if (mShouldPlaySoundtrack) {
-                mSoundPool.play(mSoundIdMissed, SOUND_EFFECTS_VOLUME, SOUND_EFFECTS_VOLUME, 0, 0, 1f);
-            }
+            mSoundPool.play(mSoundIdMissed, SOUND_EFFECTS_VOLUME, SOUND_EFFECTS_VOLUME, 0, 0, 1f);
             Toast.makeText(this, R.string.target_missed, Toast.LENGTH_SHORT).show();
             mGameSequencer.bombshellMissedTarget();
             if (mGameSequencer.getGameState() == GameSequencer.GameState.PLAYER_ONE_PLAYING) {
@@ -404,7 +435,6 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
                 Log.e(LOG_TAG, "GameSequencer game state issue : no bunker currently playing.");
             }
             mLinearLayoutControls.setVisibility(View.VISIBLE);
-
             if (getSharedPreferences(getString(R.string.shared_preferences_name), Context.MODE_PRIVATE).getBoolean(getString(R.string.shared_preferences_key_wind_change), true)) {
                 changeWindValue();
             }

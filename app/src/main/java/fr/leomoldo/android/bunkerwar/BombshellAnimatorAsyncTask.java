@@ -89,14 +89,11 @@ public class BombshellAnimatorAsyncTask extends AsyncTask<BombshellPathComputer,
         mCollisionListener.onDrawerHit(drawer);
     }
 
-    // TODO Unnecessary, remove :
-    /*
     @Override
     protected void onCancelled(Drawer drawer) {
         mGameView.unregisterDrawer(mBombshell);
         super.onCancelled(drawer);
     }
-    */
 
     private int getIterationTimeFromGameSpeed(int gameSpeed) {
         float percentage = 1 - ((float) gameSpeed) / 100f;
