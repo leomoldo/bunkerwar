@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements AudioManager.OnAu
         mRelativeLayoutCredits = (RelativeLayout) findViewById(R.id.relativeLayoutCredits);
         mCheckBoxSettingsWindChange = (CheckBox) findViewById(R.id.checkBoxSettingsWindChange);
         mSeekBarSettingsGameSpeed = (SeekBar) findViewById(R.id.seekBarSettingsGameSpeed);
-        mSeekBarSettingsGameSpeed.setMax(100);
+        mSeekBarSettingsGameSpeed.setMax(BombshellAnimatorAsyncTask.MAX_GAME_SPEED);
         mSeekBarSettingsGameSpeed.setOnSeekBarChangeListener(this);
         mTextViewSettingsGameSpeed = (TextView) findViewById(R.id.textViewSettingsGameSpeed);
         // Retrieve SharedPreferences.
