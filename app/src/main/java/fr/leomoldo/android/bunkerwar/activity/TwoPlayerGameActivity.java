@@ -160,6 +160,7 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
                     mWindIndicatorLayout.setVisibility(View.GONE);
                     mLinearLayoutControls.setVisibility(View.GONE);
                     mLinearLayoutVictory.setVisibility(View.VISIBLE);
+                    mTextViewVictory.setText(mVictoryString);
                     break;
                 default:
             }
