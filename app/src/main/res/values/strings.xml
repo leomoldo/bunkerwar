@@ -43,7 +43,7 @@
     <string name="credits_link_samples_02">http://freesound.org/people/jeremysykes/</string>
     <string name="credits_source_code">See source code</string>
     <!-- TODO Update github source code web link: -->
-    <string name="credits_link_source_code">https://github.com/leomoldo</string>
+    <string name="credits_link_source_code">https://github.com/leomoldo/bunkerwar</string>
 
     <!-- TwoPlayerGameActivity. -->
 
