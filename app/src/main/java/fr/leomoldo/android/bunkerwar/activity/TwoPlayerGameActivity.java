@@ -268,6 +268,7 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
     @Override
     protected void onDestroy() {
         if (mMediaPlayerSoundtrack != null) {
+            mMediaPlayerSoundtrack.reset();
             mMediaPlayerSoundtrack.release();
             mMediaPlayerSoundtrack = null;
         }
@@ -503,6 +504,9 @@ public class TwoPlayerGameActivity extends AppCompatActivity implements Bombshel
     private void stopPlayingSoundtrack() {
         if (mMediaPlayerSoundtrack != null && mMediaPlayerSoundtrack.isPlaying()) {
             mMediaPlayerSoundtrack.stop();
+            mMediaPlayerSoundtrack.reset();
+            mMediaPlayerSoundtrack.release();
+            mMediaPlayerSoundtrack = null;
         }
     }
 }

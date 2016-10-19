@@ -104,6 +104,7 @@ public class MainActivity extends AppCompatActivity implements AudioManager.OnAu
     @Override
     protected void onDestroy() {
         if (mMediaPlayerSoundtrack != null) {
+            mMediaPlayerSoundtrack.reset();
             mMediaPlayerSoundtrack.release();
             mMediaPlayerSoundtrack = null;
         }
@@ -231,6 +232,9 @@ public class MainActivity extends AppCompatActivity implements AudioManager.OnAu
     private void stopPlayingSoundtrack() {
         if (mMediaPlayerSoundtrack != null && mMediaPlayerSoundtrack.isPlaying()) {
             mMediaPlayerSoundtrack.stop();
+            mMediaPlayerSoundtrack.reset();
+            mMediaPlayerSoundtrack.release();
+            mMediaPlayerSoundtrack = null;
         }
     }
 }
