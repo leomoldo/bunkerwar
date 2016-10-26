@@ -1,12 +1,12 @@
 <resources>
 
     <!-- App Name. -->
-    <string name="app_name">BunkerWar</string>
+    <string name="app_name" translatable="false">BunkerWar</string>
 
     <!-- Keys. -->
-    <string name="shared_preferences_name">SHARED_PREFERENCES</string>
-    <string name="shared_preferences_key_wind_change">SHARED_PREFERENCES_KEY_WIND_CHANGE</string>
-    <string name="shared_preferences_key_game_speed">SHARED_PREFERENCES_KEY_GAME_SPEED</string>
+    <string name="shared_preferences_name" translatable="false">SHARED_PREFERENCES</string>
+    <string name="shared_preferences_key_wind_change" translatable="false">SHARED_PREFERENCES_KEY_WIND_CHANGE</string>
+    <string name="shared_preferences_key_game_speed" translatable="false">SHARED_PREFERENCES_KEY_GAME_SPEED</string>
 
     <!-- General purpose. -->
 
@@ -28,21 +28,21 @@
     <string name="settings_game_speed">Game speed :</string>
     <string name="settings_game_speed_details">Tweak this parameter if the bombshell speed is too high or too low.</string>
 
-    <string name="credits_app_version">v</string>
+    <string name="credits_app_version" translatable="false">v</string>
     <string name="credits_leo_01">Game design, code and music by</string>
     <string name="credits_leo_02">Léo Molczadzki</string>
-    <string name="credits_link_pulsarjericho">http://pulsarjericho.com</string>
+    <string name="credits_link_pulsarjericho" translatable="false">http://pulsarjericho.com</string>
     <string name="credits_elodie_01">Graphic design by</string>
     <string name="credits_elodie_02">Elodie Marceau</string>
-    <string name="credits_link_elodie">https://elodiemarceau.wordpress.com/</string>
+    <string name="credits_link_elodie" translatable="false">https://elodiemarceau.wordpress.com/</string>
     <string name="credits_samples_01">Samples from</string>
     <string name="credits_samples_02">Jeremy Sykes</string>
     <string name="credits_samples_03">were used for sound effects.</string>
     <string name="credits_samples_04">Hear his samples on freesound.org</string>
-    <string name="credits_link_samples_01">http://www.sharesynth.com/</string>
-    <string name="credits_link_samples_02">http://freesound.org/people/jeremysykes/</string>
+    <string name="credits_link_samples_01" translatable="false">http://www.sharesynth.com/</string>
+    <string name="credits_link_samples_02" translatable="false">http://freesound.org/people/jeremysykes/</string>
     <string name="credits_source_code">See source code</string>
-    <string name="credits_link_source_code">https://github.com/leomoldo/bunkerwar</string>
+    <string name="credits_link_source_code" translatable="false">https://github.com/leomoldo/bunkerwar</string>
 
     <!-- TwoPlayerGameActivity. -->
 
@@ -52,11 +52,11 @@
     <string name="wind">Wind :</string>
 
     <string name="angle">Angle :</string>
-    <string name="angle_unit">°</string>
+    <string name="angle_unit" translatable="false">°</string>
     <string name="power">Power :</string>
-    <string name="power_unit">%</string>
-    <string name="minus">-</string>
-    <string name="plus">+</string>
+    <string name="power_unit" translatable="false">%</string>
+    <string name="minus" translatable="false">-</string>
+    <string name="plus" translatable="false">+</string>
     <string name="button_fire">FIRE !</string>
 
     <string name="player_one">Player 1</string>
